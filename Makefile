@@ -16,7 +16,7 @@ CC			=	g++
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(FLAGS) -o $(NAME) $^ $(HEADER) $(LIBS) -lsfml-graphics -lsfml-window -lsfml-system
+	@$(CC) $(FLAGS) -o $(NAME) $^ $(HEADER) $(LIBS) -lsfml-window -lsfml-system -lsfml-graphics
 
 $(patsubst %, $(OBJ_PATH)%,%.o): $(SRC_PATH)$(notdir %.cpp)
 	@mkdir -p $(OBJ_PATH)
