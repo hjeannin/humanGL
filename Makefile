@@ -6,17 +6,17 @@ INC_PATH	=	inc/
 SRCS		=	$(shell ls $(SRC_PATH) | grep .cpp$$)
 OBJS		=	$(patsubst %.cpp, $(OBJ_PATH)%.o,$(SRCS))
 
-HEADER		=	-I./$(INC_PATH) -I/nfs/zfs-student-2/users/hjeannin/.brew/Cellar/sfml/2.3_1/include
+HEADER		=	-I./$(INC_PATH) -I$(HOME)/.brew/include
+LIBS		=	-L$(HOME)/.brew/lib
 FLAGS		=	-Wall -Wextra -Werror
-LIBS		=	-L/nfs/zfs-student-2/users/hjeannin/.brew/Cellar/sfml/2.3_1/lib -lsfml-graphics -lsfml-window -lsfml-system
 NAME		=	humanGL
 
-CC			=	clang++
+CC			=	g++
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(FLAGS) $(HEADER) $(LIBS) $(OBJS) -o $(NAME)
+	@$(CC) $(FLAGS) -o $(NAME) $^ $(HEADER) $(LIBS) -lsfml-graphics -lsfml-window -lsfml-system
 
 $(patsubst %, $(OBJ_PATH)%,%.o): $(SRC_PATH)$(notdir %.cpp)
 	@mkdir -p $(OBJ_PATH)
