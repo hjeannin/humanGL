@@ -1,24 +1,32 @@
-#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/OpenGL.hpp>
+#include <iostream>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
-	sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 0;
+	settings.majorVersion = 4;
+	sf::Window window(sf::VideoMode(1920, 1080), "HumanGL", sf::Style::Default, settings);
+	window.setVerticalSyncEnabled(true);
 
-    while (window.isOpen())
+	std::cout << "OpenGL version = " << settings.majorVersion << "." << settings.minorVersion << std::endl;
+
+	bool looping = true;
+    while (looping)
     {
 		sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            window.close();
+                looping = false;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				looping = false;
+			else if (event.type == sf::Event::Resized)
+				glViewport(0, 0, event.size.width, event.size.height);
+		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        window.clear();
-        window.draw(shape);
         window.display();
     }
 

@@ -7,7 +7,7 @@ SRCS		=	$(shell ls $(SRC_PATH) | grep .cpp$$)
 OBJS		=	$(patsubst %.cpp, $(OBJ_PATH)%.o,$(SRCS))
 
 HEADER		=	-I./$(INC_PATH) -I$(HOME)/.brew/include
-LIBS		=	-L$(HOME)/.brew/lib
+LIBS		=	-L$(HOME)/.brew/lib -framework OpenGL -framework AppKit
 FLAGS		=	-Wall -Wextra -Werror
 NAME		=	humanGL
 
