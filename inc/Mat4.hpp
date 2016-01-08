@@ -47,6 +47,12 @@ public:
 	}
 
 	void
+	set(int i, TYPE m)
+	{
+		this->val[i] = m;
+	}
+
+	void
 	set(TYPE const *val)
 	{
 		int		i;

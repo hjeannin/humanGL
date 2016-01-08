@@ -17,14 +17,9 @@ int main()
 	Initiator	init;
 
 	std::cout << init << std::endl;
+	init.setProjMatrix(70, 0.1, 100);
 	
-	Mat4<GLfloat>	random_mat4;
-	Mat4<GLfloat>	custom_mat4(23.4, 45, 46, 3.54,
-								67.2, 5, 78, 34.657,
-								234, 93, 563, 4564,
-								34, 67, 3.4, 5.1);
-
-	std::cout << random_mat4 << custom_mat4<< std::endl;
+	std::cout << init.proj_matrix << std::endl;
 
 	bool looping = true;
     while (looping)

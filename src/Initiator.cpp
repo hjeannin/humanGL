@@ -28,6 +28,23 @@ Initiator::getStatus(void) const
 	return this->_status;
 }
 
+void
+Initiator::setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp)
+{
+	GLfloat		scale;
+	GLfloat		ratio;
+
+	scale = 1.0f / tan(fov * 0.5 * M_PI / 180);
+	//TODO dynamic resolutin change
+	ratio = (1.0f * 1920) / (1.0f * 1080);
+	proj_matrix.set(0, scale / ratio);
+	proj_matrix.set(5, scale);
+	proj_matrix.set(10, (far_cp + near_cp) / (near_cp - far_cp));
+	proj_matrix.set(11, -1.0f);
+	proj_matrix.set(14, (2.0f * far_cp * near_cp) / (near_cp - far_cp));
+	proj_matrix.set(15, 0.0f);
+}
+
 Initiator
 &Initiator::operator=(Initiator const &rhs)
 {
