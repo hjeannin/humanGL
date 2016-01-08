@@ -1,6 +1,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 #include <iostream>
+#include "Initiator.hpp"
+#include "Matrix.hpp"
 
 int main()
 {
@@ -11,6 +13,14 @@ int main()
 	window.setVerticalSyncEnabled(true);
 
 	std::cout << "OpenGL version = " << settings.majorVersion << "." << settings.minorVersion << std::endl;
+
+	Initiator	init;
+
+	std::cout << init << std::endl;
+	
+	Mat4		random_mat4;
+
+	std::cout << random_mat4 << std::end;
 
 	bool looping = true;
     while (looping)
