@@ -23,6 +23,29 @@ public:
 	{
 	}
 
+	Mat4(TYPE m00, TYPE m01, TYPE m02, TYPE m03, // col1
+		 TYPE m04, TYPE m05, TYPE m06, TYPE m07, // col2
+		 TYPE m08, TYPE m09, TYPE m10, TYPE m11, // col3
+		 TYPE m12, TYPE m13, TYPE m14, TYPE m15) // col4
+	{
+		val[0] = m00;
+		val[1] = m01;
+		val[2] = m02;
+		val[3] = m03;
+		val[4] = m04;
+		val[5] = m05;
+		val[6] = m06;
+		val[7] = m07;
+		val[8] = m08;
+		val[9] = m09;
+		val[10] = m10;
+		val[11] = m11;
+		val[12] = m12;
+		val[13] = m13;
+		val[14] = m14;
+		val[15] = m15;
+	}
+
 	void
 	set(TYPE const *val)
 	{
