@@ -2,7 +2,7 @@
 #include <SFML/OpenGL.hpp>
 #include <iostream>
 #include "Initiator.hpp"
-#include "Matrix.hpp"
+#include "Mat4.hpp"
 
 int main()
 {
@@ -18,9 +18,9 @@ int main()
 
 	std::cout << init << std::endl;
 	
-	Mat4		random_mat4;
+	Mat4<GLfloat>	random_mat4;
 
-	std::cout << random_mat4 << std::end;
+	std::cout << random_mat4 << std::endl;
 
 	bool looping = true;
     while (looping)
