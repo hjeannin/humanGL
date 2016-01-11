@@ -15,7 +15,8 @@ int main()
 	sf::Window window(sf::VideoMode(init.res_x, init.res_y), "HumanGL", sf::Style::Default, settings);
 	window.setVerticalSyncEnabled(true);
 
-	init.CalculateEveryMatrix();
+	init.everyMatrix();
+	init.shaders();
 	
 	std::cout << init.proj_matrix << std::endl;
 	std::cout << init.view_matrix << std::endl;

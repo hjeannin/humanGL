@@ -35,10 +35,17 @@ Initiator::initData(void)
 	rotate[1] = 0.0f;
 	rotate[2] = 0.0f;
 	scale = 0.5f;
+	this->_status = 1;
 }
 
 void
-Initiator::CalculateEveryMatrix(void)
+Initiator::shaders(void)
+{
+	
+}
+
+void
+Initiator::everyMatrix(void)
 {
 	setProjMatrix(70, 0.1, 100);
 	setViewMatrix();

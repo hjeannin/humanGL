@@ -33,7 +33,8 @@ public:
 
 	int			getStatus(void) const;
 	
-	void		CalculateEveryMatrix();
+	void		everyMatrix();
+	void		shaders();
 
 	void		setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp);
 	void		setViewMatrix(void);

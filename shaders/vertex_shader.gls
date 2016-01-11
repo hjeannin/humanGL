@@ -1,0 +1,14 @@
+#version 410
+
+uniform mat4 proj_matrix, view_matrix, trans_matrix, rot_matrix, scale_matrix;
+layout(location = 0) in vec3 position;
+
+void		main()
+{
+	gl_Position = proj_matrix
+				  * view_matrix
+				  * trans_matrix
+				  * rot_matrix
+				  * scale_matrix
+				  * vec4(position, 1.0);
+}
