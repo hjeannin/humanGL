@@ -13,6 +13,15 @@ private:
 	int			_status;
 
 public:
+	GLuint			vao;
+	GLuint			vbos[2];
+	int				vertices_size;
+	int				vertices_num_elem;
+	GLfloat			*vertices_array;
+	int				faces_size;
+	int				faces_num_elem;
+	GLfloat			*faces_array;
+
 	Shaders			shaders;
 	GLuint			program;
 

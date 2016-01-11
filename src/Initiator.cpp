@@ -50,8 +50,8 @@ Initiator::genShaders(void)
 {
 	this->shaders.load();
 	this->shaders.compile();
-// 		shaders.create_program(this->program);
-// 		shaders.link_program(this->program);
+	this->program = glCreateProgram();
+	this->shaders.linkProgram(&this->program);
 }
 
 void
@@ -70,6 +70,33 @@ Initiator::getStatus(void) const
 {
 	return this->_status;
 }
+
+// bool
+// Initiator::createImage(void)
+// {
+// 	this->vertices_array = new GLfloat[this->vertices_num_elem];
+// 	this->faces_array = new GLfloat[this->vertices_num_elem];
+
+
+// 	glGenVertexArrays(1, &this->vao);
+// 	glBindVertexArray(this->vao);
+// 	glGenBuffers(2, &this->vbos[0]);
+
+// 	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
+// 	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+// 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
+// 					GL_STATIC_DRAW);
+
+// 	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+// 	glEnableVertexAttribArray(this->position_loc);
+
+// 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
+// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+// 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
+// 					GL_STATIC_DRAW);
+
+// 	return (true);
+// }
 
 void
 Initiator::setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp)

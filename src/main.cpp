@@ -17,6 +17,7 @@ int main()
 
 	init.genMatrices();
 	init.genShaders();
+	init.getLocations();
 
 	bool looping = true;
     while (looping)

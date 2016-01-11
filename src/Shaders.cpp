@@ -69,28 +69,59 @@ Shaders::compile(void)
 bool
 Shaders::compileShader(GLuint *current_shader)
 {
-	GLint		status;
+	GLint		is_compiled;
 
-	status = 0;
+	is_compiled = 0;
 	glCompileShader(*current_shader);
-	std::cout << "CURRENT SHADER FUCKING ID = " << *current_shader << std::endl;
-	glGetShaderiv(*current_shader, GL_COMPILE_STATUS, &status);
-	if (status == GL_FALSE)
+	glGetShaderiv(*current_shader, GL_COMPILE_STATUS, &is_compiled);
+	if (is_compiled == GL_FALSE)
 	{
 		GLint	max_length = 0;
 		glGetShaderiv(*current_shader, GL_INFO_LOG_LENGTH, &max_length);
-		std::cout << "SHADER ERROR FUCKING LENGTH = " << max_length << std::endl;
 		std::vector<GLchar> comp_log(max_length);
 		glGetShaderInfoLog(*current_shader, max_length, &max_length, &comp_log[0]);
-		
 		for (std::vector<char>::const_iterator i = comp_log.begin() ; i != comp_log.end() ; ++i)
 		{
-			std::cout << *i << std::endl;
+			std::cout << *i ;
 		}
-
+		std::cout << std::endl;
 		glDeleteShader(*current_shader);
 		return (false);
 	}
+	return (true);
+}
+
+bool
+Shaders::linkProgram(GLuint *program)
+{
+	GLint		is_linked;
+
+	is_linked = 0;
+	glAttachShader(*program, this->vertex_shader);
+//	glAttachShader(*program, this->geometry_shader);
+	glAttachShader(*program, this->fragment_shader);
+	glLinkProgram(*program);
+	glGetProgramiv(*program, GL_LINK_STATUS, &is_linked);
+	if (is_linked == GL_FALSE)
+	{
+		GLint	max_length = 0;
+		glGetShaderiv(*program, GL_INFO_LOG_LENGTH, &max_length);
+		std::vector<GLchar> link_log(max_length);
+		glGetShaderInfoLog(*program, max_length, &max_length, &link_log[0]);
+		for (std::vector<char>::const_iterator i = link_log.begin() ; i != link_log.end() ; ++i)
+		{
+			std::cout << *i ;
+		}
+		std::cout << std::endl;
+		glDeleteProgram(*program);
+		glDeleteShader(this->vertex_shader);
+//		glDeleteShader(this->geometry_shader);
+		glDeleteShader(this->fragment_shader);
+		return (false);
+	}
+	glDetachShader(*program, this->vertex_shader);
+//	glDetachShader(*program, this->geometry_shader);
+	glDetachShader(*program, this->fragment_shader);
 	return (true);
 }
 
@@ -98,7 +129,7 @@ Shaders
 &Shaders::operator=(Shaders const &rhs)
 {
 	this->vertex_shader = rhs.vertex_shader;
-	this->geometry_shader = rhs.geometry_shader;
+//	this->geometry_shader = rhs.geometry_shader;
 	this->fragment_shader = rhs.fragment_shader;
 	return *this;
 }

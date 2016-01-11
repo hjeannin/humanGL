@@ -25,6 +25,8 @@ public:
 	void		compile(void);
 	bool		compileShader(GLuint *current_shader);
 
+	bool		linkProgram(GLuint *program);
+
 	Shaders		&operator=(Shaders const &rhs);
 };
 
