@@ -20,7 +20,7 @@ public:
 	GLfloat			*vertices_array;
 	int				faces_size;
 	int				faces_num_elem;
-	GLfloat			*faces_array;
+	GLuint			*faces_array;
 
 	Shaders			shaders;
 	GLuint			program;
@@ -55,6 +55,10 @@ public:
 	void		genMatrices(void);
 	void		genShaders(void);
 	void		getLocations(void);
+	void		createImage(void);
+	bool		drawImage(void);
+
+	void		checkGlError(std::string file, int line);
 
 	int			getStatus(void) const;
 	

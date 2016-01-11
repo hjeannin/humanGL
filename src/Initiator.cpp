@@ -27,14 +27,13 @@ Initiator::initData(void)
 {
 	res_x = 1920;
 	res_y = 1080;
-	translate[0] = 0.2f;
-	translate[1] = 0.2f;
+	translate[0] = 0.0f;
+	translate[1] = 0.0f;
 	translate[2] = -1.0f;
 	rotate[0] = 0.0f;
 	rotate[1] = 0.0f;
 	rotate[2] = 0.0f;
-	scale = 0.5f;
-	this->_status = 1;
+	scale = 1.0f;
 }
 
 void
@@ -71,32 +70,86 @@ Initiator::getStatus(void) const
 	return this->_status;
 }
 
-// bool
-// Initiator::createImage(void)
-// {
-// 	this->vertices_array = new GLfloat[this->vertices_num_elem];
-// 	this->faces_array = new GLfloat[this->vertices_num_elem];
+void
+Initiator::createImage(void)
+{
+	this->vertices_num_elem = 3 * 3;
+	this->faces_num_elem = 1 * 3;
+	this->vertices_array = new GLfloat[this->vertices_num_elem];
+	this->faces_array = new GLuint[this->faces_num_elem];
 
+	// TRIANGLE
+	this->vertices_array[0] = -0.5f;
+	this->vertices_array[1] = -0.5f;
+	this->vertices_array[2] = -0.5f;
 
-// 	glGenVertexArrays(1, &this->vao);
-// 	glBindVertexArray(this->vao);
-// 	glGenBuffers(2, &this->vbos[0]);
+	this->vertices_array[3] = 0.5f;
+	this->vertices_array[4] = -0.5f;
+	this->vertices_array[5] = -0.5f;
 
-// 	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
-// 	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-// 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
-// 					GL_STATIC_DRAW);
+	this->vertices_array[6] = -0.5f;
+	this->vertices_array[7] = 0.5f;
+	this->vertices_array[8] = -0.5f;
 
-// 	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-// 	glEnableVertexAttribArray(this->position_loc);
+	this->faces_array[0] = 1;
+	this->faces_array[1] = 2;
+	this->faces_array[2] = 3;
 
-// 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
-// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-// 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
-// 					GL_STATIC_DRAW);
+	glGenVertexArraysAPPLE(1, &this->vao);
+	glBindVertexArrayAPPLE(this->vao);
+	glGenBuffers(2, &this->vbos[0]);
 
-// 	return (true);
-// }
+	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
+					GL_STATIC_DRAW);
+
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(this->position_loc);
+
+	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
+					GL_STATIC_DRAW);
+	delete (this->vertices_array);
+	delete (this->faces_array);
+}
+
+bool
+Initiator::drawImage(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(this->program);
+	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
+	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
+	glUniformMatrix4fv(this->trans_loc, 1, GL_FALSE, this->trans_matrix.val);
+	glUniformMatrix4fv(this->rot_loc, 1, GL_FALSE, this->rot_matrix.val);
+	glUniformMatrix4fv(this->scale_loc, 1, GL_FALSE, this->scale_matrix.val);
+	glDrawElements(GL_TRIANGLES, this->faces_size, GL_UNSIGNED_INT, 0);
+	checkGlError(__FILE__, __LINE__);
+    return (true);
+}
+
+void
+Initiator::checkGlError(std::string file, int line)
+{
+    GLenum        err;
+
+    err = glGetError();
+    if (err != GL_NO_ERROR)
+    {
+        if (err == GL_INVALID_ENUM)
+			std::cerr << "GL: Invalid enum in " << file << " line " << line << std::endl;
+        else if (err == GL_INVALID_VALUE)
+			std::cerr << "GL: Invalid value in " << file << " line " << line << std::endl;
+        else if (err == GL_INVALID_OPERATION)
+			std::cerr << "GL: Invalid operation in " << file << " line " << line << std::endl;
+        else if (err == GL_INVALID_FRAMEBUFFER_OPERATION)
+			std::cerr << "GL: Invalid framebuffer operation in " << file << " line " << line << std::endl;
+        else if (err == GL_OUT_OF_MEMORY)
+			std::cerr << "GL: Out of memory in " << file << " line " << line << std::endl;
+    }
+}
 
 void
 Initiator::setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp)
