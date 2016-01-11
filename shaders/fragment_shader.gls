@@ -1,14 +1,12 @@
 #version 410
 
-in vec3				geometry_color;
-
 out vec4			out_fragment;
 
 void main()
 {
 	out_fragment = vec4(
-				 geometry_color.x,
-				 geometry_color.y,
-				 geometry_color.z
-				 , 1.0));
+				 0.3f,
+				 0.5f,
+				 0.7f,
+				 1.0);
 }

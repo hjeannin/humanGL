@@ -1,4 +1,3 @@
-#include <SFML/OpenGL.hpp>
 #include "Initiator.hpp"
 
 Initiator::Initiator(void) : _status(0)
@@ -39,17 +38,31 @@ Initiator::initData(void)
 }
 
 void
-Initiator::shaders(void)
-{
-	
-}
-
-void
-Initiator::everyMatrix(void)
+Initiator::genMatrices(void)
 {
 	setProjMatrix(70, 0.1, 100);
 	setViewMatrix();
 	setModelMatrix();
+}
+
+void
+Initiator::genShaders(void)
+{
+	this->shaders.load();
+	this->shaders.compile();
+// 		shaders.create_program(this->program);
+// 		shaders.link_program(this->program);
+}
+
+void
+Initiator::getLocations(void)
+{
+	this->position_loc = glGetAttribLocation(this->program, "position");
+	this->proj_loc = glGetUniformLocation(this->program, "proj_matrix");
+	this->view_loc = glGetUniformLocation(this->program, "view_matrix");
+	this->trans_loc = glGetUniformLocation(this->program, "trans_matrix");
+	this->rot_loc = glGetUniformLocation(this->program, "rot_matrix");
+	this->scale_loc = glGetUniformLocation(this->program, "scale_matrix");
 }
 
 int

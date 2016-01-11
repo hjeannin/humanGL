@@ -2,7 +2,9 @@
 # define INITIATOR_HPP
 
 # include <iostream>
+# include <SFML/OpenGL.hpp>
 # include "Mat4.hpp"
+# include "Shaders.hpp"
 
 class Initiator
 {
@@ -11,6 +13,9 @@ private:
 	int			_status;
 
 public:
+	Shaders			shaders;
+	GLuint			program;
+
 	GLuint			res_x;
 	GLuint			res_y;
 
@@ -24,6 +29,13 @@ public:
 	Mat4<GLfloat>	rot_matrix;
 	Mat4<GLfloat>	scale_matrix;
 
+	GLuint			position_loc;
+	GLuint			proj_loc;
+	GLuint			view_loc;
+	GLuint			trans_loc;
+	GLuint			rot_loc;
+	GLuint			scale_loc;
+
 	Initiator(void);
 	Initiator(int _status);
 	Initiator(Initiator const &src);
@@ -31,11 +43,12 @@ public:
 
 	void		initData(void);
 
+	void		genMatrices(void);
+	void		genShaders(void);
+	void		getLocations(void);
+
 	int			getStatus(void) const;
 	
-	void		everyMatrix();
-	void		shaders();
-
 	void		setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp);
 	void		setViewMatrix(void);
 	void		setModelMatrix(void);
