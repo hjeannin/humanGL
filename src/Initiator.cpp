@@ -25,6 +25,16 @@ Initiator::~Initiator(void)
 void
 Initiator::initData(void)
 {
+	vao = 0;
+	vbos[0] = 0;
+	vbos[1] = 0;
+	vertices_size = 0;
+	vertices_num_elem = 0;
+	vertices_array = NULL;
+	faces_size = 0;
+	faces_num_elem = 0;
+	faces_array = NULL;
+	program = 0;
 	res_x = 1920;
 	res_y = 1080;
 	translate[0] = 0.0f;
@@ -73,12 +83,12 @@ Initiator::getStatus(void) const
 void
 Initiator::createImage(void)
 {
-	this->vertices_num_elem = 3 * 3;
-	this->faces_num_elem = 1 * 3;
+	this->vertices_num_elem = 4 * 3;
+	this->faces_num_elem = 2 * 3;
 	this->vertices_array = new GLfloat[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
-	// TRIANGLE
+	// SQUARE of 2 triangles.
 	this->vertices_array[0] = -0.5f;
 	this->vertices_array[1] = -0.5f;
 	this->vertices_array[2] = -0.5f;
@@ -91,9 +101,17 @@ Initiator::createImage(void)
 	this->vertices_array[7] = 0.5f;
 	this->vertices_array[8] = -0.5f;
 
+	this->vertices_array[9] = 0.5f;
+	this->vertices_array[10] = 0.5f;
+	this->vertices_array[11] = -0.5f;
+
 	this->faces_array[0] = 1;
 	this->faces_array[1] = 2;
 	this->faces_array[2] = 3;
+
+	this->faces_array[3] = 1;
+	this->faces_array[4] = 3;
+	this->faces_array[5] = 4;
 
 	glGenVertexArraysAPPLE(1, &this->vao);
 	glBindVertexArrayAPPLE(this->vao);
@@ -111,6 +129,7 @@ Initiator::createImage(void)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
 					GL_STATIC_DRAW);
+//	std::cout << "Face size : " << this->faces_size << std::endl << "Faces num elem : " << this->faces_num_elem << std::endl;
 	delete (this->vertices_array);
 	delete (this->faces_array);
 }
