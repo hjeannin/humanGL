@@ -11,6 +11,13 @@ private:
 	int			_status;
 
 public:
+	GLuint			res_x;
+	GLuint			res_y;
+
+	GLfloat			translate[3];
+	GLfloat			rotate[3];
+	GLfloat			scale;
+
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;
 	Mat4<GLfloat>	trans_matrix;
@@ -22,9 +29,15 @@ public:
 	Initiator(Initiator const &src);
 	~Initiator(void);
 
+	void		initData(void);
+
 	int			getStatus(void) const;
 	
+	void		CalculateEveryMatrix();
+
 	void		setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp);
+	void		setViewMatrix(void);
+	void		setModelMatrix(void);
 
 	Initiator	&operator=(Initiator const &rhs);
 };
