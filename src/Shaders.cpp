@@ -45,9 +45,7 @@ Shaders::loadShader(GLenum type, std::string file_name, GLuint *current_shader)
 
 	shader_string.assign(std::istreambuf_iterator<char>(source_file),
 						 std::istreambuf_iterator<char>());
-	std::cerr << "pouet" << std::endl;
 	*current_shader = glCreateShader(type);
-	std::cerr << "pouet" << std::endl;
 
 	shader_source = shader_string.c_str();
 	glShaderSource(*current_shader, 1, (const GLchar**)&shader_source, NULL);
