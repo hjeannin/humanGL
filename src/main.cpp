@@ -3,7 +3,7 @@
 #include "Initiator.hpp"
 
 static void
-key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
 	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
 
@@ -15,7 +15,7 @@ key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 }
 
 static void
-cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
 	
@@ -65,8 +65,8 @@ initGlfw(Initiator &init)
 	glfwSetWindowUserPointer(init.window, &init);
 	glfwMakeContextCurrent(init.window); // make the opengl context of the init.window current on the main thread
 	glfwSwapInterval(1); // VSYNC 60 fps max
-	glfwSetKeyCallback(init.window, key_callback);
-	glfwSetCursorPosCallback(init.window, cursor_pos_callback);
+	glfwSetKeyCallback(init.window, keyCallback);
+	glfwSetCursorPosCallback(init.window, cursorPosCallback);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 #ifndef __APPLE__
