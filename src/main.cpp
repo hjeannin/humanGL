@@ -86,13 +86,12 @@ int main()
 	Initiator	init;
 
 	// init glfw
+	initGlfw(init);
 
 	init.genMatrices();
 	init.genShaders();
 	init.getLocations();
 	init.createImage();
-
-	initGlfw(init);
 
 	// loop
 

@@ -113,7 +113,6 @@ Initiator::createImage(void)
 	this->faces_array[4] = 3;
 	this->faces_array[5] = 4;
 
-	checkGlError(__FILE__, __LINE__);
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -146,6 +145,7 @@ Initiator::drawImage(void)
 	glUniformMatrix4fv(this->rot_loc, 1, GL_FALSE, this->rot_matrix.val);
 	glUniformMatrix4fv(this->scale_loc, 1, GL_FALSE, this->scale_matrix.val);
 	glDrawElements(GL_TRIANGLES, this->faces_size, GL_UNSIGNED_INT, 0);
+	checkGlError(__FILE__, __LINE__);
     return (true);
 }
 

@@ -21,7 +21,7 @@ Shaders::load(void)
 {
 	if (loadShader(GL_VERTEX_SHADER, "./shaders/vertex_shader.gls", &this->vertex_shader) == false)
 	{
-		std::cout << "Vertex shader failed to load." << std::endl;
+		std::cerr << "Vertex shader failed to load." << std::endl;
 	}
 // 	if (loadShader(GL_GEOMETRY_SHADER, "./shaders/geometry_shader.gls", &this->geometry_shader) == false)
 // 	{
@@ -29,7 +29,7 @@ Shaders::load(void)
 // 	}
 	if (loadShader(GL_FRAGMENT_SHADER, "./shaders/fragment_shader.gls", &this->fragment_shader) == false)
 	{
-		std::cout << "Fragment shader failed to load." << std::endl;
+		std::cerr << "Fragment shader failed to load." << std::endl;
 	}
 }
 
@@ -45,9 +45,9 @@ Shaders::loadShader(GLenum type, std::string file_name, GLuint *current_shader)
 
 	shader_string.assign(std::istreambuf_iterator<char>(source_file),
 						 std::istreambuf_iterator<char>());
-	
-	if ((*current_shader = glCreateShader(type)) == 0)
-		return (false);
+	std::cerr << "pouet" << std::endl;
+	*current_shader = glCreateShader(type);
+	std::cerr << "pouet" << std::endl;
 
 	shader_source = shader_string.c_str();
 	glShaderSource(*current_shader, 1, (const GLchar**)&shader_source, NULL);
@@ -59,11 +59,11 @@ void
 Shaders::compile(void)
 {
 	if (compileShader(&this->vertex_shader) == false)
-		std::cout << "Vertex shader failed to compile." << std::endl;
+		std::cerr << "Vertex shader failed to compile." << std::endl;
 // 	if (compileShader(this->geometry_shader) == false)
 // 		std::cout << "Geometry shader failed to compile." << std::endl;
 	if (compileShader(&this->fragment_shader) == false)
-		std::cout << "Fragment shader failed to compile." << std::endl;
+		std::cerr << "Fragment shader failed to compile." << std::endl;
 }
 
 bool
@@ -82,9 +82,9 @@ Shaders::compileShader(GLuint *current_shader)
 		glGetShaderInfoLog(*current_shader, max_length, &max_length, &comp_log[0]);
 		for (std::vector<char>::const_iterator i = comp_log.begin() ; i != comp_log.end() ; ++i)
 		{
-			std::cout << *i ;
+			std::cerr << *i ;
 		}
-		std::cout << std::endl;
+		std::cerr << std::endl;
 		glDeleteShader(*current_shader);
 		return (false);
 	}
@@ -110,9 +110,9 @@ Shaders::linkProgram(GLuint *program)
 		glGetShaderInfoLog(*program, max_length, &max_length, &link_log[0]);
 		for (std::vector<char>::const_iterator i = link_log.begin() ; i != link_log.end() ; ++i)
 		{
-			std::cout << *i ;
+			std::cerr << *i ;
 		}
-		std::cout << std::endl;
+		std::cerr << std::endl;
 		glDeleteProgram(*program);
 		glDeleteShader(this->vertex_shader);
 //		glDeleteShader(this->geometry_shader);
