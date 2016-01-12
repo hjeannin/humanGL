@@ -113,8 +113,9 @@ Initiator::createImage(void)
 	this->faces_array[4] = 3;
 	this->faces_array[5] = 4;
 
-	glGenVertexArraysAPPLE(1, &this->vao);
-	glBindVertexArrayAPPLE(this->vao);
+	checkGlError(__FILE__, __LINE__);
+	glGenVertexArrays(1, &this->vao);
+	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
 
 	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
@@ -145,7 +146,6 @@ Initiator::drawImage(void)
 	glUniformMatrix4fv(this->rot_loc, 1, GL_FALSE, this->rot_matrix.val);
 	glUniformMatrix4fv(this->scale_loc, 1, GL_FALSE, this->scale_matrix.val);
 	glDrawElements(GL_TRIANGLES, this->faces_size, GL_UNSIGNED_INT, 0);
-	checkGlError(__FILE__, __LINE__);
     return (true);
 }
 
@@ -167,6 +167,7 @@ Initiator::checkGlError(std::string file, int line)
 			std::cerr << "GL: Invalid framebuffer operation in " << file << " line " << line << std::endl;
         else if (err == GL_OUT_OF_MEMORY)
 			std::cerr << "GL: Out of memory in " << file << " line " << line << std::endl;
+		exit(0);
     }
 }
 

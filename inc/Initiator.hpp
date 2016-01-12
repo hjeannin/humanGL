@@ -2,9 +2,8 @@
 # define INITIATOR_HPP
 
 # include <iostream>
-# include <SFML/OpenGL.hpp>
-# include "Mat4.hpp"
 # include "Shaders.hpp"
+# include "Mat4.hpp"
 
 class Initiator
 {
@@ -13,6 +12,7 @@ private:
 	int			_status;
 
 public:
+	GLFWwindow		*window;
 	GLuint			vao;
 	GLuint			vbos[2];
 	int				vertices_size;

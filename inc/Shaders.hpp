@@ -1,11 +1,22 @@
 #ifndef SHADERS_HPP
 # define SHADERS_HPP
 
+# if defined(__APPLE_CC__)
+#  ifndef GLFW_INCLUDE_GLCOREARB
+#   define GLFW_INCLUDE_GLCOREARB
+#  endif
+#  ifndef GLFW_INCLUDE_GLEXT
+#   define GLFW_INCLUDE_GLEXT
+#  endif
+# else
+#  define GL_GLEXT_PROTOTYPES
+# endif
+
 # include <iostream>
 # include <fstream>
 # include <string>
 # include <vector>
-# include <SFML/OpenGL.hpp>
+# include <glfw3.h>
 
 class Shaders
 {

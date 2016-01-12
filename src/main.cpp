@@ -1,46 +1,120 @@
-#include <SFML/Window.hpp>
-#include <SFML/OpenGL.hpp>
 #include <iostream>
+#include <string>
 #include "Initiator.hpp"
-#include "Mat4.hpp"
+
+static void
+key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
+
+	(void)scancode;
+	(void)mods;
+	(void)init;
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+static void
+cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
+	
+	(void)init;
+	(void)xpos;
+	(void)ypos;
+}
+
+#ifndef __APPLE__
+static void
+glErrorCallback(GLenum        source,
+				GLenum        type,
+				GLuint        id,
+				GLenum        severity,
+				GLsizei       length,
+				const GLchar* message,
+				GLvoid*       userParam)
+{
+	(void)userParam;
+	(void)length;
+	std::cerr << "OpenGL Error:" << std::endl;
+	std::cerr << "=============" << std::endl;
+	std::cerr << " Object ID: " << id << std::endl;
+	std::cerr << " Severity:  " << severity << std::endl;
+	std::cerr << " Type:      " << type << std::endl;
+	std::cerr << " Source:    " << source << std::endl;
+	std::cerr << " Message:   " << message << std::endl;
+	glFinish();
+}
+#endif
+
+static int
+initGlfw(Initiator &init)
+{
+	if (!glfwInit())
+		return (0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	init.window = glfwCreateWindow(init.res_x, init.res_y, "HumanGL", NULL, NULL);
+	if (!init.window)
+	{
+		glfwTerminate();
+		return (0);
+	}
+	glfwSetWindowUserPointer(init.window, &init);
+	glfwMakeContextCurrent(init.window); // make the opengl context of the init.window current on the main thread
+	glfwSwapInterval(1); // VSYNC 60 fps max
+	glfwSetKeyCallback(init.window, key_callback);
+	glfwSetCursorPosCallback(init.window, cursor_pos_callback);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
+#ifndef __APPLE__
+	if (glDebugMessageControlARB != NULL)
+	{
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+		glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+		glDebugMessageCallbackARB((GLDEBUGPROCARB)glErrorCallback, NULL);
+	}
+#endif
+	return (1);
+}
 
 int main()
 {
 	Initiator	init;
 
-	sf::ContextSettings settings;
-	settings.antialiasingLevel = 0;
-	settings.majorVersion = 4;
-
-	sf::Window window(sf::VideoMode(init.res_x, init.res_y), "HumanGL", sf::Style::Default, settings);
-	window.setVerticalSyncEnabled(true);
+	// init glfw
 
 	init.genMatrices();
 	init.genShaders();
 	init.getLocations();
 	init.createImage();
 
-	bool looping = true;
-    while (looping)
-    {
-		sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                looping = false;
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-				looping = false;
-			else if (event.type == sf::Event::Resized)
-			{
-				glViewport(0, 0, event.size.width, event.size.height);
-				init.res_x = event.size.width;
-				init.res_y = event.size.height;
-			}
-		}
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	initGlfw(init);
+
+	// loop
+
+	double		lastTime, currentTime;
+	double		frames;
+
+	frames = 0.0;
+	lastTime = glfwGetTime();
+	while (!glfwWindowShouldClose(init.window))
+	{
+		currentTime = glfwGetTime();
+		frames += 1.0;
 		init.drawImage();
-        window.display();
-    }
+		glfwSwapBuffers(init.window);
+		glfwPollEvents();
+		if (currentTime - lastTime >= 1.0)
+		{
+			glfwSetWindowTitle(init.window, std::to_string(1000.0 / frames).c_str());
+			frames = 0.0;
+			lastTime += 1.0;
+		}
+	}
 
     return 0;
 }
