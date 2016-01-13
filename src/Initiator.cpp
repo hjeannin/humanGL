@@ -61,12 +61,14 @@ Initiator::genShaders(void)
 	this->shaders.compile();
 	this->program = glCreateProgram();
 	this->shaders.linkProgram(&this->program);
+	checkGlError(__FILE__, __LINE__);
 }
 
 void
 Initiator::getLocations(void)
 {
 	this->position_loc = glGetAttribLocation(this->program, "position");
+	this->color_loc = glGetAttribLocation(this->program, "color");
 	this->proj_loc = glGetUniformLocation(this->program, "proj_matrix");
 	this->view_loc = glGetUniformLocation(this->program, "view_matrix");
 	this->trans_loc = glGetUniformLocation(this->program, "trans_matrix");
@@ -83,18 +85,18 @@ Initiator::getStatus(void) const
 void
 Initiator::generateModel(void)
 {
-	this->vertices_num_elem = 4 * 3;
-	this->faces_num_elem = 2 * 3;
+	this->vertices_num_elem = 6 * 3;
+	this->faces_num_elem = 4 * 3;
 	this->vertices_array = new GLfloat[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
 	// SQUARE of 2 triangles.
-	this->vertices_array[0] = -0.7f;
-	this->vertices_array[1] = 0.7f;
+	this->vertices_array[0] = -0.5f;
+	this->vertices_array[1] = 0.5f;
 	this->vertices_array[2] = -0.5f;
 
-	this->vertices_array[3] = 0.2f;
-	this->vertices_array[4] = 0.2f;
+	this->vertices_array[3] = 0.5f;
+	this->vertices_array[4] = 0.5f;
 	this->vertices_array[5] = -0.5f;
 
 	this->vertices_array[6] = 0.5f;
@@ -105,6 +107,14 @@ Initiator::generateModel(void)
 	this->vertices_array[10] = -0.5f;
 	this->vertices_array[11] = -0.5f;
 
+	this->vertices_array[12] = -0.5f;
+	this->vertices_array[13] = 0.5f;
+	this->vertices_array[14] = 0.5f;
+
+	this->vertices_array[15] = 0.5f;
+	this->vertices_array[16] = 0.5f;
+	this->vertices_array[17] = 0.5f;
+
 
 	// vertices count start at 0
 	this->faces_array[0] = 0;
@@ -114,11 +124,87 @@ Initiator::generateModel(void)
 	this->faces_array[3] = 0;
 	this->faces_array[4] = 2;
 	this->faces_array[5] = 3;
+
+	this->faces_array[6] = 0;
+	this->faces_array[7] = 1;
+	this->faces_array[8] = 4;
+
+	this->faces_array[9] = 1;
+	this->faces_array[10] = 4;
+	this->faces_array[11] = 5;
 }
 
 void
 Initiator::createImage(void)
 {
+
+	// COLORED CUBE
+	this->vertices_num_elem = 48;
+	this->faces_num_elem = 36;
+
+	GLfloat		cube_array[48] =
+	{
+		-0.5f, 0.5f, 0.5f,
+		0.7f, 0.3f, 0.0f,
+
+		0.5f, 0.5f, 0.5f,
+		0.0f, 0.7f, 0.3f,
+
+		0.5f, -0.5f, 0.5f,
+		0.3f, 0.0f, 0.7f,
+
+		-0.5f, -0.5f, 0.5f,
+		0.3f, 0.7f, 0.0f,
+
+		-0.5f, 0.5f, -0.5f,
+		0.0f, 0.3f, 0.7f,
+
+		0.5f, 0.5f, -0.5f,
+		0.7f, 0.0f, 0.3f,
+
+		0.5f, -0.5f, -0.5f,
+		0.3f, 0.0f, 0.3f,
+
+		-0.5f, -0.5f, -0.5f,
+		0.7f, 0.0f, 0.7f
+	};
+
+	int			cube_faces_array[36] =
+	{
+		0, 1, 3,
+		1, 2, 3,
+		4, 5, 7,
+		5, 6, 7,
+		1, 5, 2,
+		5, 6, 2,
+		0, 4, 3,
+		4, 7, 3,
+		0, 4, 1,
+		4, 5, 1,
+		3, 7, 2,
+		7, 6, 2
+	};
+
+	glGenVertexArrays(1, &this->vao);
+	glBindVertexArray(this->vao);
+	glGenBuffers(2, &this->vbos[0]);
+
+	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, cube_array,
+					GL_STATIC_DRAW);
+
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)0);
+	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)3);
+	glEnableVertexAttribArray(this->position_loc);
+	glEnableVertexAttribArray(this->color_loc);
+
+	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, cube_faces_array,
+					GL_STATIC_DRAW);
+
+/*	
 	generateModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
@@ -129,7 +215,8 @@ Initiator::createImage(void)
 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
 					GL_STATIC_DRAW);
 
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)0);
+	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)3);
 	glEnableVertexAttribArray(this->position_loc);
 
 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
@@ -138,7 +225,7 @@ Initiator::createImage(void)
 					GL_STATIC_DRAW);
 	delete (this->vertices_array);
 	delete (this->faces_array);
-}
+*/}
 
 bool
 Initiator::drawImage(void)
@@ -202,22 +289,34 @@ Initiator::setViewMatrix(void)
 void
 Initiator::setModelMatrix(void)
 {
+	trans_matrix.setIdentity();
 	trans_matrix.set(12, translate[0]);
 	trans_matrix.set(13, translate[1]);
 	trans_matrix.set(14, translate[2]);
 
-	rot_matrix.set(5, cos(rotate[0]) + cos(rotate[2]));
-	rot_matrix.set(6, -sin(rotate[0]));
-	rot_matrix.set(9, sin(rotate[0]));
+	rot_matrix.setIdentity();
+	Mat4<GLfloat>	tempx;
+	Mat4<GLfloat>	tempy;	
+	Mat4<GLfloat>	tempz;
 
-	rot_matrix.set(0, cos(rotate[1]) + cos(rotate[2]));
-	rot_matrix.set(2, sin(rotate[1]));
-	rot_matrix.set(8, -sin(rotate[1]));
-	rot_matrix.set(10, cos(rotate[0]) + cos(rotate[1]));
+	tempx.set(5, cos(rotate[0]));
+	tempx.set(6, sin(rotate[0]));
+	tempx.set(9, -sin(rotate[0]));
+	tempx.set(10, cos(rotate[0]));
 
-	rot_matrix.set(1, -sin(rotate[2]));
-	rot_matrix.set(4, sin(rotate[2]));
+	tempy.set(0, cos(rotate[1]));
+	tempy.set(2, -sin(rotate[1]));
+	tempy.set(9, sin(rotate[1]));
+	tempy.set(11, cos(rotate[1]));
 
+	tempz.set(0, cos(rotate[2]));
+	tempz.set(1, sin(rotate[2]));
+	tempz.set(4, -sin(rotate[2]));
+	tempz.set(5, cos(rotate[2]));
+
+	rot_matrix = tempx * tempy * tempz;
+
+	scale_matrix.setIdentity();
 	scale_matrix.set(0, scale);
 	scale_matrix.set(5, scale);
 	scale_matrix.set(10, scale);

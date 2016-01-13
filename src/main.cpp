@@ -26,6 +26,23 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 		init->rotate[2] -= power;
 	if (key == GLFW_KEY_E && (action == GLFW_REPEAT || action == GLFW_PRESS))
 		init->rotate[2] += power;
+	if (key == GLFW_KEY_EQUAL && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->scale += power;
+	if (key == GLFW_KEY_MINUS && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->scale -= power;
+	if (key == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[2] -= power;
+	if (key == GLFW_KEY_DOWN && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[2] += power;
+	if (key == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[0] += power;
+	if (key == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[0] -= power;
+	if (key == GLFW_KEY_PAGE_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[1] += power;
+	if (key == GLFW_KEY_PAGE_DOWN && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->translate[1] -= power;
+
 	init->genMatrices();
 }
 

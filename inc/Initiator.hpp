@@ -44,6 +44,7 @@ public:
 	GLuint			trans_loc;
 	GLuint			rot_loc;
 	GLuint			scale_loc;
+	GLuint			color_loc;
 
 	Initiator(void);
 	Initiator(int _status);

@@ -1,12 +1,10 @@
 #version 410
 
+in vec3				vertex_color;
+
 out vec4			out_fragment;
 
 void main()
 {
-	out_fragment = vec4(
-				 0.3f,
-				 0.5f,
-				 0.7f,
-				 1.0);
+	out_fragment = vec4(vertex_color, 1.0);
 }
