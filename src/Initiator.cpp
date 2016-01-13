@@ -144,28 +144,24 @@ Initiator::createImage(void)
 
 	GLfloat		cube_array[48] =
 	{
+		// vertices
 		-0.5f, 0.5f, 0.5f,
-		0.7f, 0.3f, 0.0f,
-
 		0.5f, 0.5f, 0.5f,
-		0.0f, 0.7f, 0.3f,
-
 		0.5f, -0.5f, 0.5f,
-		0.3f, 0.0f, 0.7f,
-
 		-0.5f, -0.5f, 0.5f,
-		0.3f, 0.7f, 0.0f,
-
 		-0.5f, 0.5f, -0.5f,
-		0.0f, 0.3f, 0.7f,
-
 		0.5f, 0.5f, -0.5f,
-		0.7f, 0.0f, 0.3f,
-
 		0.5f, -0.5f, -0.5f,
-		0.3f, 0.0f, 0.3f,
-
 		-0.5f, -0.5f, -0.5f,
+
+		// color
+		0.7f, 0.3f, 0.0f,
+		0.0f, 0.7f, 0.3f,
+		0.3f, 0.0f, 0.7f,
+		0.3f, 0.7f, 0.0f,
+		0.0f, 0.3f, 0.7f,
+		0.7f, 0.0f, 0.3f,
+		0.3f, 0.0f, 0.3f,
 		0.7f, 0.0f, 0.7f
 	};
 
@@ -194,8 +190,8 @@ Initiator::createImage(void)
 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, cube_array,
 					GL_STATIC_DRAW);
 
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)0);
-	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)3);
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 0, (void *)8);
 	glEnableVertexAttribArray(this->position_loc);
 	glEnableVertexAttribArray(this->color_loc);
 
