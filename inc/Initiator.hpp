@@ -55,6 +55,7 @@ public:
 	void		genMatrices(void);
 	void		genShaders(void);
 	void		getLocations(void);
+	void		generateModel(void);
 	void		createImage(void);
 	bool		drawImage(void);
 

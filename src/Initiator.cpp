@@ -81,7 +81,7 @@ Initiator::getStatus(void) const
 }
 
 void
-Initiator::createImage(void)
+Initiator::generateModel(void)
 {
 	this->vertices_num_elem = 4 * 3;
 	this->faces_num_elem = 2 * 3;
@@ -89,30 +89,37 @@ Initiator::createImage(void)
 	this->faces_array = new GLuint[this->faces_num_elem];
 
 	// SQUARE of 2 triangles.
-	this->vertices_array[0] = -0.5f;
-	this->vertices_array[1] = -0.5f;
+	this->vertices_array[0] = -0.7f;
+	this->vertices_array[1] = 0.7f;
 	this->vertices_array[2] = -0.5f;
 
-	this->vertices_array[3] = 0.5f;
-	this->vertices_array[4] = -0.5f;
+	this->vertices_array[3] = 0.2f;
+	this->vertices_array[4] = 0.2f;
 	this->vertices_array[5] = -0.5f;
 
-	this->vertices_array[6] = -0.5f;
-	this->vertices_array[7] = 0.5f;
+	this->vertices_array[6] = 0.5f;
+	this->vertices_array[7] = -0.5f;
 	this->vertices_array[8] = -0.5f;
 
-	this->vertices_array[9] = 0.5f;
-	this->vertices_array[10] = 0.5f;
+	this->vertices_array[9] = -0.5f;
+	this->vertices_array[10] = -0.5f;
 	this->vertices_array[11] = -0.5f;
 
-	this->faces_array[0] = 1;
-	this->faces_array[1] = 2;
-	this->faces_array[2] = 3;
 
-	this->faces_array[3] = 1;
-	this->faces_array[4] = 3;
-	this->faces_array[5] = 4;
+	// vertices count start at 0
+	this->faces_array[0] = 0;
+	this->faces_array[1] = 1;
+	this->faces_array[2] = 2;
 
+	this->faces_array[3] = 0;
+	this->faces_array[4] = 2;
+	this->faces_array[5] = 3;
+}
+
+void
+Initiator::createImage(void)
+{
+	generateModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -129,7 +136,6 @@ Initiator::createImage(void)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
 					GL_STATIC_DRAW);
-//	std::cout << "Face size : " << this->faces_size << std::endl << "Faces num elem : " << this->faces_num_elem << std::endl;
 	delete (this->vertices_array);
 	delete (this->faces_array);
 }
@@ -199,7 +205,19 @@ Initiator::setModelMatrix(void)
 	trans_matrix.set(12, translate[0]);
 	trans_matrix.set(13, translate[1]);
 	trans_matrix.set(14, translate[2]);
-	//TODO rotation matrix
+
+	rot_matrix.set(5, cos(rotate[0]) + cos(rotate[2]));
+	rot_matrix.set(6, -sin(rotate[0]));
+	rot_matrix.set(9, sin(rotate[0]));
+
+	rot_matrix.set(0, cos(rotate[1]) + cos(rotate[2]));
+	rot_matrix.set(2, sin(rotate[1]));
+	rot_matrix.set(8, -sin(rotate[1]));
+	rot_matrix.set(10, cos(rotate[0]) + cos(rotate[1]));
+
+	rot_matrix.set(1, -sin(rotate[2]));
+	rot_matrix.set(4, sin(rotate[2]));
+
 	scale_matrix.set(0, scale);
 	scale_matrix.set(5, scale);
 	scale_matrix.set(10, scale);

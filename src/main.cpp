@@ -10,8 +10,23 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	(void)scancode;
 	(void)mods;
 	(void)init;
+	GLfloat			power = 0.2f;
+
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[1] -= power;
+	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[1] += power;
+	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[0] += power;
+	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[0] -= power;
+	if (key == GLFW_KEY_Q && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[2] -= power;
+	if (key == GLFW_KEY_E && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		init->rotate[2] += power;
+	init->genMatrices();
 }
 
 static void
