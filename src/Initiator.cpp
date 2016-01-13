@@ -161,8 +161,8 @@ Initiator::createImage(void)
 		0.3f, 0.7f, 0.0f,
 		0.0f, 0.3f, 0.7f,
 		0.7f, 0.0f, 0.3f,
-		0.3f, 0.0f, 0.3f,
-		0.7f, 0.0f, 0.7f
+		0.3f, 0.3f, 0.3f,
+		0.7f, 0.7f, 0.7f
 	};
 
 	int			cube_faces_array[36] =
@@ -286,11 +286,10 @@ void
 Initiator::setModelMatrix(void)
 {
 	trans_matrix.setIdentity();
-	trans_matrix.set(12, translate[0]);
-	trans_matrix.set(13, translate[1]);
-	trans_matrix.set(14, translate[2]);
-
+	trans_matrix.translate(translate[0], translate[1], translate[2]);
+	
 	rot_matrix.setIdentity();
+	// rot_matrix.rotate(20, 1, 0, 0);
 	Mat4<GLfloat>	tempx;
 	Mat4<GLfloat>	tempy;	
 	Mat4<GLfloat>	tempz;
@@ -310,12 +309,10 @@ Initiator::setModelMatrix(void)
 	tempz.set(4, -sin(rotate[2]));
 	tempz.set(5, cos(rotate[2]));
 
-	rot_matrix = tempx * tempy * tempz;
+	rot_matrix = tempz * tempy * tempx;
 
 	scale_matrix.setIdentity();
-	scale_matrix.set(0, scale);
-	scale_matrix.set(5, scale);
-	scale_matrix.set(10, scale);
+	scale_matrix.scale(this->scale, this->scale, this->scale);
 }
 
 Initiator

@@ -43,7 +43,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_PAGE_DOWN && (action == GLFW_REPEAT || action == GLFW_PRESS))
 		init->translate[1] -= power;
 
-	init->genMatrices();
+	init->setModelMatrix();
 }
 
 static void
