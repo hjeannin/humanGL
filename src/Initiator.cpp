@@ -137,6 +137,32 @@ Initiator::generateModel(void)
 void
 Initiator::createImage(void)
 {
+	generateModel();
+	glGenVertexArrays(1, &this->vao);
+	glBindVertexArray(this->vao);
+	glGenBuffers(2, &this->vbos[0]);
+
+	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
+					GL_STATIC_DRAW);
+
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
+	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
+	glEnableVertexAttribArray(this->position_loc);
+	glEnableVertexAttribArray(this->color_loc);
+
+	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
+					GL_STATIC_DRAW);
+	delete (this->vertices_array);
+	delete (this->faces_array);
+}
+
+void
+Initiator::createCBImage(void)
+{
 
 	// COLORED CUBE
 	this->vertices_num_elem = 48;
@@ -202,30 +228,8 @@ Initiator::createImage(void)
 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, cube_faces_array,
-					GL_STATIC_DRAW);
-
-/*	
-	generateModel();
-	glGenVertexArrays(1, &this->vao);
-	glBindVertexArray(this->vao);
-	glGenBuffers(2, &this->vbos[0]);
-
-	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
-					GL_STATIC_DRAW);
-
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)0);
-	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 3, (GLfloat *)3);
-	glEnableVertexAttribArray(this->position_loc);
-
-	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
-					GL_STATIC_DRAW);
-	delete (this->vertices_array);
-	delete (this->faces_array);
-*/}
+					GL_STATIC_DRAW);	
+}
 
 bool
 Initiator::drawImage(void)

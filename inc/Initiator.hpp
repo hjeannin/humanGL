@@ -57,6 +57,7 @@ public:
 	void		genShaders(void);
 	void		getLocations(void);
 	void		generateModel(void);
+	void		createCBImage(void);
 	void		createImage(void);
 	bool		drawImage(void);
 
