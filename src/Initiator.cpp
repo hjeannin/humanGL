@@ -85,36 +85,16 @@ Initiator::getStatus(void) const
 void
 Initiator::generateModel(void)
 {
-	this->vertices_num_elem = 6 * 3;
-	this->faces_num_elem = 4 * 3;
-	this->vertices_array = new GLfloat[this->vertices_num_elem];
+	this->vertices_num_elem = 4 * 4;
+	this->faces_num_elem = 2 * 3;
+	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
 	// SQUARE of 2 triangles.
-	this->vertices_array[0] = -0.5f;
-	this->vertices_array[1] = 0.5f;
-	this->vertices_array[2] = -0.5f;
-
-	this->vertices_array[3] = 0.5f;
-	this->vertices_array[4] = 0.5f;
-	this->vertices_array[5] = -0.5f;
-
-	this->vertices_array[6] = 0.5f;
-	this->vertices_array[7] = -0.5f;
-	this->vertices_array[8] = -0.5f;
-
-	this->vertices_array[9] = -0.5f;
-	this->vertices_array[10] = -0.5f;
-	this->vertices_array[11] = -0.5f;
-
-	this->vertices_array[12] = -0.5f;
-	this->vertices_array[13] = 0.5f;
-	this->vertices_array[14] = 0.5f;
-
-	this->vertices_array[15] = 0.5f;
-	this->vertices_array[16] = 0.5f;
-	this->vertices_array[17] = 0.5f;
-
+	this->vertices_array[0] = {-0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
+	this->vertices_array[1] = {0.5f, 0.5f, 0.5f, 0, 255, 0, 0};
+	this->vertices_array[2] = {0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
+	this->vertices_array[3] = {-0.5f, -0.5f, 0.5f, 123, 123, 123, 0};
 
 	// vertices count start at 0
 	this->faces_array[0] = 0;
@@ -124,19 +104,12 @@ Initiator::generateModel(void)
 	this->faces_array[3] = 0;
 	this->faces_array[4] = 2;
 	this->faces_array[5] = 3;
-
-	this->faces_array[6] = 0;
-	this->faces_array[7] = 1;
-	this->faces_array[8] = 4;
-
-	this->faces_array[9] = 1;
-	this->faces_array[10] = 4;
-	this->faces_array[11] = 5;
 }
 
 void
 Initiator::createImage(void)
 {
+	generateModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -146,9 +119,9 @@ Initiator::createImage(void)
 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
 					GL_STATIC_DRAW);
 
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
-	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
 	glEnableVertexAttribArray(this->position_loc);
+	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
 	glEnableVertexAttribArray(this->color_loc);
 
 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;

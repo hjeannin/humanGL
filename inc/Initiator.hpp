@@ -28,7 +28,7 @@ public:
 	GLuint			vbos[2];
 	int				vertices_size;
 	int				vertices_num_elem;
-	GLfloat			*vertices_array;
+	Point			*vertices_array;
 	int				faces_size;
 	int				faces_num_elem;
 	GLuint			*faces_array;
