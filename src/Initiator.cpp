@@ -43,7 +43,7 @@ Initiator::initData(void)
 	rotate[0] = 0.0f;
 	rotate[1] = 0.0f;
 	rotate[2] = 0.0f;
-	scale = 1.0f;
+	scale = 0.2f;
 }
 
 void
@@ -191,7 +191,7 @@ Initiator::createImage(void)
 					GL_STATIC_DRAW);
 
 	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 0, (void *)8);
+	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 0, (void *)24);
 	glEnableVertexAttribArray(this->position_loc);
 	glEnableVertexAttribArray(this->color_loc);
 
@@ -286,7 +286,10 @@ void
 Initiator::setModelMatrix(void)
 {
 	trans_matrix.setIdentity();
-	trans_matrix.translate(translate[0], translate[1], translate[2]);
+	trans_matrix.set(12, translate[0]);
+	trans_matrix.set(13, translate[1]);
+	trans_matrix.set(14, translate[2]);
+	// trans_matrix.translate(translate[0], translate[1], translate[2]);
 	
 	rot_matrix.setIdentity();
 	// rot_matrix.rotate(20, 1, 0, 0);
@@ -301,8 +304,8 @@ Initiator::setModelMatrix(void)
 
 	tempy.set(0, cos(rotate[1]));
 	tempy.set(2, -sin(rotate[1]));
-	tempy.set(9, sin(rotate[1]));
-	tempy.set(11, cos(rotate[1]));
+	tempy.set(8, sin(rotate[1]));
+	tempy.set(10, cos(rotate[1]));
 
 	tempz.set(0, cos(rotate[2]));
 	tempz.set(1, sin(rotate[2]));
@@ -313,6 +316,21 @@ Initiator::setModelMatrix(void)
 
 	scale_matrix.setIdentity();
 	scale_matrix.scale(this->scale, this->scale, this->scale);
+}
+
+void
+Initiator::debugMatrix(void)
+{
+	Mat4<GLfloat>		all;
+
+	all = proj_matrix * view_matrix * trans_matrix * rot_matrix * scale_matrix;
+	std::cout << "-----------------------" << std::endl;
+	std::cout << "proj" << std::endl << this->proj_matrix << std::endl;
+	std::cout << "view" << std::endl << this->view_matrix << std::endl;
+	std::cout << "trans" << std::endl << this->trans_matrix << std::endl;
+	std::cout << "rot" << std::endl << this->rot_matrix << std::endl;
+	std::cout << "scale" << std::endl << this->scale_matrix << std::endl;
+	std::cout << "all" << std::endl << all << std::endl;
 }
 
 Initiator

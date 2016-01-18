@@ -68,6 +68,8 @@ public:
 	void		setViewMatrix(void);
 	void		setModelMatrix(void);
 
+	void		debugMatrix(void);
+
 	Initiator	&operator=(Initiator const &rhs);
 };
 

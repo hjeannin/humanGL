@@ -44,6 +44,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 		init->translate[1] -= power;
 
 	init->setModelMatrix();
+	// init->debugMatrix();
 }
 
 static void
