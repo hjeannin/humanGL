@@ -85,25 +85,37 @@ Initiator::getStatus(void) const
 void
 Initiator::generateModel(void)
 {
-	this->vertices_num_elem = 4 * 4;
-	this->faces_num_elem = 2 * 3;
+	int			number_of_points = 48;
+	int			number_of_faces = 27;
+	GLfloat		float_multiply = 0.1f;
+	int			pouet = 3;
+	GLubyte		color_r = 0;
+	GLubyte		color_g = 123;
+	GLubyte		color_b = 255;
+
+	this->vertices_num_elem = 4 * number_of_points;
+	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
-	// SQUARE of 2 triangles.
-	this->vertices_array[0] = {-0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
-	this->vertices_array[1] = {0.5f, 0.5f, 0.5f, 0, 255, 0, 0};
-	this->vertices_array[2] = {0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
-	this->vertices_array[3] = {-0.5f, -0.5f, 0.5f, 123, 123, 123, 0};
+	for (int i = 0; i < number_of_points ; i++)
+	{
+		this->vertices_array[i] = {static_cast<GLfloat>(-sin(float_multiply)),
+									static_cast<GLfloat>(cos(float_multiply)),
+									static_cast<GLfloat>(sin(float_multiply)),
+									color_r, color_g, color_b, 0};
+		float_multiply += 0.1f;
+		color_r += 63;
+		color_g += 23;
+		color_b -= 165;
+	}
 
-	// vertices count start at 0
-	this->faces_array[0] = 0;
-	this->faces_array[1] = 1;
-	this->faces_array[2] = 2;
-
-	this->faces_array[3] = 0;
-	this->faces_array[4] = 2;
-	this->faces_array[5] = 3;
+	for (int j = 0; j < number_of_faces ; j += 3)
+	{
+		this->faces_array[j] = j + pouet; 
+		this->faces_array[j + 1] = j;
+		this->faces_array[j + 2] = j + pouet * 2;
+	}
 }
 
 void
