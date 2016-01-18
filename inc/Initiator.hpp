@@ -69,7 +69,6 @@ public:
 	void		getLocations(void);
 	void		generateModel(void);
 	void		createCBImage(void);
-	void		createCB2Image(void);
 	void		createImage(void);
 	bool		drawImage(void);
 

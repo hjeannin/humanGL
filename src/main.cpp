@@ -124,8 +124,7 @@ int main()
 	init.genMatrices();
 	init.genShaders();
 	init.getLocations();
-	init.createCB2Image();
-	// init.createCBImage();
+	init.createCBImage();
 	// init.createImage();
 
 	// loop

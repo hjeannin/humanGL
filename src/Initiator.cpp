@@ -137,7 +137,6 @@ Initiator::generateModel(void)
 void
 Initiator::createImage(void)
 {
-	generateModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -165,77 +164,7 @@ Initiator::createCBImage(void)
 {
 
 	// COLORED CUBE
-	this->vertices_num_elem = 48;
-	this->faces_num_elem = 36;
-
-	GLfloat		cube_array[48] =
-	{
-		-0.5f, 0.5f, 0.5f, //vertex
-		0.4f, 0.4f, 0.4f, //color
-
-		0.5f, 0.5f, 0.5f,
-		1.0f, 0.0f, 0.0f,
-
-		0.5f, -0.5f, 0.5f,
-		0.0f, 0.0f, 1.0f,
-
-		-0.5f, -0.5f, 0.5f,
-		1.0f, 1.0f, 1.0f,
-
-		-0.5f, 0.5f, -0.5f,
-		0.0f, 1.0f, 0.0f,
-
-		0.5f, 0.5f, -0.5f,
-		1.0f, 1.0f, 0.0f,
-
-		0.5f, -0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f,
-
-		-0.5f, -0.5f, -0.5f,
-		0.0f, 1.0f, 1.0f
-	};
-
-	int			cube_faces_array[36] =
-	{
-		0, 1, 3,
-		1, 2, 3,
-		4, 5, 7,
-		5, 6, 7,
-		1, 5, 2,
-		5, 6, 2,
-		0, 4, 3,
-		4, 7, 3,
-		0, 4, 1,
-		4, 5, 1,
-		3, 7, 2,
-		7, 6, 2
-	};
-
-	glGenVertexArrays(1, &this->vao);
-	glBindVertexArray(this->vao);
-	glGenBuffers(2, &this->vbos[0]);
-
-	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, cube_array,
-					GL_STATIC_DRAW);
-
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, 4 * 3 * 2, reinterpret_cast<void*>(0));
-	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 3, GL_FLOAT, GL_FALSE, 4 * 3 * 2, reinterpret_cast<void*>(4 * 3));
-	glEnableVertexAttribArray(this->color_loc);
-
-	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, cube_faces_array,
-					GL_STATIC_DRAW);	
-}
-void
-Initiator::createCB2Image(void)
-{
-
-	// COLORED CUBE
-	this->vertices_num_elem = 48;
+	this->vertices_num_elem = 4 * 8;
 	this->faces_num_elem = 36;
 
 	Point		cube_array[8] = 
