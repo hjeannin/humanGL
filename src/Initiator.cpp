@@ -286,10 +286,7 @@ void
 Initiator::setModelMatrix(void)
 {
 	trans_matrix.setIdentity();
-	trans_matrix.set(12, translate[0]);
-	trans_matrix.set(13, translate[1]);
-	trans_matrix.set(14, translate[2]);
-	// trans_matrix.translate(translate[0], translate[1], translate[2]);
+	trans_matrix.translate(translate[0], translate[1], translate[2]);
 	
 	rot_matrix.setIdentity();
 	// rot_matrix.rotate(20, 1, 0, 0);
