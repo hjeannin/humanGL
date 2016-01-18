@@ -12,6 +12,17 @@ private:
 	int			_status;
 
 public:
+	struct Point
+	{
+		GLfloat		x;
+		GLfloat		y;
+		GLfloat		z;
+		GLubyte		r;
+		GLubyte		g;
+		GLubyte		b;
+		GLubyte		a;
+	};
+
 	GLFWwindow		*window;
 	GLuint			vao;
 	GLuint			vbos[2];
@@ -58,6 +69,7 @@ public:
 	void		getLocations(void);
 	void		generateModel(void);
 	void		createCBImage(void);
+	void		createCB2Image(void);
 	void		createImage(void);
 	bool		drawImage(void);
 
