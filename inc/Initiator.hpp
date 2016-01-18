@@ -20,7 +20,6 @@ public:
 		GLubyte		r;
 		GLubyte		g;
 		GLubyte		b;
-		GLubyte		a;
 	};
 
 	GLFWwindow		*window;

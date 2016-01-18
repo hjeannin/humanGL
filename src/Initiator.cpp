@@ -169,14 +169,14 @@ Initiator::createCBImage(void)
 
 	Point		cube_array[8] = 
 	{
-		{-0.5f, 0.5f, 0.5f, 123, 123, 123, 0},
-		{0.5f, 0.5f, 0.5f, 255, 0, 0, 0},
-		{0.5f, -0.5f, 0.5f, 255, 255, 255, 0},
-		{-0.5f, -0.5f, 0.5f, 0, 0, 255, 0},
-		{-0.5f, 0.5f, -0.5f, 255, 255, 0, 0},
-		{0.5f, 0.5f, -0.5f, 255, 0, 255, 0},
-		{0.5f, -0.5f, -0.5f, 0, 255, 255, 0},
-		{-0.5f, -0.5f, -0.5f, 0, 255, 0, 0},
+		{-0.5f, 0.5f, 0.5f, 123, 123, 123},
+		{0.5f, 0.5f, 0.5f, 255, 0, 0},
+		{0.5f, -0.5f, 0.5f, 255, 255, 255},
+		{-0.5f, -0.5f, 0.5f, 0, 0, 255},
+		{-0.5f, 0.5f, -0.5f, 255, 255, 0},
+		{0.5f, 0.5f, -0.5f, 255, 0, 255},
+		{0.5f, -0.5f, -0.5f, 0, 255, 255},
+		{-0.5f, -0.5f, -0.5f, 0, 255, 0},
 	};
 
 	int			cube_faces_array[36] =
@@ -206,7 +206,7 @@ Initiator::createCBImage(void)
 
 	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
 	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
+	glVertexAttribPointer(this->color_loc, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
 	glEnableVertexAttribArray(this->color_loc);
 
 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
