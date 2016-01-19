@@ -87,6 +87,8 @@ Initiator::printArray(GLuint *a, int size)
 {
 	for (int i = 0; i < size ; i++)
 	{
+		if (i % 3 == 0)
+			std::cout << std::endl;
 		std::cout << "[" << a[i] << "]";
 	}
 	std::cout << std::endl;
@@ -148,9 +150,12 @@ Initiator::generateSphere(void)
 	double			tmp1 = 0;
 	double			tmp2 = 0;
 	double			tmp3 = 0;
+	GLubyte			color_r = 0;
+	GLubyte			color_g = 123;
+	GLubyte			color_b = 255;
 	int				number_of_lines = 8;
 	int				number_of_points = number_of_lines * number_of_lines;
-	int				number_of_faces = number_of_points * 2;
+	int				number_of_faces = number_of_points * 2 - 16;
 	this->vertices_num_elem = number_of_points;
 	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
@@ -160,24 +165,21 @@ Initiator::generateSphere(void)
 	{
 		for (int i = 0; i < number_of_lines ; i++)
 		{
-			tmp1 = sin(pi * i / number_of_lines) * cos(2.0 * pi * k / number_of_lines);
-			tmp2 = sin(pi * i / number_of_lines) * sin(2.0 * pi * k / number_of_lines);
-			tmp3 = cos(pi * i / number_of_lines);
+			tmp1 = sin(pi * k / number_of_lines) * cos(2.0 * pi * i / number_of_lines);
+			tmp2 = sin(pi * k / number_of_lines) * sin(2.0 * pi * i / number_of_lines);
+			tmp3 = cos(pi * k / number_of_lines);
+			color_r += 3;
+			color_g += 2;
+			color_b -= 1;
 			this->vertices_array[index] = {static_cast<GLfloat>(tmp1),
 										static_cast<GLfloat>(tmp2),
 										static_cast<GLfloat>(tmp3),
-										255, 255, 255, 0};
-			std::cout << vertices_array[i].x << "," << vertices_array[i].y << "," << vertices_array[i].z << std::endl;
+										color_r, color_g, color_b, 0};
+			// std::cout << vertices_array[i].x << "," << vertices_array[i].y << "," << vertices_array[i].z << std::endl;
 			index++;
 		}
 	}
-	// this->faces_array[0] = 0;
-	// this->faces_array[1] = 1;
-	// this->faces_array[2] = 0 + 8;
-	// this->faces_array[3] = 1;
-	// this->faces_array[4] = 8;
-	// this->faces_array[5] = 9;
-	for (int j = 0; j < number_of_faces ; j += 6)
+	for (int j = 0; j < faces_num_elem; j += 6)
 	{
 		this->faces_array[j] = index2;
 		this->faces_array[j + 1] = index2 + 1;
@@ -188,7 +190,7 @@ Initiator::generateSphere(void)
 		index2++;
 	}
 	printArray(faces_array, faces_num_elem);
-	printPointArray(this->vertices_array, this->vertices_num_elem);
+	// printPointArray(this->vertices_array, this->vertices_num_elem);
 }
 
 void
