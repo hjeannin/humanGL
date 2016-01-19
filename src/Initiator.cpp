@@ -100,7 +100,7 @@ Initiator::printPointArray(Point *a, int size)
 	std::cout << std::endl << "[X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
 	for (int i = 0; i < size ; i++)
 	{
-		std::cout << "[" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
+		std::cout << i << "[" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
 		<< (int)a[i].r << ", " << (int)a[i].g << ", " << (int)a[i].b << ", " << (int)a[i].a << "]" << std::endl;
 	}
 }
@@ -144,8 +144,8 @@ Initiator::generateRandomModel(void)
 void
 Initiator::generateSphere(void)
 {
-	int				number_of_lines = 8;
-	GLfloat			space = 0.1;
+	int				number_of_lines = 32;
+	int				nolk = number_of_lines + 1;
 	int				index = 0;
 	int				index2 = 0;
 	double			pi = M_PI;
@@ -155,23 +155,23 @@ Initiator::generateSphere(void)
 	GLubyte			color_r = 0;
 	GLubyte			color_g = 123;
 	GLubyte			color_b = 255;
-	int				number_of_points = number_of_lines * number_of_lines;
+	int				number_of_points = number_of_lines * nolk;
 	int				number_of_faces = (number_of_points * 2) - (number_of_lines * 2);
 	this->vertices_num_elem = number_of_points;
 	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
-	for (int k = 0; k < number_of_lines ; k++)
+	for (int k = 0; k < nolk ; k++)
 	{
 		for (int i = 0; i < number_of_lines ; i++)
 		{
 			tmp1 = sin(pi * k / number_of_lines) * cos(2.0 * pi * i / number_of_lines);
 			tmp2 = sin(pi * k / number_of_lines) * sin(2.0 * pi * i / number_of_lines);
 			tmp3 = cos(pi * k / number_of_lines);
-			color_r += 3;
-			color_g += 2;
-			color_b -= 1;
+			color_r += 70;
+			color_g += 20;
+			color_b -= 50;
 			this->vertices_array[index] = {static_cast<GLfloat>(tmp1),
 										static_cast<GLfloat>(tmp2),
 										static_cast<GLfloat>(tmp3),
@@ -179,7 +179,6 @@ Initiator::generateSphere(void)
 			// std::cout << vertices_array[i].x << "," << vertices_array[i].y << "," << vertices_array[i].z << std::endl;
 			index++;
 		}
-		space += 0.5;
 	}
 	for (int j = 0; j < faces_num_elem; j += 6)
 	{
@@ -191,8 +190,8 @@ Initiator::generateSphere(void)
 		this->faces_array[j + 5] = index2 + number_of_lines + 1;
 		index2++;
 	}
-	printArray(faces_array, faces_num_elem);
-	printPointArray(this->vertices_array, this->vertices_num_elem);
+	// printArray(faces_array, faces_num_elem);
+	// printPointArray(this->vertices_array, this->vertices_num_elem);
 }
 
 void
