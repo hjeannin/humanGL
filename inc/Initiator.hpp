@@ -1,6 +1,10 @@
 #ifndef	INITIATOR_HPP
 # define INITIATOR_HPP
 
+# ifndef M_PI
+#  define M_PI		3.1415926535897932384626433832795f
+# endif
+
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
@@ -67,7 +71,8 @@ public:
 	void		genMatrices(void);
 	void		genShaders(void);
 	void		getLocations(void);
-	void		generateModel(void);
+	void		generateRandomModel(void);
+	void		generateSphere(void);
 	void		createCBImage(void);
 	void		createImage(void);
 	bool		drawImage(void);
@@ -75,6 +80,9 @@ public:
 	void		checkGlError(std::string file, int line);
 
 	int			getStatus(void) const;
+
+	void		printArray(GLuint *a, int size);
+	void		printPointArray(Point *a, int size);
 	
 	void		setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp);
 	void		setViewMatrix(void);

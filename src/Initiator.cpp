@@ -83,12 +83,33 @@ Initiator::getStatus(void) const
 }
 
 void
-Initiator::generateModel(void)
+Initiator::printArray(GLuint *a, int size)
 {
-	int			number_of_points = 48;
-	int			number_of_faces = 27;
+	for (int i = 0; i < size ; i++)
+	{
+		std::cout << "[" << a[i] << "]";
+	}
+	std::cout << std::endl;
+}
+
+void
+Initiator::printPointArray(Point *a, int size)
+{
+	std::cout << std::endl << "[X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
+	for (int i = 0; i < size ; i++)
+	{
+		std::cout << "[" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
+		<< (int)a[i].r << ", " << (int)a[i].g << ", " << (int)a[i].b << ", " << (int)a[i].a << "]" << std::endl;
+	}
+}
+
+void
+Initiator::generateRandomModel(void)
+{
+	int			number_of_points = 96;
+	int			number_of_faces = number_of_points - 13;
 	GLfloat		float_multiply = 0.1f;
-	int			pouet = 3;
+	int			pouet = 7;
 	GLubyte		color_r = 0;
 	GLubyte		color_g = 123;
 	GLubyte		color_b = 255;
@@ -100,14 +121,14 @@ Initiator::generateModel(void)
 
 	for (int i = 0; i < number_of_points ; i++)
 	{
-		this->vertices_array[i] = {static_cast<GLfloat>(-sin(float_multiply)),
-									static_cast<GLfloat>(cos(float_multiply)),
+		this->vertices_array[i] = {static_cast<GLfloat>(cos(float_multiply)),
+									static_cast<GLfloat>(cos(float_multiply)) + float_multiply,
 									static_cast<GLfloat>(sin(float_multiply)),
 									color_r, color_g, color_b, 0};
 		float_multiply += 0.1f;
-		color_r += 63;
-		color_g += 23;
-		color_b -= 165;
+		color_r += 3;
+		color_g += 2;
+		color_b -= 1;
 	}
 
 	for (int j = 0; j < number_of_faces ; j += 3)
@@ -119,9 +140,46 @@ Initiator::generateModel(void)
 }
 
 void
+Initiator::generateSphere(void)
+{
+	double			pi = M_PI;
+	double			tmp1 = 0;
+	double			tmp2 = 0;
+	double			tmp3 = 0;
+	int				number_of_lines = 8;
+	int				number_of_points = number_of_lines * number_of_lines;
+	int				number_of_faces = number_of_points / 2;
+	this->vertices_num_elem = number_of_points;
+	this->faces_num_elem = 3 * number_of_faces;
+	this->vertices_array = new Point[this->vertices_num_elem];
+	this->faces_array = new GLuint[this->faces_num_elem];
+
+	for (int k = 0; k < number_of_lines ; k++)
+	{
+		for (int i = 0; i < number_of_lines ; i++)
+		{
+			tmp1 = sin(pi * i / number_of_lines) * cos(2.0 * pi * k / number_of_lines);
+			tmp2 = sin(pi * i / number_of_lines) * sin(2.0 * pi * k / number_of_lines);
+			tmp3 = cos(pi * i / number_of_lines);
+			this->vertices_array[i] = {static_cast<GLfloat>(tmp1), static_cast<GLfloat>(tmp2), static_cast<GLfloat>(tmp3), 255, 255, 255, 0};
+			std::cout << vertices_array[i].x << "," << vertices_array[i].y << "," << vertices_array[i].z << std::endl;
+		}
+	}
+	for (int j = 0; j < number_of_faces ; j += 3)
+	{
+		this->faces_array[j] = j;
+		this->faces_array[j + 1] = j + 1;
+		this->faces_array[j + 2] = j + 1 + number_of_points;
+	}
+	// printArray(faces_array, faces_num_elem);
+	printPointArray(this->vertices_array, this->vertices_num_elem);
+}
+
+void
 Initiator::createImage(void)
 {
-	generateModel();
+	generateSphere();
+	// generateRandomModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -179,6 +237,7 @@ Initiator::createCBImage(void)
 		3, 7, 2,
 		7, 6, 2
 	};
+	printPointArray(cube_array, 8);
 
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
