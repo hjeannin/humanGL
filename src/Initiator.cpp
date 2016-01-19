@@ -142,13 +142,15 @@ Initiator::generateRandomModel(void)
 void
 Initiator::generateSphere(void)
 {
+	int				index = 0;
+	int				index2 = 0;
 	double			pi = M_PI;
 	double			tmp1 = 0;
 	double			tmp2 = 0;
 	double			tmp3 = 0;
 	int				number_of_lines = 8;
 	int				number_of_points = number_of_lines * number_of_lines;
-	int				number_of_faces = number_of_points / 2;
+	int				number_of_faces = number_of_points * 2;
 	this->vertices_num_elem = number_of_points;
 	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
@@ -161,17 +163,31 @@ Initiator::generateSphere(void)
 			tmp1 = sin(pi * i / number_of_lines) * cos(2.0 * pi * k / number_of_lines);
 			tmp2 = sin(pi * i / number_of_lines) * sin(2.0 * pi * k / number_of_lines);
 			tmp3 = cos(pi * i / number_of_lines);
-			this->vertices_array[i] = {static_cast<GLfloat>(tmp1), static_cast<GLfloat>(tmp2), static_cast<GLfloat>(tmp3), 255, 255, 255, 0};
+			this->vertices_array[index] = {static_cast<GLfloat>(tmp1),
+										static_cast<GLfloat>(tmp2),
+										static_cast<GLfloat>(tmp3),
+										255, 255, 255, 0};
 			std::cout << vertices_array[i].x << "," << vertices_array[i].y << "," << vertices_array[i].z << std::endl;
+			index++;
 		}
 	}
-	for (int j = 0; j < number_of_faces ; j += 3)
+	// this->faces_array[0] = 0;
+	// this->faces_array[1] = 1;
+	// this->faces_array[2] = 0 + 8;
+	// this->faces_array[3] = 1;
+	// this->faces_array[4] = 8;
+	// this->faces_array[5] = 9;
+	for (int j = 0; j < number_of_faces ; j += 6)
 	{
-		this->faces_array[j] = j;
-		this->faces_array[j + 1] = j + 1;
-		this->faces_array[j + 2] = j + 1 + number_of_points;
+		this->faces_array[j] = index2;
+		this->faces_array[j + 1] = index2 + 1;
+		this->faces_array[j + 2] = index2 + number_of_lines;
+		this->faces_array[j + 3] = index2 + 1;
+		this->faces_array[j + 4] = index2 + number_of_lines;
+		this->faces_array[j + 5] = index2 + number_of_lines + 1;
+		index2++;
 	}
-	// printArray(faces_array, faces_num_elem);
+	printArray(faces_array, faces_num_elem);
 	printPointArray(this->vertices_array, this->vertices_num_elem);
 }
 
