@@ -108,7 +108,7 @@ Initiator::printPointArray(Point *a, int size)
 void
 Initiator::generateRandomModel(void)
 {
-	int			number_of_points = 96;
+	int			number_of_points = 16;
 	int			number_of_faces = number_of_points - 13;
 	GLfloat		float_multiply = 0.1f;
 	int			pouet = 7;
@@ -144,7 +144,7 @@ Initiator::generateRandomModel(void)
 void
 Initiator::generateSphere(void)
 {
-	int				number_of_lines = 32;
+	int				number_of_lines = 128;
 	int				nolk = number_of_lines + 1;
 	int				index = 0;
 	int				index2 = 0;

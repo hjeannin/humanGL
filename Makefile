@@ -17,7 +17,7 @@ GLFW		=	./compiled_GLFW/src/libglfw3_darwin.a
 LIBS		=	$(GLFW) -framework Carbon -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL -framework CoreVideo
 else ifeq "$(PLATFORM)" "Linux" #LINUX
 GLFW		=	./compiled_GLFW/src/libglfw3_linux.a
-LIBS		=	$(GLFW) -lGL -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lXcursor -lm -lXinerama `libpng-config --libs` -lOpenCL -L/usr/local/cuda-6.5/lib64
+LIBS		=	$(GLFW) -lGL -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lXcursor -lm -lXinerama `libpng-config --libs` -ldl
 endif
 
 NAME		=	humanGL
