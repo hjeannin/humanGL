@@ -2,7 +2,7 @@
 # define INITIATOR_HPP
 
 # ifndef M_PI
-#  define M_PI		3.1415926535897932384626433832795f
+#  define M_PI		3.1415926535897932384626433832795
 # endif
 
 # include <iostream>
@@ -72,7 +72,7 @@ public:
 	void		genShaders(void);
 	void		getLocations(void);
 	void		generateRandomModel(void);
-	void		generateSphere(void);
+	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
 	void		createCBImage(void);
 	void		createImage(void);
 	bool		drawImage(void);

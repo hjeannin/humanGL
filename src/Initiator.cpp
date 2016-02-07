@@ -142,9 +142,9 @@ Initiator::generateRandomModel(void)
 }
 
 void
-Initiator::generateSphere(void)
+Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b)
 {
-	int				number_of_lines = 128;
+	int				number_of_lines = size;
 	int				nolk = number_of_lines + 1;
 	int				index = 0;
 	int				index2 = 0;
@@ -152,9 +152,7 @@ Initiator::generateSphere(void)
 	double			tmp1 = 0;
 	double			tmp2 = 0;
 	double			tmp3 = 0;
-	GLubyte			color_r = 0;
-	GLubyte			color_g = 123;
-	GLubyte			color_b = 255;
+	float			color_decr = 0.1;
 	int				number_of_points = number_of_lines * nolk;
 	int				number_of_faces = (number_of_points * 2) - (number_of_lines * 2);
 	this->vertices_num_elem = number_of_points;
@@ -162,16 +160,18 @@ Initiator::generateSphere(void)
 	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
+		// std::cout << "R : " << static_cast<int>(color_r) << " G : " << static_cast<int>(color_g) << " B : " << static_cast<int>(color_b) << std::endl;
 	for (int k = 0; k < nolk ; k++)
 	{
+		color_r -= color_decr;
+		color_g -= color_decr;
+		color_b -= color_decr;
+		// std::cout << "R : " << static_cast<int>(color_r) << " G : " << static_cast<int>(color_g) << " B : " << static_cast<int>(color_b) << std::endl;
 		for (int i = 0; i < number_of_lines ; i++)
 		{
 			tmp1 = sin(pi * k / number_of_lines) * cos(2.0 * pi * i / number_of_lines);
 			tmp2 = sin(pi * k / number_of_lines) * sin(2.0 * pi * i / number_of_lines);
 			tmp3 = cos(pi * k / number_of_lines);
-			color_r += 70;
-			color_g += 20;
-			color_b -= 50;
 			this->vertices_array[index] = {static_cast<GLfloat>(tmp1),
 										static_cast<GLfloat>(tmp2),
 										static_cast<GLfloat>(tmp3),
@@ -197,7 +197,7 @@ Initiator::generateSphere(void)
 void
 Initiator::createImage(void)
 {
-	generateSphere();
+	generateSphere(64, 0, 123, 255);
 	// generateRandomModel();
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
