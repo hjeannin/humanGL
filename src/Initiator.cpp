@@ -37,9 +37,12 @@ Initiator::initData(void)
 	program = 0;
 	res_x = 1920;
 	res_y = 1080;
+	cam_pos[0] = 0.0f;
+	cam_pos[1] = 0.0f;
+	cam_pos[2] = 0.0f;
 	translate[0] = 0.0f;
 	translate[1] = 0.0f;
-	translate[2] = -1.0f;
+	translate[2] = 0.0f;
 	rotate[0] = 0.0f;
 	rotate[1] = 0.0f;
 	rotate[2] = 0.0f;
@@ -334,7 +337,12 @@ Initiator::setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp)
 void
 Initiator::setViewMatrix(void)
 {
+	GLfloat		r1 = 0.0f;
+	GLfloat		r2 = 1.0f;
+	GLfloat		r3 = 0.0f;
 	view_matrix.setIdentity();
+	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2] - 1.0f);
+	view_matrix.rotate(0.0f, r1, r2, r3);
 }
 
 void

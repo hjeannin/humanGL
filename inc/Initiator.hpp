@@ -43,6 +43,8 @@ public:
 	GLuint			res_x;
 	GLuint			res_y;
 
+	GLfloat			cam_pos[3];
+
 	GLfloat			translate[3];
 	GLfloat			rotate[3];
 	GLfloat			scale;
