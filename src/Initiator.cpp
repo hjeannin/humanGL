@@ -97,10 +97,10 @@ Initiator::printArray(GLuint *a, int size)
 void
 Initiator::printPointArray(Point *a, int size)
 {
-	std::cout << std::endl << "[X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
+	std::cout << std::endl << "N [X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
 	for (int i = 0; i < size ; i++)
 	{
-		std::cout << i << "[" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
+		std::cout << i << " [" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
 		<< (int)a[i].r << ", " << (int)a[i].g << ", " << (int)a[i].b << ", " << (int)a[i].a << "]" << std::endl;
 	}
 }
@@ -202,17 +202,16 @@ Initiator::createImage(void)
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
-
 	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem * 4;
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
 	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
 					GL_STATIC_DRAW);
-
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE,
+							sizeof(Point), reinterpret_cast<void*>(0));
 	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
+	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE,
+							sizeof(Point), reinterpret_cast<void*>(4 * 3));
 	glEnableVertexAttribArray(this->color_loc);
-
 	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
@@ -224,7 +223,8 @@ Initiator::createImage(void)
 void
 Initiator::createCBImage(void)
 {
-
+	// remove hiden triangles (but need triangle normal)
+	// glEnable(GL_CULL_FACE);
 	// COLORED CUBE
 	this->vertices_num_elem = 4 * 8;
 	this->faces_num_elem = 36;
