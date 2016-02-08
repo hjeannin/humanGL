@@ -28,6 +28,8 @@ Initiator::initData(void)
 	vao = 0;
 	vbos[0] = 0;
 	vbos[1] = 0;
+	models = NULL;
+	model_count = 0;
 	vertices_mem_size = 0;
 	vertices_num_elem = 0;
 	vertices_array = NULL;
@@ -144,14 +146,16 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 }
 
 void
-Initiator::generateCube(Model *model)
+Initiator::generateCube(Model *model, int rank)
 {
-	model->v_num_elem = 4 * 8;
+	model->v_num_elem = 8;
 	model->f_num_elem = 36;
 	model->v_array = new Point[model->v_num_elem];
 	model->f_array = new GLuint[model->f_num_elem];
-	model->v_mem_size = sizeof(GLfloat) * model->v_num_elem;
+	model->v_mem_size = sizeof(GLfloat) * 4 * model->v_num_elem;
 	model->f_mem_size = sizeof(GLuint) * model->f_num_elem;
+
+	model->m_matrix.setIdentity();
 
 	model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
 	model->v_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
@@ -209,12 +213,15 @@ Initiator::generateCube(Model *model)
 	model->f_array[33] = 7;
 	model->f_array[34] = 6;
 	model->f_array[35] = 2;
+
+	model->num_faces_before = rank * 36;
+	model->type = TYPE_CUBE;
 }
 
 void
 Initiator::LoadModels(void)
 {	
-	// Need to Compile models in vertices and faces;
+	// Need to Conbine models in vertices and faces;
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
@@ -228,25 +235,58 @@ Initiator::LoadModels(void)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, this->faces_array, GL_STATIC_DRAW);
 }
 
-	// model->v_array = new Point[model->v_num_elem];
+void
+Initiator::ConbineModels(void)
+{
+	for (int i = 0; i < this->model_count; i++)
+	{
+		this->vertices_mem_size += this->models[i].v_mem_size;
+		this->vertices_num_elem += this->models[i].v_num_elem;
+
+		this->faces_mem_size += this->models[i].f_mem_size;
+		this->faces_num_elem += this->models[i].f_num_elem;
+	}
+
+	this->vertices_array = new Point[this->vertices_num_elem];
+	this->faces_array = new GLuint[this->faces_num_elem];
+
+	int		v_index = 0;
+	int		f_index = 0;
+
+	for (int j = 0; j < this->model_count; j++)
+	{
+		for (int p = 0; p < this->models[j].v_num_elem; p++)
+		{
+			this->vertices_array[v_index] = this->models[j].v_array[p];
+			v_index++;
+		}
+		delete (this->models[j].v_array);
+		for (int o = 0; o < this->models[j].f_num_elem; o++)
+		{
+			this->faces_array[f_index] = this->models[j].f_array[o];
+			f_index++;
+		}
+		delete (this->models[j].f_array);
+	}	
+}
 
 void
 Initiator::createImage(void)
 {
-	Model		*models;
+	this->model_count = 4;
+	this->models = new Model[model_count];
 
-	models = new Model[2];
-	generateCube(&models[0]);
+	for (int i = 0; i < this->model_count; i++)
+	{
+		generateCube(&this->models[i], i);
+	}
+	this->models[0].m_matrix.scale(1.0f, 0.2f, 0.5f);
+	this->models[1].m_matrix.scale(0.3f, 0.8f, 0.5f);
+	this->models[2].m_matrix.scale(1.0f, 0.5f, 0.5f);
+	this->models[2].m_matrix.rotate(0.2f, 0, 0);
+	this->models[3].m_matrix.scale(1.0f, 0.5f, 0.5f);
 
-	this->faces_mem_size = models[0].f_mem_size;
-
-	this->vertices_mem_size = models[0].v_mem_size;
-	this->vertices_num_elem = models[0].v_num_elem;
-	this->vertices_array = models[0].v_array;
-
-	this->faces_mem_size = models[0].f_mem_size;
-	this->faces_num_elem = models[0].f_num_elem;
-	this->faces_array = models[0].f_array;
+	ConbineModels();
 
 	LoadModels();
 
@@ -261,8 +301,13 @@ Initiator::drawImage(void)
 	glUseProgram(this->program);
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
-	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->model_matrix.val);
-	glDrawElements(GL_TRIANGLES, this->faces_num_elem, GL_UNSIGNED_INT, 0);
+
+	for (int i = 0; i < this->model_count; i++)
+	{
+		glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->models[i].m_matrix.val);
+		glDrawElements(GL_TRIANGLES, this->models[i].f_num_elem, GL_UNSIGNED_INT,
+			reinterpret_cast<void*>(this->models[i].num_faces_before * sizeof(GLuint)));
+	}
 	// glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->object1_matrix.val);
 	// glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(36 * sizeof(GLuint)));
 	checkGlError(__FILE__, __LINE__);
@@ -317,7 +362,6 @@ Initiator::setViewMatrix(void)
 void
 Initiator::setModelMatrix(void)
 {
-	object1_matrix.setIdentity();
 	model_matrix.setIdentity();
 	model_matrix.translate(translate[0], translate[1], translate[2]);
 	model_matrix.rotate(rotate[0], rotate[1], rotate[2]);
@@ -327,58 +371,6 @@ Initiator::setModelMatrix(void)
 /////////////////////
 //  DEBUG AND TEST //
 /////////////////////
-
-void
-Initiator::createCubeImage(void)
-{
-	// remove hiden triangles (but need triangle normal)
-	// glEnable(GL_CULL_FACE);
-	// COLORED CUBE
-	this->vertices_num_elem = 4 * 8;
-	this->faces_num_elem = 36;
-	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
-	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
-
-	Point		cube_array[8] = 
-	{
-		{-0.5f, 0.5f, 0.5f, 123, 123, 123, 0},
-		{0.5f, 0.5f, 0.5f, 255, 0, 0, 0},
-		{0.5f, -0.5f, 0.5f, 255, 255, 255, 0},
-		{-0.5f, -0.5f, 0.5f, 0, 0, 255, 0},
-		{-0.5f, 0.5f, -0.5f, 255, 255, 0, 0},
-		{0.5f, 0.5f, -0.5f, 255, 0, 255, 0},
-		{0.5f, -0.5f, -0.5f, 0, 255, 255, 0},
-		{-0.5f, -0.5f, -0.5f, 0, 255, 0, 0},
-	};
-
-	GLuint			cube_faces_array[36] =
-	{
-		0, 1, 3,
-		1, 2, 3,
-		4, 5, 7,
-		5, 6, 7,
-		1, 5, 2,
-		5, 6, 2,
-		0, 4, 3,
-		4, 7, 3,
-		0, 4, 1,
-		4, 5, 1,
-		3, 7, 2,
-		7, 6, 2
-	};
-//	printPointArray(cube_array, 8);
-	glGenVertexArrays(1, &this->vao);
-	glBindVertexArray(this->vao);
-	glGenBuffers(2, &this->vbos[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, cube_array, GL_STATIC_DRAW);
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
-	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
-	glEnableVertexAttribArray(this->color_loc);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, cube_faces_array, GL_STATIC_DRAW);
-}
 
 void
 Initiator::debugMatrix(void)

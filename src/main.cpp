@@ -148,7 +148,6 @@ int main()
 
 	init.genMatrices();
 	init.genShaders();
-	// init.createCubeImage();
 	init.createImage();
 
 	// loop

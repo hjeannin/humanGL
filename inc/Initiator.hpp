@@ -5,6 +5,9 @@
 #  define M_PI		3.1415926535897932384626433832795
 # endif
 
+# define TYPE_CUBE		42
+# define TYPE_SPHERE	43
+
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
@@ -36,11 +39,15 @@ public:
 		int				f_num_elem;
 		GLuint			*f_array;
 		Mat4<GLfloat>	m_matrix;
+		GLuint			num_faces_before;
+		int				type;		
 	};
 
 	GLFWwindow		*window;
 	GLuint			vao;
 	GLuint			vbos[2];
+	Model			*models;
+	int				model_count;
 	int				vertices_mem_size;
 	int				vertices_num_elem;
 	Point			*vertices_array;
@@ -63,8 +70,6 @@ public:
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;
 	Mat4<GLfloat>	model_matrix;
-	Mat4<GLfloat>	object1_matrix;
-	Mat4<GLfloat>	object2_matrix;
 
 	GLuint			position_loc;
 	GLuint			proj_loc;
@@ -83,9 +88,10 @@ public:
 	void		getLocations(void);
 	void		genShaders(void);
 	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
-	void		generateCube(Model *model);
+	void		generateCube(Model *model, int rank);
 
 	void		LoadModels(void);
+	void		ConbineModels(void);
 	void		createImage(void);
 	bool		drawImage(void);
 
@@ -98,7 +104,6 @@ public:
 
 		// DEBUG AND TEST //
 
-	void		createCubeImage(void);
 	void		printArray(GLuint *a, int size);
 	void		printPointArray(Point *a, int size);
 	void		debugMatrix(void);
