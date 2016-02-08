@@ -29,9 +29,17 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 		init->rotate[2] += power;
 	
 	if (key == GLFW_KEY_EQUAL && KEY_USED)
-		init->scale += power;
+	{
+		init->scale[0] += power;
+		init->scale[1] += power;
+		init->scale[2] += power;
+	}
 	if (key == GLFW_KEY_MINUS && KEY_USED)
-		init->scale -= power;
+	{
+		init->scale[0] -= power;
+		init->scale[1] -= power;
+		init->scale[2] -= power;
+	}
 	
 	if (key == GLFW_KEY_I && KEY_USED)
 		init->translate[2] -= power;
@@ -140,7 +148,7 @@ int main()
 
 	init.genMatrices();
 	init.genShaders();
-	// init.createCBImage();
+	// init.createCubeImage();
 	init.createImage();
 
 	// loop

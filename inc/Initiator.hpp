@@ -47,11 +47,13 @@ public:
 
 	GLfloat			translate[3];
 	GLfloat			rotate[3];
-	GLfloat			scale;
+	GLfloat			scale[3];
 
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;
 	Mat4<GLfloat>	model_matrix;
+	Mat4<GLfloat>	object1_matrix;
+	Mat4<GLfloat>	object2_matrix;
 
 	GLuint			position_loc;
 	GLuint			proj_loc;
@@ -71,9 +73,9 @@ public:
 	void		genShaders(void);
 	void		generateRandomModel(void);
 	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
+	void		generateCube(void);
 
 	void		LoadModel(Point *model_vertices_array, GLuint *model_faces_array);
-	void		createCBImage(void);
 	void		createImage(void);
 	bool		drawImage(void);
 
@@ -84,6 +86,9 @@ public:
 	void		setViewMatrix(void);
 	void		setModelMatrix(void);
 
+		// DEBUG AND TEST //
+
+	void		createCubeImage(void);
 	void		printArray(GLuint *a, int size);
 	void		printPointArray(Point *a, int size);
 	void		debugMatrix(void);

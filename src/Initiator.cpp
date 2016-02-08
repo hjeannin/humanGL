@@ -46,7 +46,9 @@ Initiator::initData(void)
 	rotate[0] = 0.0f;
 	rotate[1] = 0.0f;
 	rotate[2] = 0.0f;
-	scale = 0.2f;
+	scale[0] = 0.2f;
+	scale[1] = 0.2f;
+	scale[2] = 0.2f;
 }
 
 void
@@ -179,6 +181,82 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 }
 
 void
+Initiator::generateCube(void)
+{
+	this->vertices_num_elem = 4 * 8 + 4 * 3;
+	this->faces_num_elem = 36 + 3;
+	this->vertices_array = new Point[this->vertices_num_elem];
+	this->faces_array = new GLuint[faces_num_elem];
+	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
+	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
+
+	this->vertices_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
+	this->vertices_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
+	this->vertices_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
+	this->vertices_array[3] = {-0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
+	this->vertices_array[4] = {-0.5f, 0.5f, -0.5f, 255, 255, 0, 0};
+	this->vertices_array[5] = {0.5f, 0.5f, -0.5f, 255, 0, 255, 0};
+	this->vertices_array[6] = {0.5f, -0.5f, -0.5f, 0, 255, 255, 0};
+	this->vertices_array[7] = {-0.5f, -0.5f, -0.5f, 0, 255, 0, 0};
+	
+	this->vertices_array[8] = {-0.8f, -0.5f, -0.5f, 0, 255, 0, 0};
+	this->vertices_array[9] = {-0.8f, -0.8f, -0.5f, 0, 255, 0, 0};
+	this->vertices_array[10] = {-0.8f, -0.5f, -0.8f, 0, 255, 0, 0};
+
+	this->faces_array[0] = 0;
+	this->faces_array[1] = 1;
+	this->faces_array[2] = 3;
+
+	this->faces_array[3] = 1;
+	this->faces_array[4] = 2;
+	this->faces_array[5] = 3;
+	
+	this->faces_array[6] = 4;
+	this->faces_array[7] = 5;
+	this->faces_array[8] = 7;
+	
+	this->faces_array[9] = 5;
+	this->faces_array[10] = 6;
+	this->faces_array[11] = 7;
+	
+	this->faces_array[12] = 1;
+	this->faces_array[13] = 5;
+	this->faces_array[14] = 2;
+	
+	this->faces_array[15] = 5;
+	this->faces_array[16] = 6;
+	this->faces_array[17] = 2;
+	
+	this->faces_array[18] = 0;
+	this->faces_array[19] = 4;
+	this->faces_array[20] = 3;
+	
+	this->faces_array[21] = 4;
+	this->faces_array[22] = 7;
+	this->faces_array[23] = 3;
+	
+	this->faces_array[24] = 0;
+	this->faces_array[25] = 4;
+	this->faces_array[26] = 1;
+	
+	this->faces_array[27] = 4;
+	this->faces_array[28] = 5;
+	this->faces_array[29] = 1;
+	
+	this->faces_array[30] = 3;
+	this->faces_array[31] = 7;
+	this->faces_array[32] = 2;
+	
+	this->faces_array[33] = 7;
+	this->faces_array[34] = 6;
+	this->faces_array[35] = 2;
+
+	this->faces_array[36] = 8;
+	this->faces_array[37] = 9;
+	this->faces_array[38] = 10;
+}
+
+void
 Initiator::LoadModel(Point *model_vertices_array, GLuint *model_faces_array)
 {	
 	glGenVertexArrays(1, &this->vao);
@@ -197,56 +275,14 @@ Initiator::LoadModel(Point *model_vertices_array, GLuint *model_faces_array)
 void
 Initiator::createImage(void)
 {
-	generateSphere(64, 0, 123, 255);
+	generateCube();
+	// generateSphere(64, 0, 123, 255);
 	// generateRandomModel();
 
 	LoadModel(this->vertices_array, this->faces_array);
-	
+
 	delete (this->vertices_array);
 	delete (this->faces_array);
-}
-
-void
-Initiator::createCBImage(void)
-{
-	// remove hiden triangles (but need triangle normal)
-	// glEnable(GL_CULL_FACE);
-	// COLORED CUBE
-	this->vertices_num_elem = 4 * 8;
-	this->faces_num_elem = 36;
-	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
-	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
-
-	Point		cube_array[8] = 
-	{
-		{-0.5f, 0.5f, 0.5f, 123, 123, 123, 0},
-		{0.5f, 0.5f, 0.5f, 255, 0, 0, 0},
-		{0.5f, -0.5f, 0.5f, 255, 255, 255, 0},
-		{-0.5f, -0.5f, 0.5f, 0, 0, 255, 0},
-		{-0.5f, 0.5f, -0.5f, 255, 255, 0, 0},
-		{0.5f, 0.5f, -0.5f, 255, 0, 255, 0},
-		{0.5f, -0.5f, -0.5f, 0, 255, 255, 0},
-		{-0.5f, -0.5f, -0.5f, 0, 255, 0, 0},
-	};
-
-	GLuint			cube_faces_array[36] =
-	{
-		0, 1, 3,
-		1, 2, 3,
-		4, 5, 7,
-		5, 6, 7,
-		1, 5, 2,
-		5, 6, 2,
-		0, 4, 3,
-		4, 7, 3,
-		0, 4, 1,
-		4, 5, 1,
-		3, 7, 2,
-		7, 6, 2
-	};
-//	printPointArray(cube_array, 8);
-
-	LoadModel(cube_array, cube_faces_array);
 }
 
 bool
@@ -257,7 +293,9 @@ Initiator::drawImage(void)
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
 	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->model_matrix.val);
-	glDrawElements(GL_TRIANGLES, this->faces_mem_size, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, this->faces_num_elem - 3, GL_UNSIGNED_INT, 0);
+	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->object1_matrix.val);
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(36 * sizeof(GLuint)));
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
@@ -310,10 +348,58 @@ Initiator::setViewMatrix(void)
 void
 Initiator::setModelMatrix(void)
 {
+	object1_matrix.setIdentity();
 	model_matrix.setIdentity();
 	model_matrix.translate(translate[0], translate[1], translate[2]);
 	model_matrix.rotate(rotate[0], rotate[1], rotate[2]);
-	model_matrix.scale(scale, scale, scale);
+	model_matrix.scale(scale[0], scale[1], scale[2]);
+}
+
+/////////////////////
+//  DEBUG AND TEST //
+/////////////////////
+
+void
+Initiator::createCubeImage(void)
+{
+	// remove hiden triangles (but need triangle normal)
+	// glEnable(GL_CULL_FACE);
+	// COLORED CUBE
+	this->vertices_num_elem = 4 * 8;
+	this->faces_num_elem = 36;
+	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
+	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
+
+	Point		cube_array[8] = 
+	{
+		{-0.5f, 0.5f, 0.5f, 123, 123, 123, 0},
+		{0.5f, 0.5f, 0.5f, 255, 0, 0, 0},
+		{0.5f, -0.5f, 0.5f, 255, 255, 255, 0},
+		{-0.5f, -0.5f, 0.5f, 0, 0, 255, 0},
+		{-0.5f, 0.5f, -0.5f, 255, 255, 0, 0},
+		{0.5f, 0.5f, -0.5f, 255, 0, 255, 0},
+		{0.5f, -0.5f, -0.5f, 0, 255, 255, 0},
+		{-0.5f, -0.5f, -0.5f, 0, 255, 0, 0},
+	};
+
+	GLuint			cube_faces_array[36] =
+	{
+		0, 1, 3,
+		1, 2, 3,
+		4, 5, 7,
+		5, 6, 7,
+		1, 5, 2,
+		5, 6, 2,
+		0, 4, 3,
+		4, 7, 3,
+		0, 4, 1,
+		4, 5, 1,
+		3, 7, 2,
+		7, 6, 2
+	};
+//	printPointArray(cube_array, 8);
+
+	LoadModel(cube_array, cube_faces_array);
 }
 
 void
