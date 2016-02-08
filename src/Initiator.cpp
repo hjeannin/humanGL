@@ -28,10 +28,10 @@ Initiator::initData(void)
 	vao = 0;
 	vbos[0] = 0;
 	vbos[1] = 0;
-	vertices_size = 0;
+	vertices_mem_size = 0;
 	vertices_num_elem = 0;
 	vertices_array = NULL;
-	faces_size = 0;
+	faces_mem_size = 0;
 	faces_num_elem = 0;
 	faces_array = NULL;
 	program = 0;
@@ -58,16 +58,6 @@ Initiator::genMatrices(void)
 }
 
 void
-Initiator::genShaders(void)
-{
-	this->shaders.load();
-	this->shaders.compile();
-	this->program = glCreateProgram();
-	this->shaders.linkProgram(&this->program);
-	checkGlError(__FILE__, __LINE__);
-}
-
-void
 Initiator::getLocations(void)
 {
 	this->position_loc = glGetAttribLocation(this->program, "position");
@@ -77,33 +67,21 @@ Initiator::getLocations(void)
 	this->model_loc = glGetUniformLocation(this->program, "model_matrix");
 }
 
+void
+Initiator::genShaders(void)
+{
+	this->shaders.load();
+	this->shaders.compile();
+	this->program = glCreateProgram();
+	this->shaders.linkProgram(&this->program);
+	getLocations();
+	checkGlError(__FILE__, __LINE__);
+}
+
 int
 Initiator::getStatus(void) const
 {
 	return this->_status;
-}
-
-void
-Initiator::printArray(GLuint *a, int size)
-{
-	for (int i = 0; i < size ; i++)
-	{
-		if (i % 3 == 0)
-			std::cout << std::endl;
-		std::cout << "[" << a[i] << "]";
-	}
-	std::cout << std::endl;
-}
-
-void
-Initiator::printPointArray(Point *a, int size)
-{
-	std::cout << std::endl << "N [X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
-	for (int i = 0; i < size ; i++)
-	{
-		std::cout << i << " [" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
-		<< (int)a[i].r << ", " << (int)a[i].g << ", " << (int)a[i].b << ", " << (int)a[i].a << "]" << std::endl;
-	}
 }
 
 void
@@ -121,6 +99,8 @@ Initiator::generateRandomModel(void)
 	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
+	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem * 4;
+	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
 
 	for (int i = 0; i < number_of_points ; i++)
 	{
@@ -156,10 +136,13 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 	float			color_decr = 0.1;
 	int				number_of_points = number_of_lines * nolk;
 	int				number_of_faces = (number_of_points * 2) - (number_of_lines * 2);
+
 	this->vertices_num_elem = number_of_points;
 	this->faces_num_elem = 3 * number_of_faces;
 	this->vertices_array = new Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
+	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem * 4;
+	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
 
 		// std::cout << "R : " << static_cast<int>(color_r) << " G : " << static_cast<int>(color_g) << " B : " << static_cast<int>(color_b) << std::endl;
 	for (int k = 0; k < nolk ; k++)
@@ -196,27 +179,29 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 }
 
 void
+Initiator::LoadModel(Point *model_vertices_array, GLuint *model_faces_array)
+{	
+	glGenVertexArrays(1, &this->vao);
+	glBindVertexArray(this->vao);
+	glGenBuffers(2, &this->vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, model_vertices_array, GL_STATIC_DRAW);
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
+	glEnableVertexAttribArray(this->position_loc);
+	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
+	glEnableVertexAttribArray(this->color_loc);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, model_faces_array, GL_STATIC_DRAW);
+}
+
+void
 Initiator::createImage(void)
 {
 	generateSphere(64, 0, 123, 255);
 	// generateRandomModel();
-	glGenVertexArrays(1, &this->vao);
-	glBindVertexArray(this->vao);
-	glGenBuffers(2, &this->vbos[0]);
-	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem * 4;
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, this->vertices_array,
-					GL_STATIC_DRAW);
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE,
-							sizeof(Point), reinterpret_cast<void*>(0));
-	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE,
-							sizeof(Point), reinterpret_cast<void*>(4 * 3));
-	glEnableVertexAttribArray(this->color_loc);
-	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, this->faces_array,
-					GL_STATIC_DRAW);
+
+	LoadModel(this->vertices_array, this->faces_array);
+	
 	delete (this->vertices_array);
 	delete (this->faces_array);
 }
@@ -229,6 +214,8 @@ Initiator::createCBImage(void)
 	// COLORED CUBE
 	this->vertices_num_elem = 4 * 8;
 	this->faces_num_elem = 36;
+	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
+	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
 
 	Point		cube_array[8] = 
 	{
@@ -242,7 +229,7 @@ Initiator::createCBImage(void)
 		{-0.5f, -0.5f, -0.5f, 0, 255, 0, 0},
 	};
 
-	int			cube_faces_array[36] =
+	GLuint			cube_faces_array[36] =
 	{
 		0, 1, 3,
 		1, 2, 3,
@@ -257,26 +244,9 @@ Initiator::createCBImage(void)
 		3, 7, 2,
 		7, 6, 2
 	};
-	printPointArray(cube_array, 8);
+//	printPointArray(cube_array, 8);
 
-	glGenVertexArrays(1, &this->vao);
-	glBindVertexArray(this->vao);
-	glGenBuffers(2, &this->vbos[0]);
-
-	this->vertices_size = sizeof(GLfloat) * this->vertices_num_elem;
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_size, cube_array,
-					GL_STATIC_DRAW);
-
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
-	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
-	glEnableVertexAttribArray(this->color_loc);
-
-	this->faces_size = sizeof(GLuint) * this->faces_num_elem;
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_size, cube_faces_array,
-					GL_STATIC_DRAW);	
+	LoadModel(cube_array, cube_faces_array);
 }
 
 bool
@@ -287,7 +257,7 @@ Initiator::drawImage(void)
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
 	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->model_matrix.val);
-	glDrawElements(GL_TRIANGLES, this->faces_size, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, this->faces_mem_size, GL_UNSIGNED_INT, 0);
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
@@ -333,13 +303,8 @@ Initiator::setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp)
 void
 Initiator::setViewMatrix(void)
 {
-	GLfloat		r1 = 0.0f;
-	GLfloat		r2 = 1.0f;
-	GLfloat		r3 = 0.0f;
-
 	view_matrix.setIdentity();
 	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2] - 1.0f);
-	view_matrix.rotate(0.0f, r1, r2, r3);
 }
 
 void
@@ -362,6 +327,29 @@ Initiator::debugMatrix(void)
 	std::cout << "view" << std::endl << this->view_matrix << std::endl;
 	std::cout << "model" << std::endl << this->model_matrix << std::endl;
 	std::cout << "all" << std::endl << all << std::endl;
+}
+
+void
+Initiator::printArray(GLuint *a, int size)
+{
+	for (int i = 0; i < size ; i++)
+	{
+		if (i % 3 == 0)
+			std::cout << std::endl;
+		std::cout << "[" << a[i] << "]";
+	}
+	std::cout << std::endl;
+}
+
+void
+Initiator::printPointArray(Point *a, int size)
+{
+	std::cout << std::endl << "N [X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
+	for (int i = 0; i < size ; i++)
+	{
+		std::cout << i << " [" << a[i].x << ", " << a[i].y << ", " << a[i].z << ": "
+		<< (int)a[i].r << ", " << (int)a[i].g << ", " << (int)a[i].b << ", " << (int)a[i].a << "]" << std::endl;
+	}
 }
 
 Initiator

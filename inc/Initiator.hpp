@@ -30,10 +30,10 @@ public:
 	GLFWwindow		*window;
 	GLuint			vao;
 	GLuint			vbos[2];
-	int				vertices_size;
+	int				vertices_mem_size;
 	int				vertices_num_elem;
 	Point			*vertices_array;
-	int				faces_size;
+	int				faces_mem_size;
 	int				faces_num_elem;
 	GLuint			*faces_array;
 
@@ -67,10 +67,12 @@ public:
 	void		initData(void);
 
 	void		genMatrices(void);
-	void		genShaders(void);
 	void		getLocations(void);
+	void		genShaders(void);
 	void		generateRandomModel(void);
 	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
+
+	void		LoadModel(Point *model_vertices_array, GLuint *model_faces_array);
 	void		createCBImage(void);
 	void		createImage(void);
 	bool		drawImage(void);
@@ -78,14 +80,12 @@ public:
 	void		checkGlError(std::string file, int line);
 
 	int			getStatus(void) const;
-
-	void		printArray(GLuint *a, int size);
-	void		printPointArray(Point *a, int size);
-	
 	void		setProjMatrix(GLfloat fov, GLfloat near_cp, GLfloat far_cp);
 	void		setViewMatrix(void);
 	void		setModelMatrix(void);
 
+	void		printArray(GLuint *a, int size);
+	void		printPointArray(Point *a, int size);
 	void		debugMatrix(void);
 
 	Initiator	&operator=(Initiator const &rhs);
