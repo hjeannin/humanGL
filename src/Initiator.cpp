@@ -74,9 +74,7 @@ Initiator::getLocations(void)
 	this->color_loc = glGetAttribLocation(this->program, "color");
 	this->proj_loc = glGetUniformLocation(this->program, "proj_matrix");
 	this->view_loc = glGetUniformLocation(this->program, "view_matrix");
-	this->trans_loc = glGetUniformLocation(this->program, "trans_matrix");
-	this->rot_loc = glGetUniformLocation(this->program, "rot_matrix");
-	this->scale_loc = glGetUniformLocation(this->program, "scale_matrix");
+	this->model_loc = glGetUniformLocation(this->program, "model_matrix");
 }
 
 int
@@ -288,9 +286,7 @@ Initiator::drawImage(void)
 	glUseProgram(this->program);
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
-	glUniformMatrix4fv(this->trans_loc, 1, GL_FALSE, this->trans_matrix.val);
-	glUniformMatrix4fv(this->rot_loc, 1, GL_FALSE, this->rot_matrix.val);
-	glUniformMatrix4fv(this->scale_loc, 1, GL_FALSE, this->scale_matrix.val);
+	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->model_matrix.val);
 	glDrawElements(GL_TRIANGLES, this->faces_size, GL_UNSIGNED_INT, 0);
 	checkGlError(__FILE__, __LINE__);
     return (true);
@@ -340,6 +336,7 @@ Initiator::setViewMatrix(void)
 	GLfloat		r1 = 0.0f;
 	GLfloat		r2 = 1.0f;
 	GLfloat		r3 = 0.0f;
+
 	view_matrix.setIdentity();
 	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2] - 1.0f);
 	view_matrix.rotate(0.0f, r1, r2, r3);
@@ -348,34 +345,10 @@ Initiator::setViewMatrix(void)
 void
 Initiator::setModelMatrix(void)
 {
-	trans_matrix.setIdentity();
-	trans_matrix.translate(translate[0], translate[1], translate[2]);
-	
-	rot_matrix.setIdentity();
-	// rot_matrix.rotate(20, 1, 0, 0);
-	Mat4<GLfloat>	tempx;
-	Mat4<GLfloat>	tempy;	
-	Mat4<GLfloat>	tempz;
-
-	tempx.set(5, cos(rotate[0]));
-	tempx.set(6, sin(rotate[0]));
-	tempx.set(9, -sin(rotate[0]));
-	tempx.set(10, cos(rotate[0]));
-
-	tempy.set(0, cos(rotate[1]));
-	tempy.set(2, -sin(rotate[1]));
-	tempy.set(8, sin(rotate[1]));
-	tempy.set(10, cos(rotate[1]));
-
-	tempz.set(0, cos(rotate[2]));
-	tempz.set(1, sin(rotate[2]));
-	tempz.set(4, -sin(rotate[2]));
-	tempz.set(5, cos(rotate[2]));
-
-	rot_matrix = tempz * tempy * tempx;
-
-	scale_matrix.setIdentity();
-	scale_matrix.scale(this->scale, this->scale, this->scale);
+	model_matrix.setIdentity();
+	model_matrix.translate(translate[0], translate[1], translate[2]);
+	model_matrix.rotate(rotate[0], rotate[1], rotate[2]);
+	model_matrix.scale(scale, scale, scale);
 }
 
 void
@@ -383,13 +356,11 @@ Initiator::debugMatrix(void)
 {
 	Mat4<GLfloat>		all;
 
-	all = proj_matrix * view_matrix * trans_matrix * rot_matrix * scale_matrix;
+	all = proj_matrix * view_matrix * model_matrix;
 	std::cout << "-----------------------" << std::endl;
 	std::cout << "proj" << std::endl << this->proj_matrix << std::endl;
 	std::cout << "view" << std::endl << this->view_matrix << std::endl;
-	std::cout << "trans" << std::endl << this->trans_matrix << std::endl;
-	std::cout << "rot" << std::endl << this->rot_matrix << std::endl;
-	std::cout << "scale" << std::endl << this->scale_matrix << std::endl;
+	std::cout << "model" << std::endl << this->model_matrix << std::endl;
 	std::cout << "all" << std::endl << all << std::endl;
 }
 

@@ -181,6 +181,40 @@ public:
 	}
 
 	void
+	setRotation(GLfloat r_x, GLfloat r_y, GLfloat r_z)
+	{
+		Mat4<GLfloat>	tempx;
+		Mat4<GLfloat>	tempy;
+		Mat4<GLfloat>	tempz;
+
+		tempx.set(5, cos(r_x));
+		tempx.set(6, sin(r_x));
+		tempx.set(9, -sin(r_x));
+		tempx.set(10, cos(r_x));
+
+		tempy.set(0, cos(r_y));
+		tempy.set(2, -sin(r_y));
+		tempy.set(8, sin(r_y));
+		tempy.set(10, cos(r_y));
+
+		tempz.set(0, cos(r_z));
+		tempz.set(1, sin(r_z));
+		tempz.set(4, -sin(r_z));
+		tempz.set(5, cos(r_z));
+		
+		*this = tempz * tempy * tempx;
+	}
+
+	void
+	rotate(GLfloat r_x, GLfloat r_y, GLfloat r_z)
+	{
+		Mat4<TYPE>		rotation;
+
+		rotation.setRotation(r_x, r_y, r_z);
+		*this = *this * rotation;		
+	}
+
+	void
 	rotate(float const &angle, TYPE &x, TYPE &y, TYPE &z)
 	{
 		Mat4<TYPE>		rotation;

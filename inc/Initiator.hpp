@@ -51,16 +51,12 @@ public:
 
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;
-	Mat4<GLfloat>	trans_matrix;
-	Mat4<GLfloat>	rot_matrix;
-	Mat4<GLfloat>	scale_matrix;
+	Mat4<GLfloat>	model_matrix;
 
 	GLuint			position_loc;
 	GLuint			proj_loc;
 	GLuint			view_loc;
-	GLuint			trans_loc;
-	GLuint			rot_loc;
-	GLuint			scale_loc;
+	GLuint			model_loc;
 	GLuint			color_loc;
 
 	Initiator(void);
