@@ -87,46 +87,9 @@ Initiator::getStatus(void) const
 }
 
 void
-Initiator::generateRandomModel(void)
-{
-	int			number_of_points = 16;
-	int			number_of_faces = number_of_points - 13;
-	GLfloat		float_multiply = 0.1f;
-	int			pouet = 7;
-	GLubyte		color_r = 0;
-	GLubyte		color_g = 123;
-	GLubyte		color_b = 255;
-
-	this->vertices_num_elem = 4 * number_of_points;
-	this->faces_num_elem = 3 * number_of_faces;
-	this->vertices_array = new Point[this->vertices_num_elem];
-	this->faces_array = new GLuint[this->faces_num_elem];
-	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem * 4;
-	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
-
-	for (int i = 0; i < number_of_points ; i++)
-	{
-		this->vertices_array[i] = {static_cast<GLfloat>(cos(float_multiply)),
-									static_cast<GLfloat>(cos(float_multiply)) + float_multiply,
-									static_cast<GLfloat>(sin(float_multiply)),
-									color_r, color_g, color_b, 0};
-		float_multiply += 0.1f;
-		color_r += 3;
-		color_g += 2;
-		color_b -= 1;
-	}
-
-	for (int j = 0; j < number_of_faces ; j += 3)
-	{
-		this->faces_array[j] = j + pouet; 
-		this->faces_array[j + 1] = j;
-		this->faces_array[j + 2] = j + pouet * 2;
-	}
-}
-
-void
 Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b)
 {
+	// TODO adapt to struct Model
 	int				number_of_lines = size;
 	int				nolk = number_of_lines + 1;
 	int				index = 0;
@@ -181,105 +144,111 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 }
 
 void
-Initiator::generateCube(void)
+Initiator::generateCube(Model *model)
 {
-	this->vertices_num_elem = 4 * 8 + 4 * 3;
-	this->faces_num_elem = 36 + 3;
-	this->vertices_array = new Point[this->vertices_num_elem];
-	this->faces_array = new GLuint[faces_num_elem];
-	this->vertices_mem_size = sizeof(GLfloat) * this->vertices_num_elem;
-	this->faces_mem_size = sizeof(GLuint) * this->faces_num_elem;
+	model->v_num_elem = 4 * 8;
+	model->f_num_elem = 36;
+	model->v_array = new Point[model->v_num_elem];
+	model->f_array = new GLuint[model->f_num_elem];
+	model->v_mem_size = sizeof(GLfloat) * model->v_num_elem;
+	model->f_mem_size = sizeof(GLuint) * model->f_num_elem;
 
-	this->vertices_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
-	this->vertices_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
-	this->vertices_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
-	this->vertices_array[3] = {-0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
-	this->vertices_array[4] = {-0.5f, 0.5f, -0.5f, 255, 255, 0, 0};
-	this->vertices_array[5] = {0.5f, 0.5f, -0.5f, 255, 0, 255, 0};
-	this->vertices_array[6] = {0.5f, -0.5f, -0.5f, 0, 255, 255, 0};
-	this->vertices_array[7] = {-0.5f, -0.5f, -0.5f, 0, 255, 0, 0};
-	
-	this->vertices_array[8] = {-0.8f, -0.5f, -0.5f, 0, 255, 0, 0};
-	this->vertices_array[9] = {-0.8f, -0.8f, -0.5f, 0, 255, 0, 0};
-	this->vertices_array[10] = {-0.8f, -0.5f, -0.8f, 0, 255, 0, 0};
+	model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
+	model->v_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
+	model->v_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
+	model->v_array[3] = {-0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
+	model->v_array[4] = {-0.5f, 0.5f, -0.5f, 255, 255, 0, 0};
+	model->v_array[5] = {0.5f, 0.5f, -0.5f, 255, 0, 255, 0};
+	model->v_array[6] = {0.5f, -0.5f, -0.5f, 0, 255, 255, 0};
+	model->v_array[7] = {-0.5f, -0.5f, -0.5f, 0, 255, 0, 0};
 
-	this->faces_array[0] = 0;
-	this->faces_array[1] = 1;
-	this->faces_array[2] = 3;
+	model->f_array[0] = 0;
+	model->f_array[1] = 1;
+	model->f_array[2] = 3;
 
-	this->faces_array[3] = 1;
-	this->faces_array[4] = 2;
-	this->faces_array[5] = 3;
+	model->f_array[3] = 1;
+	model->f_array[4] = 2;
+	model->f_array[5] = 3;
 	
-	this->faces_array[6] = 4;
-	this->faces_array[7] = 5;
-	this->faces_array[8] = 7;
+	model->f_array[6] = 4;
+	model->f_array[7] = 5;
+	model->f_array[8] = 7;
 	
-	this->faces_array[9] = 5;
-	this->faces_array[10] = 6;
-	this->faces_array[11] = 7;
+	model->f_array[9] = 5;
+	model->f_array[10] = 6;
+	model->f_array[11] = 7;
 	
-	this->faces_array[12] = 1;
-	this->faces_array[13] = 5;
-	this->faces_array[14] = 2;
+	model->f_array[12] = 1;
+	model->f_array[13] = 5;
+	model->f_array[14] = 2;
 	
-	this->faces_array[15] = 5;
-	this->faces_array[16] = 6;
-	this->faces_array[17] = 2;
+	model->f_array[15] = 5;
+	model->f_array[16] = 6;
+	model->f_array[17] = 2;
 	
-	this->faces_array[18] = 0;
-	this->faces_array[19] = 4;
-	this->faces_array[20] = 3;
+	model->f_array[18] = 0;
+	model->f_array[19] = 4;
+	model->f_array[20] = 3;
 	
-	this->faces_array[21] = 4;
-	this->faces_array[22] = 7;
-	this->faces_array[23] = 3;
+	model->f_array[21] = 4;
+	model->f_array[22] = 7;
+	model->f_array[23] = 3;
 	
-	this->faces_array[24] = 0;
-	this->faces_array[25] = 4;
-	this->faces_array[26] = 1;
+	model->f_array[24] = 0;
+	model->f_array[25] = 4;
+	model->f_array[26] = 1;
 	
-	this->faces_array[27] = 4;
-	this->faces_array[28] = 5;
-	this->faces_array[29] = 1;
+	model->f_array[27] = 4;
+	model->f_array[28] = 5;
+	model->f_array[29] = 1;
 	
-	this->faces_array[30] = 3;
-	this->faces_array[31] = 7;
-	this->faces_array[32] = 2;
+	model->f_array[30] = 3;
+	model->f_array[31] = 7;
+	model->f_array[32] = 2;
 	
-	this->faces_array[33] = 7;
-	this->faces_array[34] = 6;
-	this->faces_array[35] = 2;
-
-	this->faces_array[36] = 8;
-	this->faces_array[37] = 9;
-	this->faces_array[38] = 10;
+	model->f_array[33] = 7;
+	model->f_array[34] = 6;
+	model->f_array[35] = 2;
 }
 
 void
-Initiator::LoadModel(Point *model_vertices_array, GLuint *model_faces_array)
+Initiator::LoadModels(void)
 {	
+	// Need to Compile models in vertices and faces;
 	glGenVertexArrays(1, &this->vao);
 	glBindVertexArray(this->vao);
 	glGenBuffers(2, &this->vbos[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, model_vertices_array, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, this->vertices_array, GL_STATIC_DRAW);
 	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
 	glEnableVertexAttribArray(this->position_loc);
 	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
 	glEnableVertexAttribArray(this->color_loc);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, model_faces_array, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, this->faces_array, GL_STATIC_DRAW);
 }
+
+	// model->v_array = new Point[model->v_num_elem];
 
 void
 Initiator::createImage(void)
 {
-	generateCube();
-	// generateSphere(64, 0, 123, 255);
-	// generateRandomModel();
+	Model		*models;
 
-	LoadModel(this->vertices_array, this->faces_array);
+	models = new Model[2];
+	generateCube(&models[0]);
+
+	this->faces_mem_size = models[0].f_mem_size;
+
+	this->vertices_mem_size = models[0].v_mem_size;
+	this->vertices_num_elem = models[0].v_num_elem;
+	this->vertices_array = models[0].v_array;
+
+	this->faces_mem_size = models[0].f_mem_size;
+	this->faces_num_elem = models[0].f_num_elem;
+	this->faces_array = models[0].f_array;
+
+	LoadModels();
 
 	delete (this->vertices_array);
 	delete (this->faces_array);
@@ -293,9 +262,9 @@ Initiator::drawImage(void)
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
 	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->model_matrix.val);
-	glDrawElements(GL_TRIANGLES, this->faces_num_elem - 3, GL_UNSIGNED_INT, 0);
-	glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->object1_matrix.val);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(36 * sizeof(GLuint)));
+	glDrawElements(GL_TRIANGLES, this->faces_num_elem, GL_UNSIGNED_INT, 0);
+	// glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->object1_matrix.val);
+	// glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(36 * sizeof(GLuint)));
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
@@ -398,8 +367,17 @@ Initiator::createCubeImage(void)
 		7, 6, 2
 	};
 //	printPointArray(cube_array, 8);
-
-	LoadModel(cube_array, cube_faces_array);
+	glGenVertexArrays(1, &this->vao);
+	glBindVertexArray(this->vao);
+	glGenBuffers(2, &this->vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
+	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, cube_array, GL_STATIC_DRAW);
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
+	glEnableVertexAttribArray(this->position_loc);
+	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
+	glEnableVertexAttribArray(this->color_loc);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, cube_faces_array, GL_STATIC_DRAW);
 }
 
 void

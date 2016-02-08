@@ -27,6 +27,17 @@ public:
 		GLubyte		a;
 	};
 
+	struct Model
+	{
+		int				v_mem_size;
+		int				v_num_elem;
+		Point			*v_array;
+		int				f_mem_size;
+		int				f_num_elem;
+		GLuint			*f_array;
+		Mat4<GLfloat>	m_matrix;
+	};
+
 	GLFWwindow		*window;
 	GLuint			vao;
 	GLuint			vbos[2];
@@ -71,11 +82,10 @@ public:
 	void		genMatrices(void);
 	void		getLocations(void);
 	void		genShaders(void);
-	void		generateRandomModel(void);
 	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
-	void		generateCube(void);
+	void		generateCube(Model *model);
 
-	void		LoadModel(Point *model_vertices_array, GLuint *model_faces_array);
+	void		LoadModels(void);
 	void		createImage(void);
 	bool		drawImage(void);
 
