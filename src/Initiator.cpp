@@ -281,15 +281,15 @@ Initiator::createImage(void)
 	{
 		generateCube(&this->models[i], i);
 	}
-	this->models[0].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[0].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
 
-	this->models[1].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[1].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[1].m_matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
 	this->models[1].m_matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
 	this->models[1].m_matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
 
-	this->models[2].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[2].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[2].m_matrix.translate(1.5f, 0.0f, 0.0f);
 	this->models[2].m_matrix.rotate(60.0f, 1.0f, 1.0f, 1.0f);
 
