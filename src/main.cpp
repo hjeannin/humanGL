@@ -25,7 +25,7 @@ cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 		init->camera.vangle = 89;
 	if (init->camera.vangle < -89)
 		init->camera.vangle = -89;
-	init->camera.hangle -= ((xpos - init->res_x / 2) * init->camera.speed);
+	init->camera.hangle += ((xpos - init->res_x / 2) * init->camera.speed);
 	init->camera.hangle = fmod(init->camera.hangle, 360);
 	glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
 }

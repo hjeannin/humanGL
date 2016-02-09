@@ -51,17 +51,15 @@ Camera::set(void)
 	up.crossProduct(right, forward);
 	up.normalize();
 	setView();
-	translation.setTranslation(-pos.x, -pos.y, -pos.z);
+	translation.setTranslation(0.0f - pos.x, 0.0f - pos.y, 0.0f - pos.z);
 	view.multiply(translation);
-	std::cout << forward << std::endl;
-	std::cout << "angle: " << vangle << "  " << hangle << std::endl;
 }
 
 void
 Camera::init(void)
 {
 	speed = 0.1;
-	pos.set(0.0f, 0.0f, -1.0f);
+	pos.set(0.0f, 0.0f, 3.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);
 	forward.set(lookAt - pos);
 	forward.normalize();
@@ -106,7 +104,7 @@ Camera::rotate(void)
 	vr = vangle * M_PI / 180;
 	forward.set(cos(vr) * sin(hr),
 				sin(vr),
-				cos(vr) * cos (hr));
+				cos(vr) * cos(hr) * -1);
 	forward.normalize();
 	set();
 }
