@@ -146,6 +146,11 @@ int main()
 	// init glfw
 	initGlfw(init);
 
+	glEnable(GL_CULL_FACE);
+
+	// default is GL_CCW
+	glFrontFace(GL_CW);
+	
 	init.genMatrices();
 	init.genShaders();
 	init.createImage();

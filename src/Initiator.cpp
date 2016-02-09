@@ -158,15 +158,15 @@ Initiator::generateCube(Model *model, int rank)
 	model->m_matrix.setIdentity();
 
 	//////////////////////////////////////////////////////////////////
-	//                                                              //
-    //            2----3				^  Y			            //
-    //           /|   /|                |                 .------.  //
-    //         6----7  |                |                /       |  //
-    //         |  0-|--1                |----->  X         .->   )  //
-    //         |/   | /                /                  |     /   //
-    //         4____5                 /                    \___/    //
-    //                              |,  Z                           //
-	//                                                              //
+	//                                           glFrontFace(GL_CW);//
+    //          4----5		        ^  Y	                     	//
+    //         /|   /|              |                     .------.  //
+    //       0----1  |              |                    /       |  //
+    //       |  7-|--6              |----->  X             .->   )  //
+    //       |/   | /              /                      |     /   //
+    //       3____2               /                        \___/    //
+    //                          |,  Z                               //
+	//                                           DEFAULT is GL_CCW  //
 	//////////////////////////////////////////////////////////////////
 
 	model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
@@ -180,50 +180,50 @@ Initiator::generateCube(Model *model, int rank)
 
 	model->f_array[0] = 0;
 	model->f_array[1] = 1;
-	model->f_array[2] = 3;
+	model->f_array[2] = 2;
 
-	model->f_array[3] = 1;
-	model->f_array[4] = 2;
-	model->f_array[5] = 3;
+	model->f_array[3] = 2;
+	model->f_array[4] = 3;
+	model->f_array[5] = 0;
 	
-	model->f_array[6] = 4;
+	model->f_array[6] = 1;
 	model->f_array[7] = 5;
-	model->f_array[8] = 7;
+	model->f_array[8] = 6;
 	
-	model->f_array[9] = 5;
-	model->f_array[10] = 6;
-	model->f_array[11] = 7;
+	model->f_array[9] = 6;
+	model->f_array[10] = 2;
+	model->f_array[11] = 1;
 	
-	model->f_array[12] = 1;
-	model->f_array[13] = 5;
-	model->f_array[14] = 2;
+	model->f_array[12] = 5;
+	model->f_array[13] = 6;
+	model->f_array[14] = 7;
 	
-	model->f_array[15] = 5;
-	model->f_array[16] = 6;
-	model->f_array[17] = 2;
+	model->f_array[15] = 7;
+	model->f_array[16] = 4;
+	model->f_array[17] = 5;
 	
-	model->f_array[18] = 0;
-	model->f_array[19] = 4;
+	model->f_array[18] = 4;
+	model->f_array[19] = 0;
 	model->f_array[20] = 3;
 	
-	model->f_array[21] = 4;
+	model->f_array[21] = 3;
 	model->f_array[22] = 7;
-	model->f_array[23] = 3;
+	model->f_array[23] = 4;
 	
-	model->f_array[24] = 0;
-	model->f_array[25] = 4;
+	model->f_array[24] = 4;
+	model->f_array[25] = 5;
 	model->f_array[26] = 1;
 	
-	model->f_array[27] = 4;
-	model->f_array[28] = 5;
-	model->f_array[29] = 1;
+	model->f_array[27] = 1;
+	model->f_array[28] = 0;
+	model->f_array[29] = 4;
 	
-	model->f_array[30] = 3;
-	model->f_array[31] = 7;
-	model->f_array[32] = 2;
+	model->f_array[30] = 2;
+	model->f_array[31] = 6;
+	model->f_array[32] = 7;
 	
 	model->f_array[33] = 7;
-	model->f_array[34] = 6;
+	model->f_array[34] = 3;
 	model->f_array[35] = 2;
 
 	model->num_faces_before = rank * 36;
@@ -285,7 +285,7 @@ Initiator::ConbineModels(void)
 void
 Initiator::createImage(void)
 {
-	this->model_count = 4;
+	this->model_count = 2;
 	this->models = new Model[model_count];
 
 	for (int i = 0; i < this->model_count; i++)
@@ -294,9 +294,7 @@ Initiator::createImage(void)
 	}
 	this->models[0].m_matrix.scale(1.0f, 0.2f, 0.5f);
 	this->models[1].m_matrix.scale(0.3f, 0.8f, 0.5f);
-	this->models[2].m_matrix.scale(1.0f, 0.5f, 0.5f);
-	this->models[2].m_matrix.rotate(0.2f, 0, 0);	
-	this->models[3].m_matrix.scale(1.0f, 0.5f, 0.5f);
+	this->models[1].m_matrix.rotate(0.3f, 0.8f, 0.5f);
 
 	ConbineModels();
 
@@ -320,8 +318,6 @@ Initiator::drawImage(void)
 		glDrawElements(GL_TRIANGLES, this->models[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(this->models[i].num_faces_before * sizeof(GLuint)));
 	}
-	// glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->object1_matrix.val);
-	// glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(36 * sizeof(GLuint)));
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
