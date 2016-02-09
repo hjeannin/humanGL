@@ -6,6 +6,10 @@
 
 class Camera
 {
+private:
+	void					setView(void);
+	void					set(void);
+
 public:
 	Camera(void);
 	~Camera(void);
@@ -26,10 +30,6 @@ public:
 	void					strafeRight(void);
 	void					strafeLeft(void);
 	void					rotate(void);
-
-private:
-	void					set(void);
-	void					setView(void);
 };
 
 #endif

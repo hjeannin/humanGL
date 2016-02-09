@@ -10,7 +10,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	(void)scancode;
 	(void)mods;
 	(void)init;
-	
+		
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 }
