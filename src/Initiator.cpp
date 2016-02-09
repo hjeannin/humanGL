@@ -157,6 +157,18 @@ Initiator::generateCube(Model *model, int rank)
 
 	model->m_matrix.setIdentity();
 
+	//////////////////////////////////////////////////////////////////
+	//                                                              //
+    //            2----3				^  Y			            //
+    //           /|   /|                |                 .------.  //
+    //         6----7  |                |                /       |  //
+    //         |  0-|--1                |----->  X         .->   )  //
+    //         |/   | /                /                  |     /   //
+    //         4____5                 /                    \___/    //
+    //                              |,  Z                           //
+	//                                                              //
+	//////////////////////////////////////////////////////////////////
+
 	model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
 	model->v_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
 	model->v_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
@@ -283,7 +295,7 @@ Initiator::createImage(void)
 	this->models[0].m_matrix.scale(1.0f, 0.2f, 0.5f);
 	this->models[1].m_matrix.scale(0.3f, 0.8f, 0.5f);
 	this->models[2].m_matrix.scale(1.0f, 0.5f, 0.5f);
-	this->models[2].m_matrix.rotate(0.2f, 0, 0);
+	this->models[2].m_matrix.rotate(0.2f, 0, 0);	
 	this->models[3].m_matrix.scale(1.0f, 0.5f, 0.5f);
 
 	ConbineModels();
