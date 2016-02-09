@@ -58,8 +58,8 @@ Camera::set(void)
 void
 Camera::init(void)
 {
-	speed = 0.3;
-	pos.set(0.0f, 5.0f, 15.0f);
+	speed = 0.1;
+	pos.set(0.0f, 0.0f, -1.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);
 	forward.set(lookAt - pos);
 	forward.normalize();

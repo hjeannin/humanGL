@@ -39,9 +39,7 @@ Initiator::initData(void)
 	program = 0;
 	res_x = 1920;
 	res_y = 1080;
-	cam_pos[0] = 0.0f;
-	cam_pos[1] = 0.0f;
-	cam_pos[2] = -1.0f;
+	camera.init();
 }
 
 void
@@ -276,16 +274,24 @@ Initiator::ConbineModels(void)
 void
 Initiator::createImage(void)
 {
-	this->model_count = 2;
+	this->model_count = 3;
 	this->models = new Model[model_count];
 
 	for (int i = 0; i < this->model_count; i++)
 	{
 		generateCube(&this->models[i], i);
 	}
-	this->models[0].m_matrix.scale(1.0f, 0.2f, 0.5f);
+	this->models[0].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
+
 	this->models[1].m_matrix.scale(0.5f, 0.5f, 0.5f);
-	this->models[1].m_matrix.rotate(45.0f, 1.0f, 1.0f, 1.0f);
+	this->models[1].m_matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
+	this->models[1].m_matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
+	this->models[1].m_matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
+
+	this->models[2].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[2].m_matrix.translate(1.5f, 0.0f, 0.0f);
+	this->models[2].m_matrix.rotate(60.0f, 1.0f, 1.0f, 1.0f);
 
 	ConbineModels();
 
@@ -301,7 +307,7 @@ Initiator::drawImage(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(this->program);
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
-	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->view_matrix.val);
+	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->camera.view.val);
 
 	for (int i = 0; i < this->model_count; i++)
 	{
@@ -355,7 +361,6 @@ void
 Initiator::setViewMatrix(void)
 {
 	view_matrix.setIdentity();
-	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2]);
 }
 
 void

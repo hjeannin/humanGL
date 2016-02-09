@@ -11,6 +11,7 @@
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
+# include "Camera.hpp"
 
 class Initiator
 {
@@ -44,6 +45,7 @@ public:
 	};
 
 	GLFWwindow		*window;
+	Camera			camera;
 	GLuint			vao;
 	GLuint			vbos[2];
 	Model			*models;
@@ -60,8 +62,6 @@ public:
 
 	GLuint			res_x;
 	GLuint			res_y;
-
-	GLfloat			cam_pos[3];
 
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;

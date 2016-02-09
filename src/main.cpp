@@ -5,31 +5,14 @@
 static void
 keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-	# define		KEY_USED		(action == GLFW_REPEAT || action == GLFW_PRESS)
-	GLfloat			power = 0.2f;
 	Initiator 		*init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
 
 	(void)scancode;
 	(void)mods;
-
+	(void)init;
+	
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	
-	if (key == GLFW_KEY_UP && KEY_USED)
-		init->cam_pos[2] -= power;
-	if (key == GLFW_KEY_DOWN && KEY_USED)
-		init->cam_pos[2] += power;
-	if (key == GLFW_KEY_RIGHT && KEY_USED)
-		init->cam_pos[0] += power;
-	if (key == GLFW_KEY_LEFT && KEY_USED)
-		init->cam_pos[0] -= power;
-	if (key == GLFW_KEY_PAGE_UP && KEY_USED)
-		init->cam_pos[1] += power;
-	if (key == GLFW_KEY_PAGE_DOWN && KEY_USED)
-		init->cam_pos[1] -= power;
-
-	init->setViewMatrix();
-	// init->debugMatrix();
 }
 
 static void
@@ -37,9 +20,14 @@ cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
 	
-	(void)init;
-	(void)xpos;
-	(void)ypos;
+	init->camera.vangle -= ((ypos - init->res_y / 2) * 0.05);
+	if (init->camera.vangle > 89)
+		init->camera.vangle = 89;
+	if (init->camera.vangle < -89)
+		init->camera.vangle = -89;
+	init->camera.hangle -= ((xpos - init->res_x / 2) * 0.05);
+	init->camera.hangle = fmod(init->camera.hangle, 360);
+	glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
 }
 
 #ifndef __APPLE__
@@ -85,6 +73,7 @@ initGlfw(Initiator &init)
 	glfwSwapInterval(1); // VSYNC 60 fps max
 	glfwSetKeyCallback(init.window, keyCallback);
 	glfwSetCursorPosCallback(init.window, cursorPosCallback);
+	glfwSetInputMode(init.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 #ifndef __APPLE__
@@ -97,6 +86,20 @@ initGlfw(Initiator &init)
 	}
 #endif
 	return (1);
+}
+
+void
+updateCamera(Initiator &init)
+{
+	init.camera.rotate();
+	if (glfwGetKey(init.window, GLFW_KEY_W) == GLFW_PRESS)
+		init.camera.moveForward();
+	if (glfwGetKey(init.window, GLFW_KEY_S) == GLFW_PRESS)
+		init.camera.moveBackward();
+	if (glfwGetKey(init.window, GLFW_KEY_A) == GLFW_PRESS)
+		init.camera.strafeLeft();
+	if (glfwGetKey(init.window, GLFW_KEY_D) == GLFW_PRESS)
+		init.camera.strafeRight();
 }
 
 int main()
@@ -126,6 +129,7 @@ int main()
 	{
 		currentTime = glfwGetTime();
 		frames += 1.0;
+		updateCamera(init);
 		init.drawImage();
 		glfwSwapBuffers(init.window);
 		glfwPollEvents();
@@ -137,5 +141,5 @@ int main()
 		}
 	}
 
-    return 0;
+	return 0;
 }

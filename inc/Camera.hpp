@@ -20,14 +20,16 @@ public:
 	float					hangle; //horizontal camera angle
 	float					vangle; //vertical camera angle
 
-	void					set(void);
-	void					setView(void);
 	void					init(void);
 	void					moveForward(void);
 	void					moveBackward(void);
 	void					strafeRight(void);
 	void					strafeLeft(void);
 	void					rotate(void);
+
+private:
+	void					set(void);
+	void					setView(void);
 };
 
 #endif
