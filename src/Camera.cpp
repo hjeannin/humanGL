@@ -53,6 +53,8 @@ Camera::set(void)
 	setView();
 	translation.setTranslation(-pos.x, -pos.y, -pos.z);
 	view.multiply(translation);
+	std::cout << forward << std::endl;
+	std::cout << "angle: " << vangle << "  " << hangle << std::endl;
 }
 
 void
@@ -62,8 +64,6 @@ Camera::init(void)
 	pos.set(0.0f, 0.0f, -1.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);
 	forward.set(lookAt - pos);
-	forward.normalize();
-	std::cerr << forward << std::endl;
 	forward.normalize();
 	set();
 }
