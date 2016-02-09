@@ -151,17 +151,17 @@ public:
 	}
 
 	void
-	setRotation(float const &angle, TYPE &x,
-				TYPE &y, TYPE &z)
+	setRotation(float const &angle, TYPE const &tx, TYPE const &ty, TYPE const &tz)
 	{
+		TYPE		x, y, z;
 		TYPE		s = sin(angle);
 		TYPE		c = cos(angle);
 		TYPE		oc = 1.0 - c;
-		TYPE const	h = sqrt(x * x + y * y + z * z);
+		TYPE const	h = sqrt(tx * tx + ty * ty + tz * tz);
 
-		x /= h;
-		y /= h;
-		z /= h;
+		x = tx / h;
+		y = ty / h;
+		z = tz / h;
 		this->val[0] = oc * x * x + c;
 		this->val[1] = oc * x * y - z * s;
 		this->val[2] = oc * z * x + y * s;
@@ -181,41 +181,7 @@ public:
 	}
 
 	void
-	setRotation(GLfloat r_x, GLfloat r_y, GLfloat r_z)
-	{
-		Mat4<GLfloat>	tempx;
-		Mat4<GLfloat>	tempy;
-		Mat4<GLfloat>	tempz;
-
-		tempx.set(5, cos(r_x));
-		tempx.set(6, sin(r_x));
-		tempx.set(9, -sin(r_x));
-		tempx.set(10, cos(r_x));
-
-		tempy.set(0, cos(r_y));
-		tempy.set(2, -sin(r_y));
-		tempy.set(8, sin(r_y));
-		tempy.set(10, cos(r_y));
-
-		tempz.set(0, cos(r_z));
-		tempz.set(1, sin(r_z));
-		tempz.set(4, -sin(r_z));
-		tempz.set(5, cos(r_z));
-		
-		*this = tempz * tempy * tempx;
-	}
-
-	void
-	rotate(GLfloat r_x, GLfloat r_y, GLfloat r_z)
-	{
-		Mat4<TYPE>		rotation;
-
-		rotation.setRotation(r_x, r_y, r_z);
-		*this = *this * rotation;		
-	}
-
-	void
-	rotate(float const &angle, TYPE &x, TYPE &y, TYPE &z)
+	rotate(float const &angle, TYPE const &x, TYPE const &y, TYPE const &z)
 	{
 		Mat4<TYPE>		rotation;
 

@@ -41,16 +41,7 @@ Initiator::initData(void)
 	res_y = 1080;
 	cam_pos[0] = 0.0f;
 	cam_pos[1] = 0.0f;
-	cam_pos[2] = 0.0f;
-	translate[0] = 0.0f;
-	translate[1] = 0.0f;
-	translate[2] = 0.0f;
-	rotate[0] = 0.0f;
-	rotate[1] = 0.0f;
-	rotate[2] = 0.0f;
-	scale[0] = 0.2f;
-	scale[1] = 0.2f;
-	scale[2] = 0.2f;
+	cam_pos[2] = -1.0f;
 }
 
 void
@@ -293,8 +284,8 @@ Initiator::createImage(void)
 		generateCube(&this->models[i], i);
 	}
 	this->models[0].m_matrix.scale(1.0f, 0.2f, 0.5f);
-	this->models[1].m_matrix.scale(0.3f, 0.8f, 0.5f);
-	this->models[1].m_matrix.rotate(0.3f, 0.8f, 0.5f);
+	this->models[1].m_matrix.scale(0.5f, 0.5f, 0.5f);
+	this->models[1].m_matrix.rotate(45.0f, 1.0f, 1.0f, 1.0f);
 
 	ConbineModels();
 
@@ -364,16 +355,13 @@ void
 Initiator::setViewMatrix(void)
 {
 	view_matrix.setIdentity();
-	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2] - 1.0f);
+	view_matrix.translate(cam_pos[0], cam_pos[1], cam_pos[2]);
 }
 
 void
 Initiator::setModelMatrix(void)
 {
 	model_matrix.setIdentity();
-	model_matrix.translate(translate[0], translate[1], translate[2]);
-	model_matrix.rotate(rotate[0], rotate[1], rotate[2]);
-	model_matrix.scale(scale[0], scale[1], scale[2]);
 }
 
 /////////////////////

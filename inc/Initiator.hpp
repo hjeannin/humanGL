@@ -63,10 +63,6 @@ public:
 
 	GLfloat			cam_pos[3];
 
-	GLfloat			translate[3];
-	GLfloat			rotate[3];
-	GLfloat			scale[3];
-
 	Mat4<GLfloat>	proj_matrix;
 	Mat4<GLfloat>	view_matrix;
 	Mat4<GLfloat>	model_matrix;

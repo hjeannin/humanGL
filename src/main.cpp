@@ -15,45 +15,6 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	
-	if (key == GLFW_KEY_A && KEY_USED)
-		init->rotate[1] -= power;
-	if (key == GLFW_KEY_D && KEY_USED)
-		init->rotate[1] += power;
-	if (key == GLFW_KEY_S && KEY_USED)
-		init->rotate[0] += power;
-	if (key == GLFW_KEY_W && KEY_USED)
-		init->rotate[0] -= power;
-	if (key == GLFW_KEY_Q && KEY_USED)
-		init->rotate[2] -= power;
-	if (key == GLFW_KEY_E && KEY_USED)
-		init->rotate[2] += power;
-	
-	if (key == GLFW_KEY_EQUAL && KEY_USED)
-	{
-		init->scale[0] += power;
-		init->scale[1] += power;
-		init->scale[2] += power;
-	}
-	if (key == GLFW_KEY_MINUS && KEY_USED)
-	{
-		init->scale[0] -= power;
-		init->scale[1] -= power;
-		init->scale[2] -= power;
-	}
-	
-	if (key == GLFW_KEY_I && KEY_USED)
-		init->translate[2] -= power;
-	if (key == GLFW_KEY_K && KEY_USED)
-		init->translate[2] += power;
-	if (key == GLFW_KEY_L && KEY_USED)
-		init->translate[0] += power;
-	if (key == GLFW_KEY_J && KEY_USED)
-		init->translate[0] -= power;
-	if (key == GLFW_KEY_O && KEY_USED)
-		init->translate[1] += power;
-	if (key == GLFW_KEY_P && KEY_USED)
-		init->translate[1] -= power;
-
 	if (key == GLFW_KEY_UP && KEY_USED)
 		init->cam_pos[2] -= power;
 	if (key == GLFW_KEY_DOWN && KEY_USED)
@@ -67,7 +28,6 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_PAGE_DOWN && KEY_USED)
 		init->cam_pos[1] -= power;
 
-	init->setModelMatrix();
 	init->setViewMatrix();
 	// init->debugMatrix();
 }
@@ -146,10 +106,10 @@ int main()
 	// init glfw
 	initGlfw(init);
 
-	glEnable(GL_CULL_FACE);
+//	glEnable(GL_CULL_FACE);
 
 	// default is GL_CCW
-	glFrontFace(GL_CW);
+//	glFrontFace(GL_CW);
 	
 	init.genMatrices();
 	init.genShaders();
