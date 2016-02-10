@@ -73,6 +73,7 @@ public:
 	GLuint			model_loc;
 	GLuint			color_loc;
 
+
 	Initiator(void);
 	Initiator(int _status);
 	Initiator(Initiator const &src);

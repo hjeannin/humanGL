@@ -18,16 +18,26 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 static void
 cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	Initiator *init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
-	
-	init->camera.vangle -= ((ypos - init->res_y / 2) * init->camera.speed);
-	if (init->camera.vangle > 89)
-		init->camera.vangle = 89;
-	if (init->camera.vangle < -89)
-		init->camera.vangle = -89;
-	init->camera.hangle += ((xpos - init->res_x / 2) * init->camera.speed);
-	init->camera.hangle = fmod(init->camera.hangle, 360);
-	glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
+	Initiator	*init = static_cast<Initiator *>(glfwGetWindowUserPointer(window));
+
+	// std::cout << "x: " << xpos << std::endl;
+	// std::cout << "y: " << ypos << std::endl;
+	// lock mouse so it can set it a the center after X11 ready
+	if (xpos <= 300 && ypos <= 300)
+	{
+		glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
+	}
+	else
+	{
+		init->camera.vangle -= ((ypos - init->res_y / 2) * init->camera.speed);
+		if (init->camera.vangle > 89)
+			init->camera.vangle = 89;
+		if (init->camera.vangle < -89)
+			init->camera.vangle = -89;
+		init->camera.hangle += ((xpos - init->res_x / 2) * init->camera.speed);
+		init->camera.hangle = fmod(init->camera.hangle, 360);
+		glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
+	}
 }
 
 #ifndef __APPLE__
@@ -72,6 +82,7 @@ initGlfw(Initiator &init)
 	glfwMakeContextCurrent(init.window); // make the opengl context of the init.window current on the main thread
 	glfwSwapInterval(1); // VSYNC 60 fps max
 	glfwSetKeyCallback(init.window, keyCallback);
+	glfwSetCursorPosCallback(init.window, cursorPosCallback);
 	glfwSetInputMode(init.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //hide cursor
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -120,7 +131,6 @@ int main()
 
 	double		lastTime, currentTime;
 	double		frames;
-	bool		mouselock = false;
 
 	frames = 0.0;
 	lastTime = glfwGetTime();
@@ -132,15 +142,8 @@ int main()
 		init.drawImage();
 		glfwSwapBuffers(init.window);
 		glfwPollEvents();
-		if (currentTime - lastTime >= 0.1)
+		if (currentTime - lastTime >= 1.0)
 		{
-			if (mouselock == false)
-			{
-				// lock mouse so it can set it a the center after X11 ready
-				glfwSetCursorPosCallback(init.window, cursorPosCallback);
-				glfwSetCursorPos(init.window, init.res_x / 2, init.res_y / 2);
-				mouselock = true;
-			}
 			glfwSetWindowTitle(init.window, std::to_string(1000.0 / frames).c_str());
 			frames = 0.0;
 			lastTime += 1.0;

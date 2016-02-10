@@ -100,8 +100,10 @@ Camera::rotate(void)
 	float			hr;
 	float			vr;
 
-	hr = hangle * M_PI / 180;
-	vr = vangle * M_PI / 180;
+	// hr = hangle * M_PI / 180;
+	// vr = vangle * M_PI / 180;
+	std::cout << "h: " << hangle << std::endl;
+	std::cout << "v: " << vangle << std::endl;
 	forward.set(cos(vr) * sin(hr),
 				sin(vr),
 				cos(vr) * cos(hr) * -1);
