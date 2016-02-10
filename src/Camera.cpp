@@ -58,6 +58,8 @@ Camera::set(void)
 void
 Camera::init(void)
 {
+	hangle = 0.0f;
+	vangle = 0.0f;
 	speed = 0.1;
 	pos.set(0.0f, 0.0f, 3.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);

@@ -37,6 +37,7 @@ Initiator::initData(void)
 	faces_num_elem = 0;
 	faces_array = NULL;
 	program = 0;
+	human = NULL;
 	res_x = 1920;
 	res_y = 1080;
 	camera.init();
@@ -135,7 +136,7 @@ Initiator::generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte co
 }
 
 void
-Initiator::generateCube(Model *model, int rank)
+Initiator::generateCube(Model *model, int nfb, int nvb, int color)
 {
 	model->v_num_elem = 8;
 	model->f_num_elem = 36;
@@ -158,64 +159,83 @@ Initiator::generateCube(Model *model, int rank)
 	//                                           DEFAULT is GL_CCW  //
 	//////////////////////////////////////////////////////////////////
 
-	model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
-	model->v_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
-	model->v_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
-	model->v_array[3] = {-0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
-	model->v_array[4] = {-0.5f, 0.5f, -0.5f, 255, 255, 0, 0};
-	model->v_array[5] = {0.5f, 0.5f, -0.5f, 255, 0, 255, 0};
-	model->v_array[6] = {0.5f, -0.5f, -0.5f, 0, 255, 255, 0};
-	model->v_array[7] = {-0.5f, -0.5f, -0.5f, 0, 255, 0, 0};
+	if (color == 0x00000000)
+	{
+		model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
+		model->v_array[1] = {0.5f, 0.5f, 0.5f, 255, 0, 0, 0};
+		model->v_array[2] = {0.5f, -0.5f, 0.5f, 255, 255, 255, 0};
+		model->v_array[3] = {-0.5f, -0.5f, 0.5f, 0, 0, 255, 0};
+		model->v_array[4] = {-0.5f, 0.5f, -0.5f, 255, 255, 0, 0};
+		model->v_array[5] = {0.5f, 0.5f, -0.5f, 255, 0, 255, 0};
+		model->v_array[6] = {0.5f, -0.5f, -0.5f, 0, 255, 255, 0};
+		model->v_array[7] = {-0.5f, -0.5f, -0.5f, 0, 255, 0, 0};
+	}
+	else
+	{
+		GLubyte		a = (color >> 0) & 0xFF;
+		GLubyte		b = (color >> 8) & 0xFF;
+		GLubyte		g = (color >> 16) & 0xFF;
+		GLubyte		r = (color >> 24) & 0xFF;
+		model->v_array[0] = {-0.5f, 0.5f, 0.5f, r, g, b, a};
+		model->v_array[1] = {0.5f, 0.5f, 0.5f, r, g, b, a};
+		model->v_array[2] = {0.5f, -0.5f, 0.5f, r, g, b, a};
+		model->v_array[3] = {-0.5f, -0.5f, 0.5f, r, g, b, a};
+		model->v_array[4] = {-0.5f, 0.5f, -0.5f, r, g, b, a};
+		model->v_array[5] = {0.5f, 0.5f, -0.5f, r, g, b, a};
+		model->v_array[6] = {0.5f, -0.5f, -0.5f, r, g, b, a};
+		model->v_array[7] = {-0.5f, -0.5f, -0.5f, r, g, b, a};
+	}
 
-	model->f_array[0] = 0;
-	model->f_array[1] = 1;
-	model->f_array[2] = 2;
+	model->f_array[0] = nvb + 0;
+	model->f_array[1] = nvb + 1;
+	model->f_array[2] = nvb + 2;
 
-	model->f_array[3] = 2;
-	model->f_array[4] = 3;
-	model->f_array[5] = 0;
+	model->f_array[3] = nvb + 2;
+	model->f_array[4] = nvb + 3;
+	model->f_array[5] = nvb + 0;
 	
-	model->f_array[6] = 1;
-	model->f_array[7] = 5;
-	model->f_array[8] = 6;
+	model->f_array[6] = nvb + 1;
+	model->f_array[7] = nvb + 5;
+	model->f_array[8] = nvb + 6;
 	
-	model->f_array[9] = 6;
-	model->f_array[10] = 2;
-	model->f_array[11] = 1;
+	model->f_array[9] = nvb + 6;
+	model->f_array[10] = nvb + 2;
+	model->f_array[11] = nvb + 1;
 	
-	model->f_array[12] = 5;
-	model->f_array[13] = 6;
-	model->f_array[14] = 7;
+	model->f_array[12] = nvb + 5;
+	model->f_array[13] = nvb + 6;
+	model->f_array[14] = nvb + 7;
 	
-	model->f_array[15] = 7;
-	model->f_array[16] = 4;
-	model->f_array[17] = 5;
+	model->f_array[15] = nvb + 7;
+	model->f_array[16] = nvb + 4;
+	model->f_array[17] = nvb + 5;
 	
-	model->f_array[18] = 4;
-	model->f_array[19] = 0;
-	model->f_array[20] = 3;
+	model->f_array[18] = nvb + 4;
+	model->f_array[19] = nvb + 0;
+	model->f_array[20] = nvb + 3;
 	
-	model->f_array[21] = 3;
-	model->f_array[22] = 7;
-	model->f_array[23] = 4;
+	model->f_array[21] = nvb + 3;
+	model->f_array[22] = nvb + 7;
+	model->f_array[23] = nvb + 4;
 	
-	model->f_array[24] = 4;
-	model->f_array[25] = 5;
-	model->f_array[26] = 1;
+	model->f_array[24] = nvb + 4;
+	model->f_array[25] = nvb + 5;
+	model->f_array[26] = nvb + 1;
 	
-	model->f_array[27] = 1;
-	model->f_array[28] = 0;
-	model->f_array[29] = 4;
+	model->f_array[27] = nvb + 1;
+	model->f_array[28] = nvb + 0;
+	model->f_array[29] = nvb + 4;
 	
-	model->f_array[30] = 2;
-	model->f_array[31] = 6;
-	model->f_array[32] = 7;
+	model->f_array[30] = nvb + 2;
+	model->f_array[31] = nvb + 6;
+	model->f_array[32] = nvb + 7;
 	
-	model->f_array[33] = 7;
-	model->f_array[34] = 3;
-	model->f_array[35] = 2;
+	model->f_array[33] = nvb + 7;
+	model->f_array[34] = nvb + 3;
+	model->f_array[35] = nvb + 2;
 
-	model->num_faces_before = rank * 36;
+	model->num_faces_before = nfb;
+	model->num_vertices_before = nvb;
 	model->type = TYPE_CUBE;
 }
 
@@ -234,6 +254,8 @@ Initiator::LoadModels(void)
 	glEnableVertexAttribArray(this->color_loc);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, this->faces_array, GL_STATIC_DRAW);
+	delete (this->vertices_array);
+	delete (this->faces_array);
 }
 
 void
@@ -268,37 +290,41 @@ Initiator::ConbineModels(void)
 			f_index++;
 		}
 		delete (this->models[j].f_array);
-	}	
+	}
 }
 
 void
 Initiator::createImage(void)
 {
+	this->human = new Human;
+
 	this->model_count = 3;
 	this->models = new Model[model_count];
 
-	for (int i = 0; i < this->model_count; i++)
+	generateCube(&this->models[0], 0, 0, 0xaeFe1F00);
+	for (int i = 1; i < this->model_count; i++)
 	{
-		generateCube(&this->models[i], i);
+		generateCube(&this->models[i],
+			this->models[i - 1].f_num_elem + this->models[i -1].num_faces_before,
+			this->models[i - 1].v_num_elem + this->models[i -1].num_vertices_before);
 	}
 	this->models[0].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
+
+		// model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
 
 	this->models[1].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[1].m_matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
 	this->models[1].m_matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
 	this->models[1].m_matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
+	this->models[1].v_array->r = 0;
 
 	this->models[2].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	this->models[2].m_matrix.translate(1.5f, 0.0f, 0.0f);
 	this->models[2].m_matrix.rotate(60.0f, 1.0f, 1.0f, 1.0f);
-
+	
 	ConbineModels();
-
 	LoadModels();
-
-	delete (this->vertices_array);
-	delete (this->faces_array);
 }
 
 bool
@@ -315,6 +341,7 @@ Initiator::drawImage(void)
 		glDrawElements(GL_TRIANGLES, this->models[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(this->models[i].num_faces_before * sizeof(GLuint)));
 	}
+	this->models[1].m_matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }

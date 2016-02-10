@@ -2,7 +2,7 @@
 # define CAMERA_HPP
 
 # include "Mat4.hpp"
-# include "StackMat4.hpp"
+# include "Vec3.hpp"
 
 class Camera
 {

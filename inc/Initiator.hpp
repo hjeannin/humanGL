@@ -11,7 +11,9 @@
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
+# include "StackMat4.hpp"
 # include "Camera.hpp"
+# include "Human.hpp"
 
 class Initiator
 {
@@ -40,7 +42,8 @@ public:
 		int				f_num_elem;
 		GLuint			*f_array;
 		Mat4<GLfloat>	m_matrix;
-		GLuint			num_faces_before;
+		GLuint			num_faces_before = 0;
+		GLuint			num_vertices_before = 0;
 		int				type;		
 	};
 
@@ -59,6 +62,8 @@ public:
 
 	Shaders			shaders;
 	GLuint			program;
+
+	Human			*human;
 
 	GLuint			res_x;
 	GLuint			res_y;
@@ -85,7 +90,7 @@ public:
 	void		getLocations(void);
 	void		genShaders(void);
 	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
-	void		generateCube(Model *model, int rank);
+	void		generateCube(Model *model, int nfb, int nvb, int color = 0x00000000);
 
 	void		LoadModels(void);
 	void		ConbineModels(void);
