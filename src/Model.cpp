@@ -52,8 +52,9 @@ Model::buildPouet(void)
 	part[findIDIndex(BRC)].matrix.scale(2.0f, 2.0f, 2.0f);
 
 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
-
+	part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+
 }
 
 /*
@@ -103,16 +104,26 @@ Model::animate(void)
 {
 	if (frame < 600)
 	{
+		//anim
 		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
 		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+		//setup
+		//EMPTY
 
+		//anim
 		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
 		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+		
+		//setup
 		part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
 
+		//anim
 		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
 		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+		
+		//setup
 		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+		part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
 		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
 
 	}
