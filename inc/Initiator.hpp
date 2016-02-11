@@ -35,15 +35,15 @@ public:
 
 	struct Model
 	{
+		GLuint			num_vertices_before = 0;
+		GLuint			num_faces_before = 0;
+		Mat4<GLfloat>	m_matrix;
 		int				v_mem_size;
 		int				v_num_elem;
 		Point			*v_array;
 		int				f_mem_size;
 		int				f_num_elem;
 		GLuint			*f_array;
-		Mat4<GLfloat>	m_matrix;
-		GLuint			num_faces_before = 0;
-		GLuint			num_vertices_before = 0;
 		int				type;		
 	};
 
@@ -108,7 +108,6 @@ public:
 
 	void		printArray(GLuint *a, int size);
 	void		printPointArray(Point *a, int size);
-	void		debugMatrix(void);
 
 	Initiator	&operator=(Initiator const &rhs);
 };

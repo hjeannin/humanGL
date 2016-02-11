@@ -296,8 +296,6 @@ Initiator::ConbineModels(void)
 void
 Initiator::createImage(void)
 {
-	this->human = new Human;
-
 	this->model_count = 3;
 	this->models = new Model[model_count];
 
@@ -399,19 +397,6 @@ Initiator::setModelMatrix(void)
 /////////////////////
 //  DEBUG AND TEST //
 /////////////////////
-
-void
-Initiator::debugMatrix(void)
-{
-	Mat4<GLfloat>		all;
-
-	all = proj_matrix * view_matrix * model_matrix;
-	std::cout << "-----------------------" << std::endl;
-	std::cout << "proj" << std::endl << this->proj_matrix << std::endl;
-	std::cout << "view" << std::endl << this->view_matrix << std::endl;
-	std::cout << "model" << std::endl << this->model_matrix << std::endl;
-	std::cout << "all" << std::endl << all << std::endl;
-}
 
 void
 Initiator::printArray(GLuint *a, int size)
