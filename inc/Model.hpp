@@ -59,8 +59,8 @@ public:
 	GLuint		getPartCount(void) const;
 	
 	void		genCubes(void);
-	void		changePartColor(Part *current_part, GLuint color);
 	void		generateCube(Part *current_part, int nfb, int nvb);
+	void		changePartColor(GLuint id, GLuint color);
 	// void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
 
 };

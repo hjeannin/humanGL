@@ -37,24 +37,6 @@ Model::genCubes(void)
 }
 
 void
-Model::changePartColor(Part *current_part, GLuint color)
-{
-	GLubyte		a = (color >> 0) & 0xFF;
-	GLubyte		b = (color >> 8) & 0xFF;
-	GLubyte		g = (color >> 16) & 0xFF;
-	GLubyte		r = (color >> 24) & 0xFF;
-	// TODO not change vertices too.
-	current_part->v_array[0] = {-0.5f, 0.5f, 0.5f, r, g, b, a};
-	current_part->v_array[1] = {0.5f, 0.5f, 0.5f, r, g, b, a};
-	current_part->v_array[2] = {0.5f, -0.5f, 0.5f, r, g, b, a};
-	current_part->v_array[3] = {-0.5f, -0.5f, 0.5f, r, g, b, a};
-	current_part->v_array[4] = {-0.5f, 0.5f, -0.5f, r, g, b, a};
-	current_part->v_array[5] = {0.5f, 0.5f, -0.5f, r, g, b, a};
-	current_part->v_array[6] = {0.5f, -0.5f, -0.5f, r, g, b, a};
-	current_part->v_array[7] = {-0.5f, -0.5f, -0.5f, r, g, b, a};
-}
-
-void
 Model::generateCube(Part *current_part, int nfb, int nvb)
 {
 	current_part->num_faces_before = nfb;
@@ -136,6 +118,25 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 	current_part->f_array[33] = nvb + 7;
 	current_part->f_array[34] = nvb + 3;
 	current_part->f_array[35] = nvb + 2;
+}
+
+void
+Model::changePartColor(GLuint id, GLuint color)
+{
+	GLubyte		a = (color >> 0) & 0xFF;
+	GLubyte		b = (color >> 8) & 0xFF;
+	GLubyte		g = (color >> 16) & 0xFF;
+	GLubyte		r = (color >> 24) & 0xFF;
+
+	// TODO not change vertices too.
+	part[id].v_array[0] = {-0.5f, 0.5f, 0.5f, r, g, b, a};
+	part[id].v_array[1] = {0.5f, 0.5f, 0.5f, r, g, b, a};
+	part[id].v_array[2] = {0.5f, -0.5f, 0.5f, r, g, b, a};
+	part[id].v_array[3] = {-0.5f, -0.5f, 0.5f, r, g, b, a};
+	part[id].v_array[4] = {-0.5f, 0.5f, -0.5f, r, g, b, a};
+	part[id].v_array[5] = {0.5f, 0.5f, -0.5f, r, g, b, a};
+	part[id].v_array[6] = {0.5f, -0.5f, -0.5f, r, g, b, a};
+	part[id].v_array[7] = {-0.5f, -0.5f, -0.5f, r, g, b, a};
 }
 
 // void

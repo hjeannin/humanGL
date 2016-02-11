@@ -83,9 +83,18 @@ Initiator::createImage(void)
 	mod = new Model(3);	
 
 	mod->genCubes();
-	mod->changePartColor(0, 0x56eeFF00);
+	mod->changePartColor(1, 0x56eeFF00);
 	mod->part[0].matrix.scale(1.0f, 1.0f, 1.0f);
+	mod->part[0].matrix.translate(-1.5f, 0.0f, 0.0f);
 
+	mod->part[1].matrix.scale(1.0f, 1.0f, 1.0f);
+	mod->part[1].matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
+	mod->part[1].matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
+	mod->part[1].matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
+
+	mod->part[2].matrix.scale(1.0f, 1.0f, 1.0f);
+	mod->part[2].matrix.translate(1.5f, 0.0f, 0.0f);
+	
 	// this->models[0].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	// this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
 
@@ -136,8 +145,6 @@ Initiator::ConbineParts(Model::Part *part, GLuint part_count)
 			f_index++;
 		}
 	}
-	printPointArray(vertices_array, vertices_num_elem);
-	printArray(faces_array, faces_num_elem);
 }
 
 void
@@ -173,7 +180,7 @@ Initiator::drawModel(Model::Part *part, GLuint part_count)
 		glDrawElements(GL_TRIANGLES, part[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(part[i].num_faces_before * sizeof(GLuint)));
 	}
-	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
+	part[1].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
