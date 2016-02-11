@@ -25,6 +25,33 @@ Model::getPartCount(void) const
 }
 
 void
+Model::animate(void)
+{
+	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
+}
+
+void
+Model::buildHuman(void)
+{
+	changePartColor(1, 0x56eeFF00);
+	changePartColor(2, 0x3465FF00);
+	changePartColor(3, 0x68764600);
+	changePartColor(4, 0x99658100);
+	changePartColor(5, 0xad45ed00);
+
+	part[1].matrix.translate(-1.5f, 0.0f, 0.0f);
+
+	part[2].matrix.translate(1.5f, 0.0f, 0.0f);
+
+	part[3].matrix.translate(0.0f, -1.5f, 0.0f);
+
+	part[4].matrix.translate(0.0f, 1.5f, 0.0f);
+
+	part[5].matrix.translate(0.0f, 0.0f, -1.5f);
+
+}
+
+void
 Model::genCubes(void)
 {
 	generateCube(&part[0], 0, 0);

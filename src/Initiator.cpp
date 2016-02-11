@@ -80,36 +80,10 @@ Initiator::getStatus(void) const
 void
 Initiator::createImage(void)
 {
-	mod = new Model(3);	
+	mod = new Model(6);	
 
 	mod->genCubes();
-	mod->changePartColor(1, 0x56eeFF00);
-	mod->part[0].matrix.scale(1.0f, 1.0f, 1.0f);
-	mod->part[0].matrix.translate(-1.5f, 0.0f, 0.0f);
-
-	mod->part[1].matrix.scale(1.0f, 1.0f, 1.0f);
-	mod->part[1].matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
-	mod->part[1].matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
-	mod->part[1].matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
-
-	mod->part[2].matrix.scale(1.0f, 1.0f, 1.0f);
-	mod->part[2].matrix.translate(1.5f, 0.0f, 0.0f);
-	
-	// this->models[0].m_matrix.scale(1.0f, 1.0f, 1.0f);
-	// this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
-
-	// 	// model->v_array[0] = {-0.5f, 0.5f, 0.5f, 123, 123, 123, 0};
-
-	// this->models[1].m_matrix.scale(1.0f, 1.0f, 1.0f);
-	// this->models[1].m_matrix.rotate(60.0f, 0.0f, 0.0f, 1.0f);
-	// this->models[1].m_matrix.rotate(60.0f, 0.0f, 1.0f, 0.0f);
-	// this->models[1].m_matrix.rotate(60.0f, 1.0f, 0.0f, 0.0f);
-	// this->models[1].v_array->r = 0;
-
-	// this->models[2].m_matrix.scale(1.0f, 1.0f, 1.0f);
-	// this->models[2].m_matrix.translate(1.5f, 0.0f, 0.0f);
-	// this->models[2].m_matrix.rotate(60.0f, 1.0f, 1.0f, 1.0f);
-	
+	mod->buildHuman();
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
 }
@@ -180,7 +154,7 @@ Initiator::drawModel(Model::Part *part, GLuint part_count)
 		glDrawElements(GL_TRIANGLES, part[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(part[i].num_faces_before * sizeof(GLuint)));
 	}
-	part[1].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
+	mod->animate();
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }

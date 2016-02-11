@@ -58,6 +58,8 @@ public:
 
 	GLuint		getPartCount(void) const;
 	
+	void		buildHuman(void);
+	void		animate(void);
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);
 	void		changePartColor(GLuint id, GLuint color);
