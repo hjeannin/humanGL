@@ -26,6 +26,9 @@
 # define LEG_L_R	51
 # define LEG_L_F	52
 
+# define RED		345
+# define BLUE		346
+
 # include <glfw3.h>
 # include <iostream>
 # include <map>
@@ -71,6 +74,8 @@ public:
 	GLuint		getPartCount(void) const;
 	
 	void		setNeededPart(GLuint n);
+
+	void		buildPouet(void);
 
 	void		buildHuman(void);
 	void		fillHumanIDs(void);

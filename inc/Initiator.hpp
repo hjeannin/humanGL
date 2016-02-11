@@ -10,7 +10,6 @@
 # include "Mat4.hpp"
 # include "StackMat4.hpp"
 # include "Camera.hpp"
-# include "Human.hpp"
 # include "Model.hpp"
 
 class Initiator
@@ -35,7 +34,6 @@ public:
 	GLuint			program;
 
 	Model			*mod;
-	Human			*human;
 
 	GLuint			res_x;
 	GLuint			res_y;

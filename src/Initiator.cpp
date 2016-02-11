@@ -35,7 +35,6 @@ Initiator::initData(void)
 	faces_num_elem = 0;
 	faces_array = NULL;
 	program = 0;
-	human = NULL;
 	mod = NULL;
 	res_x = 1920;
 	res_y = 1080;
@@ -82,7 +81,7 @@ Initiator::createImage(void)
 {
 	mod = new Model();	
 
-	mod->buildHuman();
+	mod->buildPouet();
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
 }

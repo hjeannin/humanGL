@@ -28,9 +28,18 @@ Model::setNeededPart(GLuint n)
 }
 
 void
-Model::animate(void)
+Model::buildPouet(void)
 {
-	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
+	setNeededPart(2);
+	genCubes();
+	ids[RED] = 0;
+	ids[BLUE] = 1;
+	changePartColor(RED, 0xFF000000);
+	changePartColor(BLUE, 0x0000FF00);
+	// setupPart(RED)
+	part[findIDIndex(RED)].matrix.translate(1.0f, 0.0f, 0.0f);
+	part[findIDIndex(BLUE)].matrix.translate(-1.0f, 0.0f, 0.0f);
+
 }
 
 void
@@ -56,6 +65,7 @@ Model::buildHuman(void)
 
 	changePartColor(BODY, 0xad45ed00);
 	part[0].matrix.scale(2.0f, 3.0f, 1.0f);
+
 	changePartColor(HEAD, 0xFafafa00);
 	part[1].matrix.translate(0.0f, 2.0f, 0.0f);
 
@@ -141,6 +151,12 @@ Model::changePartColor(int id, GLuint color)
 		part[i].v_array[j].b = b;
 		part[i].v_array[j].a = a;
 	}
+}
+
+void
+Model::animate(void)
+{
+	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
 }
 
 void
