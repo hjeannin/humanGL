@@ -1,8 +1,21 @@
 #ifndef MODEL_HPP
 # define MODEL_HPP
 
+# if defined(__APPLE_CC__)
+#  ifndef GLFW_INCLUDE_GLCOREARB
+#   define GLFW_INCLUDE_GLCOREARB
+#  endif
+#  ifndef GLFW_INCLUDE_GLEXT
+#   define GLFW_INCLUDE_GLEXT
+#  endif
+# else
+#  define GL_GLEXT_PROTOTYPES
+# endif
+
 # define TYPE_CUBE		42
 # define TYPE_SPHERE	43
+
+# include <glfw3.h>
 
 # include "Mat4.hpp"
 
@@ -28,11 +41,11 @@ public:
 		Mat4<GLfloat>	matrix;
 		GLuint			num_vertices_before = 0;
 		GLuint			num_faces_before = 0;
-		int				v_mem_size;
-		int				v_num_elem;
+		GLuint			v_mem_size;
+		GLuint			v_num_elem;
 		Point			*v_array;
-		int				f_mem_size;
-		int				f_num_elem;
+		GLuint			f_mem_size;
+		GLuint			f_num_elem;
 		GLuint			*f_array;
 		int				type;		
 	};
@@ -42,11 +55,13 @@ public:
 	Model(void);
 	Model(GLuint part_count);
 	~Model(void);
+
+	GLuint		getPartCount(void) const;
 	
 	void		genCubes(void);
 	void		changePartColor(Part *current_part, GLuint color);
-	void		generateCube(Model *model, int nfb, int nvb);
-	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
+	void		generateCube(Part *current_part, int nfb, int nvb);
+	// void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
 
 };
 

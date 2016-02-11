@@ -139,7 +139,7 @@ int main()
 		currentTime = glfwGetTime();
 		frames += 1.0;
 		updateCamera(init);
-		init.drawImage();
+		init.drawModel(init.mod->part, init.mod->getPartCount());
 		glfwSwapBuffers(init.window);
 		glfwPollEvents();
 		if (currentTime - lastTime >= 1.0)

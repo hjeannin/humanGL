@@ -24,16 +24,17 @@ public:
 	Camera			camera;
 	GLuint			vao;
 	GLuint			vbos[2];
-	int				vertices_mem_size;
-	int				vertices_num_elem;
-	Point			*vertices_array;
-	int				faces_mem_size;
-	int				faces_num_elem;
+	GLuint			vertices_mem_size;
+	GLuint			vertices_num_elem;
+	Model::Point	*vertices_array;
+	GLuint			faces_mem_size;
+	GLuint			faces_num_elem;
 	GLuint			*faces_array;
 
 	Shaders			shaders;
 	GLuint			program;
 
+	Model			*mod;
 	Human			*human;
 
 	GLuint			res_x;
@@ -62,9 +63,9 @@ public:
 	void		genShaders(void);
 
 	void		createImage(void);
-	void		ConbineModels(void);
-	void		LoadModels(void);
-	bool		drawImage(void);
+	void		ConbineParts(Model::Part *part, GLuint part_count);
+	void		LoadModel(void);
+	bool		drawModel(Model::Part *part, GLuint part_count);
 
 	void		checkGlError(std::string file, int line);
 
@@ -76,7 +77,7 @@ public:
 		// DEBUG AND TEST //
 
 	void		printArray(GLuint *a, int size);
-	void		printPointArray(Point *a, int size);
+	void		printPointArray(Model::Point *a, int size);
 
 	Initiator	&operator=(Initiator const &rhs);
 };

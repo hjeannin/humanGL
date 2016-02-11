@@ -28,8 +28,6 @@ Initiator::initData(void)
 	vao = 0;
 	vbos[0] = 0;
 	vbos[1] = 0;
-	models = NULL;
-	model_count = 0;
 	vertices_mem_size = 0;
 	vertices_num_elem = 0;
 	vertices_array = NULL;
@@ -38,6 +36,7 @@ Initiator::initData(void)
 	faces_array = NULL;
 	program = 0;
 	human = NULL;
+	mod = NULL;
 	res_x = 1920;
 	res_y = 1080;
 	camera.init();
@@ -81,11 +80,11 @@ Initiator::getStatus(void) const
 void
 Initiator::createImage(void)
 {
-	Model		mod(3);
+	mod = new Model(3);	
 
-	mod.genCubes(0);
-	mod.changePartColor(0, 0x56eeFF00);
-	mod.part[0].matrix.scale(1.0f, 1.0f, 1.0f);
+	mod->genCubes();
+	mod->changePartColor(0, 0x56eeFF00);
+	mod->part[0].matrix.scale(1.0f, 1.0f, 1.0f);
 
 	// this->models[0].m_matrix.scale(1.0f, 1.0f, 1.0f);
 	// this->models[0].m_matrix.translate(-1.5f, 0.0f, 0.0f);
@@ -102,47 +101,47 @@ Initiator::createImage(void)
 	// this->models[2].m_matrix.translate(1.5f, 0.0f, 0.0f);
 	// this->models[2].m_matrix.rotate(60.0f, 1.0f, 1.0f, 1.0f);
 	
-	ConbineModels();
-	LoadModels();
+	ConbineParts(mod->part, mod->getPartCount());
+	LoadModel();
 }
 
 void
-Initiator::ConbineModels(void)
+Initiator::ConbineParts(Model::Part *part, GLuint part_count)
 {
-	for (int i = 0; i < this->model_count; i++)
+	for (GLuint i = 0; i < part_count; i++)
 	{
-		this->vertices_mem_size += this->models[i].v_mem_size;
-		this->vertices_num_elem += this->models[i].v_num_elem;
+		this->vertices_mem_size += part[i].v_mem_size;
+		this->vertices_num_elem += part[i].v_num_elem;
 
-		this->faces_mem_size += this->models[i].f_mem_size;
-		this->faces_num_elem += this->models[i].f_num_elem;
+		this->faces_mem_size += part[i].f_mem_size;
+		this->faces_num_elem += part[i].f_num_elem;
 	}
 
-	this->vertices_array = new Point[this->vertices_num_elem];
+	this->vertices_array = new Model::Point[this->vertices_num_elem];
 	this->faces_array = new GLuint[this->faces_num_elem];
 
-	int		v_index = 0;
-	int		f_index = 0;
+	GLuint		v_index = 0;
+	GLuint		f_index = 0;
 
-	for (int j = 0; j < this->model_count; j++)
+	for (GLuint j = 0; j < part_count; j++)
 	{
-		for (int p = 0; p < this->models[j].v_num_elem; p++)
+		for (GLuint p = 0; p < part[j].v_num_elem; p++)
 		{
-			this->vertices_array[v_index] = this->models[j].v_array[p];
+			this->vertices_array[v_index] = part[j].v_array[p];
 			v_index++;
 		}
-		delete (this->models[j].v_array);
-		for (int o = 0; o < this->models[j].f_num_elem; o++)
+		for (GLuint o = 0; o < part[j].f_num_elem; o++)
 		{
-			this->faces_array[f_index] = this->models[j].f_array[o];
+			this->faces_array[f_index] = part[j].f_array[o];
 			f_index++;
 		}
-		delete (this->models[j].f_array);
 	}
+	printPointArray(vertices_array, vertices_num_elem);
+	printArray(faces_array, faces_num_elem);
 }
 
 void
-Initiator::LoadModels(void)
+Initiator::LoadModel(void)
 {	
 	// Need to Conbine models in vertices and faces;
 	glGenVertexArrays(1, &this->vao);
@@ -150,9 +149,9 @@ Initiator::LoadModels(void)
 	glGenBuffers(2, &this->vbos[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbos[0]);
 	glBufferData(GL_ARRAY_BUFFER, this->vertices_mem_size, this->vertices_array, GL_STATIC_DRAW);
-	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), reinterpret_cast<void*>(0));
+	glVertexAttribPointer(this->position_loc, 3, GL_FLOAT, GL_FALSE, sizeof(Model::Point), reinterpret_cast<void*>(0));
 	glEnableVertexAttribArray(this->position_loc);
-	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Point), reinterpret_cast<void*>(4 * 3));
+	glVertexAttribPointer(this->color_loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Model::Point), reinterpret_cast<void*>(4 * 3));
 	glEnableVertexAttribArray(this->color_loc);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, this->faces_array, GL_STATIC_DRAW);
@@ -161,20 +160,20 @@ Initiator::LoadModels(void)
 }
 
 bool
-Initiator::drawImage(void)
+Initiator::drawModel(Model::Part *part, GLuint part_count)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(this->program);
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
 	glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, this->camera.view.val);
 
-	for (int i = 0; i < this->model_count; i++)
+	for (GLuint i = 0; i < part_count; i++)
 	{
-		glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, this->models[i].m_matrix.val);
-		glDrawElements(GL_TRIANGLES, this->models[i].f_num_elem, GL_UNSIGNED_INT,
-			reinterpret_cast<void*>(this->models[i].num_faces_before * sizeof(GLuint)));
+		glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, part[i].matrix.val);
+		glDrawElements(GL_TRIANGLES, part[i].f_num_elem, GL_UNSIGNED_INT,
+			reinterpret_cast<void*>(part[i].num_faces_before * sizeof(GLuint)));
 	}
-	this->models[1].m_matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
+	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
@@ -246,7 +245,7 @@ Initiator::printArray(GLuint *a, int size)
 }
 
 void
-Initiator::printPointArray(Point *a, int size)
+Initiator::printPointArray(Model::Point *a, int size)
 {
 	std::cout << std::endl << "N [X     Y     Z :  R    G    B   A]" << std::endl << std::endl;
 	for (int i = 0; i < size ; i++)
