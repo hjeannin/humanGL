@@ -26,8 +26,9 @@
 # define LEG_L_R	51
 # define LEG_L_F	52
 
-# define RED		345
-# define BLUE		346
+# define BRC		345
+# define SBC		346
+# define MGC		347
 
 # include <glfw3.h>
 # include <iostream>
@@ -65,6 +66,7 @@ public:
 		int				shape;		
 	};
 
+	GLuint					frame = 0;
 	Part					*part;
 	std::map <int, GLuint>	ids;
 
@@ -82,6 +84,8 @@ public:
 	GLuint		findIDIndex(int id);
 
 	void		animate(void);
+	void		reset(void);
+
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);
 	void		changePartColor(int id, GLuint color);

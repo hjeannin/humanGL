@@ -141,6 +141,7 @@ Initiator::LoadModel(void)
 bool
 Initiator::drawModel(Model::Part *part, GLuint part_count)
 {
+	mod->animate();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(this->program);
 	glUniformMatrix4fv(this->proj_loc, 1, GL_FALSE, this->proj_matrix.val);
@@ -152,7 +153,7 @@ Initiator::drawModel(Model::Part *part, GLuint part_count)
 		glDrawElements(GL_TRIANGLES, part[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(part[i].num_faces_before * sizeof(GLuint)));
 	}
-//	mod->animate();
+	mod->reset();
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }

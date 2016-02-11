@@ -30,16 +30,109 @@ Model::setNeededPart(GLuint n)
 void
 Model::buildPouet(void)
 {
-	setNeededPart(2);
+	setNeededPart(3);
 	genCubes();
-	ids[RED] = 0;
-	ids[BLUE] = 1;
-	changePartColor(RED, 0xFF000000);
-	changePartColor(BLUE, 0x0000FF00);
-	// setupPart(RED)
-	part[findIDIndex(RED)].matrix.translate(1.0f, 0.0f, 0.0f);
-	part[findIDIndex(BLUE)].matrix.translate(-1.0f, 0.0f, 0.0f);
+	ids[SBC] = 0;
+	ids[MGC] = 1;
+	ids[BRC] = 2;
 
+	changePartColor(SBC, 0x0000FF00);
+	part[findIDIndex(SBC)].matrix.scale(0.5f, 0.5f, 0.5f);
+
+
+
+	changePartColor(MGC, 0x00FF0000);
+	part[findIDIndex(MGC)].matrix.scale(1.0f, 1.0f, 1.0f);
+
+	part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
+
+
+
+	changePartColor(BRC, 0xFF000000);
+	part[findIDIndex(BRC)].matrix.scale(2.0f, 2.0f, 2.0f);
+
+	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+
+	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+}
+
+/*
+
+class Anim
+{
+	Mat4<GLfloat>	*matrix;
+	GLuint			part_index;
+	Part			*Parent;
+	Part			*Child;
+	Transformation	*anim;
+	Transformation	*setup;
+};
+
+for (every parts)
+{
+	if (Parent == NULL)
+	{
+		Transform.anim(my_matrix);
+		Transform.setup(my_matrix);
+	}
+	else if (Parent != NULL)
+	{
+		if (Parent->Parent == NULL)
+		{
+			Parent->Transform.anim(my_matrix);
+			Parent->Transform.setup(my_matrix);
+			Transform.anim(my_matrix);
+			Transform.setup(my_matrix);
+		}
+		else if (Parent->Parent != NULL)
+		{
+			Parent->Parent->Transform.anim(my_matrix);
+			Parent->Parent->Transform.setup(my_matrix);
+			Parent->Transform.anim(my_matrix);
+			Parent->Transform.setup(my_matrix);
+			Transform.anim(my_matrix);
+			Transform.setup(my_matrix);
+		}
+	}
+}
+
+*/
+
+void
+Model::animate(void)
+{
+	if (frame < 600)
+	{
+		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+
+		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+		part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
+
+		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+
+	}
+	frame++;
+	if (frame == 600)
+		frame = 0;
+}
+
+void
+Model::reset(void)
+{
+
+	part[findIDIndex(SBC)].matrix.setIdentity();
+	part[findIDIndex(SBC)].matrix.scale(0.5f, 0.5f, 0.5f);
+
+	part[findIDIndex(MGC)].matrix.setIdentity();
+	part[findIDIndex(MGC)].matrix.scale(1.0f, 1.0f, 1.0f);
+
+	part[findIDIndex(BRC)].matrix.setIdentity();
+	part[findIDIndex(BRC)].matrix.scale(2.0f, 2.0f, 2.0f);	
 }
 
 void
@@ -151,12 +244,6 @@ Model::changePartColor(int id, GLuint color)
 		part[i].v_array[j].b = b;
 		part[i].v_array[j].a = a;
 	}
-}
-
-void
-Model::animate(void)
-{
-	part[0].matrix.rotate(2.0f, 1.0f, 0.0f, 0.0f);
 }
 
 void
