@@ -88,16 +88,22 @@ Model::buildHuman(void)
 void
 Model::fillHumanIDs(void)
 {
-	part[0].id = BODY;
-	part[1].id = HEAD;
-	part[2].id = ARM_R_R;
-	part[3].id = ARM_R_F;
-	part[4].id = ARM_L_R;
-	part[5].id = ARM_L_F;
-	part[6].id = LEG_R_R;
-	part[7].id = LEG_R_F;
-	part[8].id = LEG_L_R;
-	part[9].id = LEG_L_F;
+	ids[BODY] = 0;
+	ids[HEAD] = 1;
+	ids[ARM_R_R] = 2;
+	ids[ARM_R_F] = 3;
+	ids[ARM_L_R] = 4;
+	ids[ARM_L_F] = 5;
+	ids[LEG_R_R] = 6;
+	ids[LEG_R_F] = 7;
+	ids[LEG_L_R] = 8;
+	ids[LEG_L_F] = 9;
+}
+
+GLuint
+Model::findIDIndex(int id)
+{
+	return (ids[id]);
 }
 
 void
@@ -122,23 +128,18 @@ Model::genCubes(void)
 void
 Model::changePartColor(int id, GLuint color)
 {
-	for (GLuint i = 0; i < _part_count; i++)
-	{
-		if (id == part[i].id)
-		{
-			GLubyte		a = (color >> 0) & 0xFF;
-			GLubyte		b = (color >> 8) & 0xFF;
-			GLubyte		g = (color >> 16) & 0xFF;
-			GLubyte		r = (color >> 24) & 0xFF;
+	GLuint		i = findIDIndex(id);
+	GLubyte		a = (color >> 0) & 0xFF;
+	GLubyte		b = (color >> 8) & 0xFF;
+	GLubyte		g = (color >> 16) & 0xFF;
+	GLubyte		r = (color >> 24) & 0xFF;
 
-			for (GLuint j = 0; j < part[i].v_num_elem; j++)
-			{
-				part[i].v_array[j].r = r;
-				part[i].v_array[j].g = g;
-				part[i].v_array[j].b = b;
-				part[i].v_array[j].a = a;
-			}
-		}
+	for (GLuint j = 0; j < part[i].v_num_elem; j++)
+	{
+		part[i].v_array[j].r = r;
+		part[i].v_array[j].g = g;
+		part[i].v_array[j].b = b;
+		part[i].v_array[j].a = a;
 	}
 }
 
@@ -148,7 +149,6 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 	current_part->num_faces_before = nfb;
 	current_part->num_vertices_before = nvb;
 	current_part->shape = CUBE;
-	current_part->id= -1;
 	current_part->v_num_elem = 8;
 	current_part->f_num_elem = 36;
 	current_part->v_array = new Point[current_part->v_num_elem];

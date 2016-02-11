@@ -28,6 +28,7 @@
 
 # include <glfw3.h>
 # include <iostream>
+# include <map>
 # include "Mat4.hpp"
 
 class Model
@@ -49,7 +50,6 @@ public:
 
 	struct Part
 	{
-		int				id;		
 		Mat4<GLfloat>	matrix;
 		GLuint			num_vertices_before = 0;
 		GLuint			num_faces_before = 0;
@@ -62,7 +62,8 @@ public:
 		int				shape;		
 	};
 
-	Part			*part;
+	Part					*part;
+	std::map <int, GLuint>	ids;
 
 	Model(void);
 	~Model(void);
@@ -73,6 +74,7 @@ public:
 
 	void		buildHuman(void);
 	void		fillHumanIDs(void);
+	GLuint		findIDIndex(int id);
 
 	void		animate(void);
 	void		genCubes(void);
