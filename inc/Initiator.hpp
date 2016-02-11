@@ -5,15 +5,13 @@
 #  define M_PI		3.1415926535897932384626433832795
 # endif
 
-# define TYPE_CUBE		42
-# define TYPE_SPHERE	43
-
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
 # include "StackMat4.hpp"
 # include "Camera.hpp"
 # include "Human.hpp"
+# include "Model.hpp"
 
 class Initiator
 {
@@ -22,37 +20,10 @@ private:
 	int			_status;
 
 public:
-	struct Point
-	{
-		GLfloat		x;
-		GLfloat		y;
-		GLfloat		z;
-		GLubyte		r;
-		GLubyte		g;
-		GLubyte		b;
-		GLubyte		a;
-	};
-
-	struct Model
-	{
-		GLuint			num_vertices_before = 0;
-		GLuint			num_faces_before = 0;
-		Mat4<GLfloat>	m_matrix;
-		int				v_mem_size;
-		int				v_num_elem;
-		Point			*v_array;
-		int				f_mem_size;
-		int				f_num_elem;
-		GLuint			*f_array;
-		int				type;		
-	};
-
 	GLFWwindow		*window;
 	Camera			camera;
 	GLuint			vao;
 	GLuint			vbos[2];
-	Model			*models;
-	int				model_count;
 	int				vertices_mem_size;
 	int				vertices_num_elem;
 	Point			*vertices_array;
@@ -89,12 +60,10 @@ public:
 	void		genMatrices(void);
 	void		getLocations(void);
 	void		genShaders(void);
-	void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
-	void		generateCube(Model *model, int nfb, int nvb, int color = 0x00000000);
 
-	void		LoadModels(void);
-	void		ConbineModels(void);
 	void		createImage(void);
+	void		ConbineModels(void);
+	void		LoadModels(void);
 	bool		drawImage(void);
 
 	void		checkGlError(std::string file, int line);
