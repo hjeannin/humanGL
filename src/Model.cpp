@@ -1,20 +1,16 @@
 #include "Model.hpp"
 
-Model::Model(void) : _part_count(1)
+Model::Model(void)
 {
-	part = new Part[_part_count];
-	return;
-}
-
-Model::Model(GLuint pt) : _part_count(pt)
-{
-	part = new Part[_part_count];
 	return;
 }
 
 Model::~Model(void)
 {
-	delete (part);
+	if (_part_count != 0)
+	{
+		delete (part);
+	}
 	return;
 }
 
@@ -22,6 +18,13 @@ GLuint
 Model::getPartCount(void) const
 {
 	return this->_part_count;
+}
+
+void
+Model::setNeededPart(GLuint n)
+{
+	_part_count = n;
+	part = new Part[_part_count];	
 }
 
 void
@@ -33,33 +36,109 @@ Model::animate(void)
 void
 Model::buildHuman(void)
 {
-	changePartColor(1, 0x56eeFF00);
-	changePartColor(2, 0x3465FF00);
-	changePartColor(3, 0x68764600);
-	changePartColor(4, 0x99658100);
-	changePartColor(5, 0xad45ed00);
+	/////////////////////////////////////////////////////
+	//			BACK VIEW
+	//
+	//					[11]
+	//LEFT				  |					RIGHT
+	//		[32]--[31]--[10]--[21]--[22]
+	//					 ||
+	//					/	\
+	//				[51]	[41]
+	//				  |		  |
+	//				[52]	[42]
+	//
+	/////////////////////////////////////////////////////
 
-	part[1].matrix.translate(-1.5f, 0.0f, 0.0f);
+	setNeededPart(10);
+	genCubes();
+	fillHumanIDs();
 
-	part[2].matrix.translate(1.5f, 0.0f, 0.0f);
+	changePartColor(BODY, 0xad45ed00);
+	part[0].matrix.scale(2.0f, 3.0f, 1.0f);
+	changePartColor(HEAD, 0xFafafa00);
+	part[1].matrix.translate(0.0f, 2.0f, 0.0f);
 
-	part[3].matrix.translate(0.0f, -1.5f, 0.0f);
+	part[2].matrix.scale(2.0f, 0.8f, 0.8f);
+	part[2].matrix.translate(1.0f, 0.8f, 0.0f);
+	
+	part[3].matrix.scale(2.0f, 0.8f, 0.8f);
+	part[3].matrix.translate(2.0f, 0.8f, 0.0f);
 
-	part[4].matrix.translate(0.0f, 1.5f, 0.0f);
+	part[4].matrix.scale(2.0f, 0.8f, 0.8f);
+	part[4].matrix.translate(-1.0f, 0.8f, 0.0f);
 
-	part[5].matrix.translate(0.0f, 0.0f, -1.5f);
+	part[5].matrix.scale(2.0f, 0.8f, 0.8f);
+	part[5].matrix.translate(-2.0f, 0.8f, 0.0f);
 
+	part[6].matrix.scale(0.8f, 2.0f, 0.8f);
+	part[6].matrix.translate(1.0f, -1.0f, 0.0f);
+
+	part[7].matrix.scale(0.8f, 2.0f, 0.8f);
+	part[7].matrix.translate(1.0f, -2.0f, 0.0f);
+
+	part[8].matrix.scale(0.8f, 2.0f, 0.8f);
+	part[8].matrix.translate(-1.0f, -1.0f, 0.0f);
+
+	changePartColor(LEG_L_F, 0xffffff00);
+	part[9].matrix.scale(0.8f, 2.0f, 0.8f);
+	part[9].matrix.translate(-1.0f, -2.0f, 0.0f);
+}
+
+void
+Model::fillHumanIDs(void)
+{
+	part[0].id = BODY;
+	part[1].id = HEAD;
+	part[2].id = ARM_R_R;
+	part[3].id = ARM_R_F;
+	part[4].id = ARM_L_R;
+	part[5].id = ARM_L_F;
+	part[6].id = LEG_R_R;
+	part[7].id = LEG_R_F;
+	part[8].id = LEG_L_R;
+	part[9].id = LEG_L_F;
 }
 
 void
 Model::genCubes(void)
 {
-	generateCube(&part[0], 0, 0);
-	for (GLuint i = 1; i < _part_count; i++)
+	if (_part_count != 0)
 	{
-		generateCube(&part[i],
-			part[i - 1].f_num_elem + part[i -1].num_faces_before,
-			part[i - 1].v_num_elem + part[i -1].num_vertices_before);
+		generateCube(&part[0], 0, 0);
+		for (GLuint i = 1; i < _part_count; i++)
+		{
+			generateCube(&part[i],
+				part[i - 1].f_num_elem + part[i -1].num_faces_before,
+				part[i - 1].v_num_elem + part[i -1].num_vertices_before);
+		}
+	}
+	else
+	{
+		std::cerr << "parts not allocated" << std::endl;
+	}
+}
+
+void
+Model::changePartColor(int id, GLuint color)
+{
+	for (GLuint i = 0; i < _part_count; i++)
+	{
+		if (id == part[i].id)
+		{
+			GLubyte		a = (color >> 0) & 0xFF;
+			GLubyte		b = (color >> 8) & 0xFF;
+			GLubyte		g = (color >> 16) & 0xFF;
+			GLubyte		r = (color >> 24) & 0xFF;
+
+			for (GLuint j = 0; j < part[i].v_num_elem; j++)
+			{
+				part[i].v_array[j].r = r;
+				part[i].v_array[j].g = g;
+				part[i].v_array[j].b = b;
+				part[i].v_array[j].a = a;
+			}
+		}
 	}
 }
 
@@ -68,7 +147,8 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 {
 	current_part->num_faces_before = nfb;
 	current_part->num_vertices_before = nvb;
-	current_part->type = TYPE_CUBE;
+	current_part->shape = CUBE;
+	current_part->id= -1;
 	current_part->v_num_elem = 8;
 	current_part->f_num_elem = 36;
 	current_part->v_array = new Point[current_part->v_num_elem];
@@ -145,25 +225,6 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 	current_part->f_array[33] = nvb + 7;
 	current_part->f_array[34] = nvb + 3;
 	current_part->f_array[35] = nvb + 2;
-}
-
-void
-Model::changePartColor(GLuint id, GLuint color)
-{
-	GLubyte		a = (color >> 0) & 0xFF;
-	GLubyte		b = (color >> 8) & 0xFF;
-	GLubyte		g = (color >> 16) & 0xFF;
-	GLubyte		r = (color >> 24) & 0xFF;
-
-	// TODO not change vertices too.
-	part[id].v_array[0] = {-0.5f, 0.5f, 0.5f, r, g, b, a};
-	part[id].v_array[1] = {0.5f, 0.5f, 0.5f, r, g, b, a};
-	part[id].v_array[2] = {0.5f, -0.5f, 0.5f, r, g, b, a};
-	part[id].v_array[3] = {-0.5f, -0.5f, 0.5f, r, g, b, a};
-	part[id].v_array[4] = {-0.5f, 0.5f, -0.5f, r, g, b, a};
-	part[id].v_array[5] = {0.5f, 0.5f, -0.5f, r, g, b, a};
-	part[id].v_array[6] = {0.5f, -0.5f, -0.5f, r, g, b, a};
-	part[id].v_array[7] = {-0.5f, -0.5f, -0.5f, r, g, b, a};
 }
 
 // void

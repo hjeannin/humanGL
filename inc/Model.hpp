@@ -12,17 +12,28 @@
 #  define GL_GLEXT_PROTOTYPES
 # endif
 
-# define TYPE_CUBE		42
-# define TYPE_SPHERE	43
+# define CUBE		101
+# define SPHERE		102
+
+# define BODY		10
+# define HEAD		11
+# define ARM_R_R	21
+# define ARM_R_F	22
+# define ARM_L_R	31
+# define ARM_L_F	32
+# define LEG_R_R	41
+# define LEG_R_F	42
+# define LEG_L_R	51
+# define LEG_L_F	52
 
 # include <glfw3.h>
-
+# include <iostream>
 # include "Mat4.hpp"
 
 class Model
 {
 private:
-	GLuint			_part_count;
+	GLuint			_part_count = 0;
 
 public:	
 	struct Point
@@ -38,6 +49,7 @@ public:
 
 	struct Part
 	{
+		int				id;		
 		Mat4<GLfloat>	matrix;
 		GLuint			num_vertices_before = 0;
 		GLuint			num_faces_before = 0;
@@ -47,22 +59,25 @@ public:
 		GLuint			f_mem_size;
 		GLuint			f_num_elem;
 		GLuint			*f_array;
-		int				type;		
+		int				shape;		
 	};
 
 	Part			*part;
 
 	Model(void);
-	Model(GLuint part_count);
 	~Model(void);
 
 	GLuint		getPartCount(void) const;
 	
+	void		setNeededPart(GLuint n);
+
 	void		buildHuman(void);
+	void		fillHumanIDs(void);
+
 	void		animate(void);
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);
-	void		changePartColor(GLuint id, GLuint color);
+	void		changePartColor(int id, GLuint color);
 	// void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
 
 };

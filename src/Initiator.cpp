@@ -80,9 +80,8 @@ Initiator::getStatus(void) const
 void
 Initiator::createImage(void)
 {
-	mod = new Model(6);	
+	mod = new Model();	
 
-	mod->genCubes();
 	mod->buildHuman();
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
@@ -154,7 +153,7 @@ Initiator::drawModel(Model::Part *part, GLuint part_count)
 		glDrawElements(GL_TRIANGLES, part[i].f_num_elem, GL_UNSIGNED_INT,
 			reinterpret_cast<void*>(part[i].num_faces_before * sizeof(GLuint)));
 	}
-	mod->animate();
+//	mod->animate();
 	checkGlError(__FILE__, __LINE__);
     return (true);
 }
