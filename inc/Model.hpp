@@ -37,7 +37,9 @@
 # include <glfw3.h>
 # include <iostream>
 # include <map>
+# include <vector>
 # include "Mat4.hpp"
+# include "Anim.hpp"
 
 class Model
 {
@@ -73,6 +75,7 @@ public:
 	GLuint					frame = 0;
 	Part					*part;
 	std::map <int, GLuint>	ids;
+	std::vector<Anim *>		anims;
 
 	Model(void);
 	~Model(void);
