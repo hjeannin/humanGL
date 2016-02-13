@@ -27,6 +27,41 @@ Model::setNeededPart(GLuint n)
 	part = new Part[_part_count];	
 }
 
+GLuint
+Model::findIDIndex(int id)
+{
+	return (ids[id]);
+}
+
+Mat4<GLfloat>
+*Model::findMatrix(int id)
+{
+	return (&part[findIDIndex(id)].matrix);
+}
+
+void
+Model::scale(int id, GLfloat x, GLfloat y, GLfloat z)
+{
+	findMatrix(id)->scale(x, y, z);
+}
+
+void
+Model::translate(int id, GLfloat x, GLfloat y, GLfloat z)
+{
+	findMatrix(id)->translate(x, y, z);
+}
+
+void
+Model::rotate(int id, GLfloat angle, int axis)
+{
+	if (axis == X_AXIS)
+		findMatrix(id)->rotate(angle, 1.0f, 0.0f, 0.0f);
+	if (axis == Y_AXIS)
+		findMatrix(id)->rotate(angle, 0.0f, 1.0f, 0.0f);
+	if (axis ==  Z_AXIS)
+		findMatrix(id)->rotate(angle, 0.0f, 0.0f, 1.0f);
+}
+
 void
 Model::buildPouet(void)
 {
@@ -37,23 +72,21 @@ Model::buildPouet(void)
 	ids[BRC] = 2;
 
 	changePartColor(SBC, 0x0000FF00);
-	part[findIDIndex(SBC)].matrix.scale(0.5f, 0.5f, 0.5f);
-
+	scale(SBC, 0.5f, 0.5f, 0.5f);
 
 
 	changePartColor(MGC, 0x00FF0000);
-	part[findIDIndex(MGC)].matrix.scale(1.0f, 1.0f, 1.0f);
+	scale(MGC, 1.0f, 1.0f, 1.0f);
 
-	part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
-
+	translate(MGC, 1.0f, 0.0f, 0.0f);
 
 
 	changePartColor(BRC, 0xFF000000);
-	part[findIDIndex(BRC)].matrix.scale(2.0f, 2.0f, 2.0f);
+	scale(BRC, 2.0f, 2.0f, 2.0f);
 
-	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
-	part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+	translate(BRC, 1.0f, 0.0f, 0.0f);
+	rotate(BRC, 90.0f, Z_AXIS);
+	translate(BRC, 1.0f, 0.0f, 0.0f);
 
 }
 
@@ -64,9 +97,12 @@ class Anim
 	Mat4<GLfloat>	*matrix;
 	GLuint			part_index;
 	Part			*Parent;
-	Part			*Child;
 	Transformation	*anim;
 	Transformation	*setup;
+
+	setParent();
+	addAnim();
+	addSetup();
 };
 
 for (every parts)
@@ -102,7 +138,12 @@ for (every parts)
 void
 Model::animate(void)
 {
-	if (frame < 600)
+	////////////////////////
+	// SEE use in Initiator
+	////////////////////////
+	GLuint		max_frame = 1200;
+
+	if (frame < max_frame)
 	{
 		//anim
 		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
@@ -128,7 +169,7 @@ Model::animate(void)
 
 	}
 	frame++;
-	if (frame == 600)
+	if (frame == max_frame)
 		frame = 0;
 }
 
@@ -212,12 +253,6 @@ Model::fillHumanIDs(void)
 	ids[LEG_R_F] = 7;
 	ids[LEG_L_R] = 8;
 	ids[LEG_L_F] = 9;
-}
-
-GLuint
-Model::findIDIndex(int id)
-{
-	return (ids[id]);
 }
 
 void

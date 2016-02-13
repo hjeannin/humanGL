@@ -30,6 +30,10 @@
 # define SBC		346
 # define MGC		347
 
+# define X_AXIS		70
+# define Y_AXIS		71
+# define Z_AXIS		72
+
 # include <glfw3.h>
 # include <iostream>
 # include <map>
@@ -76,6 +80,11 @@ public:
 	GLuint		getPartCount(void) const;
 	
 	void		setNeededPart(GLuint n);
+	Mat4<GLfloat>	*findMatrix(int id);
+
+	void		scale(int id, GLfloat x, GLfloat y, GLfloat z);
+	void		translate(int id, GLfloat x, GLfloat y, GLfloat z);
+	void		rotate(int id, GLfloat angle, int axis);
 
 	void		buildPouet(void);
 
