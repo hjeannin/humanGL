@@ -71,10 +71,12 @@ Model::buildPouet(void)
 	ids[MGC] = 1;
 	ids[BRC] = 2;
 
-	// pouet_sbc = new Anim(findMatrix(SBC), findIDIndex(SBC), -1);
-	// pouet_mgc = new Anim(findMatrix(MGC), findIDIndex(MGC), SBC);
-	// pouet_brc = new Anim(findMatrix(BRC), findIDIndex(BRC), MGC);
-	// anims = {&pouet_sbc, &pouet_brc, &pouet_brc};
+	Anim		*pouet_sbc = new Anim(findMatrix(SBC), findIDIndex(SBC), -1);
+	Anim		*pouet_mgc = new Anim(findMatrix(MGC), findIDIndex(MGC), SBC);
+	Anim		*pouet_brc = new Anim(findMatrix(BRC), findIDIndex(BRC), MGC);
+	anims = {pouet_sbc, pouet_mgc, pouet_brc};
+
+	// TODO fix transformation class, need to check when transformation done.
 
 	changePartColor(SBC, 0x0000FF00);
 	scale(SBC, 0.5f, 0.5f, 0.5f);
