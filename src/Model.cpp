@@ -40,29 +40,6 @@ Mat4<GLfloat>
 }
 
 void
-Model::scale(int id, GLfloat x, GLfloat y, GLfloat z)
-{
-	findMatrix(id)->scale(x, y, z);
-}
-
-void
-Model::translate(int id, GLfloat x, GLfloat y, GLfloat z)
-{
-	findMatrix(id)->translate(x, y, z);
-}
-
-void
-Model::rotate(int id, GLfloat angle, int axis)
-{
-	if (axis == X_AXIS)
-		findMatrix(id)->rotate(angle, 1.0f, 0.0f, 0.0f);
-	if (axis == Y_AXIS)
-		findMatrix(id)->rotate(angle, 0.0f, 1.0f, 0.0f);
-	if (axis ==  Z_AXIS)
-		findMatrix(id)->rotate(angle, 0.0f, 0.0f, 1.0f);
-}
-
-void
 Model::buildPouet(void)
 {
 	setNeededPart(3);
@@ -76,11 +53,11 @@ Model::buildPouet(void)
 	changePartColor(MGC, 0x00FF0000);
 	changePartColor(BRC, 0xFF000000);
 
-	Anim		*pouet_sbc = new Anim(findMatrix(SBC), findIDIndex(SBC), -1);
-	Anim		*pouet_mgc = new Anim(findMatrix(MGC), findIDIndex(MGC), SBC);
-	Anim		*pouet_brc = new Anim(findMatrix(BRC), findIDIndex(BRC), MGC);
+	Anim		*pouet_sbc = new Anim(findMatrix(SBC), NULL);
+	Anim		*pouet_mgc = new Anim(findMatrix(MGC), pouet_sbc);
+	Anim		*pouet_brc = new Anim(findMatrix(BRC), pouet_mgc);
 	
-	anims = {pouet_sbc, pouet_mgc, pouet_brc};
+	anim_vector = {pouet_sbc, pouet_mgc, pouet_brc};
 
 	Transformation		*transform_sbc_setup = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
 
@@ -92,101 +69,72 @@ Model::buildPouet(void)
 	Transformation		*transform_brc_setup3 = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
 	Transformation		*transform_brc_setup4 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 
-	anims[0]->setup = {transform_sbc_setup};
-	anims[1]->setup = {transform_mgc_setup, transform_mgc_setup2};
-	anims[2]->setup = {transform_brc_setup, transform_brc_setup2, transform_brc_setup3, transform_brc_setup4};
+	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 60.0f);
 
-	for (GLuint i = 0; i < anims.size(); i++)
-	{
-		anims[i]->runSetup();
-	}
+	anim_vector[0]->animation_transform = {transform_sbc_animation};
+	anim_vector[0]->setup_transform = {transform_sbc_setup};
+	anim_vector[1]->setup_transform = {transform_mgc_setup, transform_mgc_setup2};
+	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup2, transform_brc_setup3, transform_brc_setup4};
+	runAllAnimSetup();
 }
 
-/*
-
-class Anim
+void
+Model::runAllAnimSetup(void)
 {
-	Mat4<GLfloat>	*matrix;
-	GLuint			part_index;
-	Part			*Parent;
-	Transformation	*anim;
-	Transformation	*setup;
-	std::list<Transformation *>		list;
-
-	list.push_front(new Scale(params));
-	list.push_front(new Rotation(params));
-
-	setParent();
-	addAnim();
-	addSetup();
-};
-
-for (every parts)
-{
-	if (Parent == NULL)
+	for (GLuint i = 0; i < anim_vector.size(); i++)
 	{
-		Transform.anim(my_matrix);
-		Transform.setup(my_matrix);
-	}
-	else if (Parent != NULL)
-	{
-		if (Parent->Parent == NULL)
-		{
-			Parent->Transform.anim(my_matrix);
-			Parent->Transform.setup(my_matrix);
-			Transform.anim(my_matrix);
-			Transform.setup(my_matrix);
-		}
-		else if (Parent->Parent != NULL)
-		{
-			Parent->Parent->Transform.anim(my_matrix);
-			Parent->Parent->Transform.setup(my_matrix);
-			Parent->Transform.anim(my_matrix);
-			Parent->Transform.setup(my_matrix);
-			Transform.anim(my_matrix);
-			Transform.setup(my_matrix);
-		}
-	}
+		anim_vector[i]->runSetup();
+	}	
 }
 
-*/
+void
+Model::runAllAnimAnim(void)
+{
+	for (GLuint i = 0; i < anim_vector.size(); i++)
+	{
+		anim_vector[i]->runAnim();
+	}	
+}
 
 void
 Model::animate(void)
 {
-	////////////////////////
-	// SEE use in Initiator
-	////////////////////////
-	GLuint		max_frame = 1200;
+	runAllAnimSetup();
+	// runAllAnimAnim();
 
-	if (frame < max_frame)
-	{
-		//anim
-		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-		part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
-		//setup
-		//EMPTY
+	// ////////////////////////
+	// // SEE use in Initiator
+	// ////////////////////////
+	// GLuint		max_frame = 1200;
 
-		//anim
-		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-		part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+	// if (frame < max_frame)
+	// {
+	// 	//anim
+	// 	part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+	// 	part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+	// 	//setup
+	// 	//EMPTY
+
+	// 	//anim
+	// 	part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+	// 	part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
 		
-		//setup
-		part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
+	// 	//setup
+	// 	part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
 
-		//anim
-		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-		part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
+	// 	//anim
+	// 	part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
+	// 	part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
 		
-		//setup
-		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
-		part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-		part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+	// 	//setup
+	// 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
+	// 	part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
+	// 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
 
-	}
-	frame++;
-	if (frame == max_frame)
-		frame = 0;
+	// }
+	// frame++;
+	// if (frame == max_frame)
+	// 	frame = 0;
 }
 
 void
@@ -384,6 +332,29 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 	current_part->f_array[33] = nvb + 7;
 	current_part->f_array[34] = nvb + 3;
 	current_part->f_array[35] = nvb + 2;
+}
+
+void
+Model::scale(int id, GLfloat x, GLfloat y, GLfloat z)
+{
+	findMatrix(id)->scale(x, y, z);
+}
+
+void
+Model::translate(int id, GLfloat x, GLfloat y, GLfloat z)
+{
+	findMatrix(id)->translate(x, y, z);
+}
+
+void
+Model::rotate(int id, GLfloat angle, int axis)
+{
+	if (axis == X_AXIS)
+		findMatrix(id)->rotate(angle, 1.0f, 0.0f, 0.0f);
+	if (axis == Y_AXIS)
+		findMatrix(id)->rotate(angle, 0.0f, 1.0f, 0.0f);
+	if (axis ==  Z_AXIS)
+		findMatrix(id)->rotate(angle, 0.0f, 0.0f, 1.0f);
 }
 
 // void

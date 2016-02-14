@@ -26,6 +26,7 @@
 # define LEG_L_R	51
 # define LEG_L_F	52
 
+# define NONE		-1
 # define BRC		345
 # define SBC		346
 # define MGC		347
@@ -75,7 +76,7 @@ public:
 	GLuint					frame = 0;
 	Part					*part;
 	std::map<int, GLuint>	ids;
-	std::vector<Anim *>		anims;
+	std::vector<Anim *>		anim_vector;
 
 	Model(void);
 	~Model(void);
@@ -90,6 +91,8 @@ public:
 	void		rotate(int id, GLfloat angle, int axis);
 
 	void		buildPouet(void);
+	void		runAllAnimSetup(void);
+	void		runAllAnimAnim(void);
 
 	void		buildHuman(void);
 	void		fillHumanIDs(void);

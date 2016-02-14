@@ -8,14 +8,15 @@ class Anim
 {
 public:
 	Mat4<GLfloat>					*matrix;
-	GLuint							part_index;
-	int								parent_id;
-	std::vector<Transformation *>	anim;
-	std::vector<Transformation *>	setup;
+	Anim							*parent;
+	std::vector<Transformation *>	animation_transform;
+	std::vector<Transformation *>	setup_transform;
 
 	Anim(void);
-	Anim(Mat4<GLfloat> *m, GLuint pi, int p_id);
+	Anim(Mat4<GLfloat> *m, Anim *p);
 	~Anim(void);
+
+	void		runTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
 
 	void		runAnim(void);
 	void		runSetup(void);
