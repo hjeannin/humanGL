@@ -10,6 +10,7 @@ class Anim
 public:
 	Mat4<GLfloat>					*matrix;
 	Anim							*parent;
+	Transformation					*scale;
 	std::vector<Transformation *>	animation_transform;
 	std::vector<Transformation *>	setup_transform;
 
@@ -20,7 +21,6 @@ public:
 	void		runTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
 
 	void		runAnim(void);
-	void		runSetup(void);
 };
 
 #endif

@@ -91,7 +91,6 @@ public:
 	void		rotate(int id, GLfloat angle, int axis);
 
 	void		buildPouet(void);
-	void		runAllAnimSetup(void);
 	void		runAllAnimAnim(void);
 
 	void		buildHuman(void);

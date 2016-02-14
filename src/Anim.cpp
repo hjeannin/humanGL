@@ -28,6 +28,7 @@ void
 Anim::runAnim(void)
 {
 	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
+	scale->run(this->matrix);	
 	if (parent == NULL)
 	{
 		runTransformVector(animation_transform, this->matrix);
@@ -53,10 +54,4 @@ Anim::runAnim(void)
 		}
 	}
 	// std::cerr << "Matrix OUT: " << matrix << std::endl << *matrix << std::endl;
-}
-
-void
-Anim::runSetup(void)
-{
-	runTransformVector(setup_transform, this->matrix);
 }
