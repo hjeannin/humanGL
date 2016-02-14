@@ -1,23 +1,30 @@
 # include "Transformation.hpp"
 
-Transformation::Transformation(void)
+Transformation::Transformation(void) : _transformation_type(0), _x(0.0f), _y(0.0f), _z(0.0f), _angle(0.0f)
 {
 	return;
 }
 
-Transformation::Transformation(int transformation_type, Mat4<GLfloat> *matrix, GLfloat x, GLfloat y, GLfloat z, GLfloat angle)
+Transformation::Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle) :
+	_transformation_type(tt), _x(x), _y(y), _z(z), _angle(angle)
 {
-	if (transformation_type == T_SCALE)
+	return;
+}
+
+void
+Transformation::run(Mat4<GLfloat> *matrix)
+{
+	if (_transformation_type == T_TRANSLATE)
 	{
-		matrix->scale(x, y, z);
+		matrix->translate(_x, _y, _z);
 	}
-	else if (transformation_type == T_TRANSLATE)
+	else if (_transformation_type == T_ROTATE)
 	{
-		matrix->translate(x, y, z);
+		matrix->rotate(_angle, _x, _y, _z);
 	}
-	else if (transformation_type == T_ROTATE)
+	else if (_transformation_type == T_SCALE)
 	{
-		matrix->rotate(angle, x, y, z);
+		matrix->scale(_x, _y, _z);
 	}
 	return;
 }

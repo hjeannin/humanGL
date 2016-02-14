@@ -15,3 +15,20 @@ Anim::~Anim(void)
 	return;
 }
 
+void
+Anim::runAnim(void)
+{
+	for (GLuint i = 0; i < anim.size(); i++)
+	{
+		anim[i]->run(this->matrix);
+	}
+}
+
+void
+Anim::runSetup(void)
+{
+	for (GLuint i = 0; i < setup.size(); i++)
+	{
+		setup[i]->run(this->matrix);
+	}
+}

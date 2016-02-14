@@ -67,34 +67,39 @@ Model::buildPouet(void)
 {
 	setNeededPart(3);
 	genCubes();
+	
 	ids[SBC] = 0;
 	ids[MGC] = 1;
 	ids[BRC] = 2;
+	
+	changePartColor(SBC, 0x0000FF00);
+	changePartColor(MGC, 0x00FF0000);
+	changePartColor(BRC, 0xFF000000);
 
 	Anim		*pouet_sbc = new Anim(findMatrix(SBC), findIDIndex(SBC), -1);
 	Anim		*pouet_mgc = new Anim(findMatrix(MGC), findIDIndex(MGC), SBC);
 	Anim		*pouet_brc = new Anim(findMatrix(BRC), findIDIndex(BRC), MGC);
+	
 	anims = {pouet_sbc, pouet_mgc, pouet_brc};
 
-	// TODO fix transformation class, need to check when transformation done.
+	Transformation		*transform_sbc_setup = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
 
-	changePartColor(SBC, 0x0000FF00);
-	scale(SBC, 0.5f, 0.5f, 0.5f);
+	Transformation		*transform_mgc_setup = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
+	Transformation		*transform_mgc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 
+	Transformation		*transform_brc_setup = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
+	Transformation		*transform_brc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
+	Transformation		*transform_brc_setup3 = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
+	Transformation		*transform_brc_setup4 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 
-	changePartColor(MGC, 0x00FF0000);
-	scale(MGC, 1.0f, 1.0f, 1.0f);
+	anims[0]->setup = {transform_sbc_setup};
+	anims[1]->setup = {transform_mgc_setup, transform_mgc_setup2};
+	anims[2]->setup = {transform_brc_setup, transform_brc_setup2, transform_brc_setup3, transform_brc_setup4};
 
-	translate(MGC, 1.0f, 0.0f, 0.0f);
-
-
-	changePartColor(BRC, 0xFF000000);
-	scale(BRC, 2.0f, 2.0f, 2.0f);
-
-	translate(BRC, 1.0f, 0.0f, 0.0f);
-	rotate(BRC, 90.0f, Z_AXIS);
-	translate(BRC, 1.0f, 0.0f, 0.0f);
-
+	for (GLuint i = 0; i < anims.size(); i++)
+	{
+		anims[i]->runSetup();
+	}
 }
 
 /*
@@ -187,15 +192,9 @@ Model::animate(void)
 void
 Model::reset(void)
 {
-
 	part[findIDIndex(SBC)].matrix.setIdentity();
-	part[findIDIndex(SBC)].matrix.scale(0.5f, 0.5f, 0.5f);
-
 	part[findIDIndex(MGC)].matrix.setIdentity();
-	part[findIDIndex(MGC)].matrix.scale(1.0f, 1.0f, 1.0f);
-
 	part[findIDIndex(BRC)].matrix.setIdentity();
-	part[findIDIndex(BRC)].matrix.scale(2.0f, 2.0f, 2.0f);	
 }
 
 void

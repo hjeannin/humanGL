@@ -74,7 +74,7 @@ public:
 
 	GLuint					frame = 0;
 	Part					*part;
-	std::map <int, GLuint>	ids;
+	std::map<int, GLuint>	ids;
 	std::vector<Anim *>		anims;
 
 	Model(void);

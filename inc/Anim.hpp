@@ -16,6 +16,9 @@ public:
 	Anim(void);
 	Anim(Mat4<GLfloat> *m, GLuint pi, int p_id);
 	~Anim(void);
+
+	void		runAnim(void);
+	void		runSetup(void);
 };
 
 #endif

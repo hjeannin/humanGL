@@ -21,10 +21,19 @@
 
 class Transformation
 {
+private:
+	int			_transformation_type;
+	GLfloat		_x;
+	GLfloat		_y;
+	GLfloat		_z;
+	GLfloat		_angle;
+
 public:
 	Transformation(void);
-	Transformation(int transformation_type, Mat4<GLfloat> *matrix, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f);
+	Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f);
 	~Transformation(void);
+
+	void		run(Mat4<GLfloat> *matrix);
 };
 
 #endif
