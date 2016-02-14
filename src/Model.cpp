@@ -60,17 +60,21 @@ Model::buildPouet(void)
 	anim_vector = {pouet_sbc, pouet_mgc, pouet_brc};
 
 	anim_vector[0]->scale = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
-	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 1.0f, 0.0f, 60.0f);
+	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 1.0f, 0.0f, 0.1f);
 	anim_vector[0]->animation_transform = {transform_sbc_animation};
 
 	anim_vector[1]->scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
 	Transformation		*transform_mgc_setup = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
 	anim_vector[1]->setup_transform = {transform_mgc_setup};
+	Transformation		*transform_mgc_animation = new Transformation(T_ROTATE, 1.0f, 0.0f, 0.0f, 0.1f);
+	anim_vector[1]->animation_transform = {transform_mgc_animation};
 	
 	anim_vector[2]->scale = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
 	Transformation		*transform_brc_setup = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
 	Transformation		*transform_brc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup2};
+	Transformation		*transform_brc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 20.0f, 1.0f);
+	anim_vector[2]->animation_transform = {transform_brc_animation};
 }
 
 void
@@ -85,41 +89,22 @@ Model::runAllAnimAnim(void)
 void
 Model::animate(void)
 {
+	GLuint		max_frame = 1200;
+
+	if (frame < max_frame)
+	{
+		anim_vector[0]->animation_transform[0]->setAngle(1.0f * frame);
+		anim_vector[1]->animation_transform[0]->setAngle(1.0f * frame);
+		anim_vector[2]->animation_transform[0]->setAngle(60.0f * frame);
+	}
+	frame++;
+	if (frame == max_frame)
+		frame = 0;
 	runAllAnimAnim();
 
-	// ////////////////////////
-	// // SEE use in Initiator
-	// ////////////////////////
-	// GLuint		max_frame = 1200;
-
-	// if (frame < max_frame)
-	// {
-	// 	//anim
-	// 	part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-	// 	part[findIDIndex(SBC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
-	// 	//setup
-	// 	//EMPTY
-
-	// 	//anim
-	// 	part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-	// 	part[findIDIndex(MGC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
-		
-	// 	//setup
-	// 	part[findIDIndex(MGC)].matrix.translate(1.0f, 0.0f, 0.0f);
-
-	// 	//anim
-	// 	part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 1.0f, 0.0f, 0.0f);
-	// 	part[findIDIndex(BRC)].matrix.rotate(1.0f * frame, 0.0f, 1.0f, 0.0f);
-		
-	// 	//setup
-	// 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
-	// 	part[findIDIndex(BRC)].matrix.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-	// 	part[findIDIndex(BRC)].matrix.translate(1.0f, 0.0f, 0.0f);
-
-	// }
-	// frame++;
-	// if (frame == max_frame)
-	// 	frame = 0;
+	////////////////////////
+	// SEE use in Initiator
+	////////////////////////
 }
 
 void

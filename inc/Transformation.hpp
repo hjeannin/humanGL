@@ -33,6 +33,7 @@ public:
 	Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f);
 	~Transformation(void);
 
+	void		setAngle(GLfloat a);
 	void		run(Mat4<GLfloat> *matrix);
 };
 

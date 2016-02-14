@@ -11,6 +11,11 @@ Transformation::Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat 
 	return;
 }
 
+Transformation::~Transformation(void)
+{
+	return;
+}
+
 void
 Transformation::run(Mat4<GLfloat> *matrix)
 {
@@ -29,7 +34,11 @@ Transformation::run(Mat4<GLfloat> *matrix)
 	return;
 }
 
-Transformation::~Transformation(void)
+void
+Transformation::setAngle(GLfloat a)
 {
-	return;
+	if (this->_transformation_type == T_ROTATE)
+	{
+		this->_angle = a;
+	}
 }
