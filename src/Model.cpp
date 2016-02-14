@@ -67,12 +67,13 @@ Model::buildPouet(void)
 	Transformation		*transform_mgc_setup = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
 	anim_vector[1]->setup_transform = {transform_mgc_setup};
 	Transformation		*transform_mgc_animation = new Transformation(T_ROTATE, 1.0f, 0.0f, 0.0f, 0.1f);
-	anim_vector[1]->animation_transform = {transform_mgc_animation};
+	Transformation		*transform_mgc_animation1 = new Transformation(T_TRANSLATE, 0.0f, 1.0f, 0.0f);
+	anim_vector[1]->animation_transform = {transform_mgc_animation, transform_mgc_animation1};
 	
 	anim_vector[2]->scale = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
 	Transformation		*transform_brc_setup = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
-	Transformation		*transform_brc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
-	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup2};
+	Transformation		*transform_brc_setup1 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
+	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup1};
 	Transformation		*transform_brc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 20.0f, 1.0f);
 	anim_vector[2]->animation_transform = {transform_brc_animation};
 }
@@ -93,8 +94,10 @@ Model::animate(void)
 
 	if (frame < max_frame)
 	{
+		// TODO search in class and * by frame
 		anim_vector[0]->animation_transform[0]->setAngle(1.0f * frame);
 		anim_vector[1]->animation_transform[0]->setAngle(1.0f * frame);
+		anim_vector[1]->animation_transform[1]->setY(0.001f * frame);
 		anim_vector[2]->animation_transform[0]->setAngle(60.0f * frame);
 	}
 	frame++;

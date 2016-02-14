@@ -42,3 +42,21 @@ Transformation::setAngle(GLfloat a)
 		this->_angle = a;
 	}
 }
+
+void
+Transformation::setX(GLfloat x)
+{
+	if (this->_transformation_type == T_TRANSLATE)
+	{
+		this->_x = x;
+	}
+}
+
+void
+Transformation::setY(GLfloat y)
+{
+	if (this->_transformation_type == T_TRANSLATE)
+	{
+		this->_y = y;
+	}
+}
