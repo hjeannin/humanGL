@@ -62,20 +62,18 @@ Model::buildPouet(void)
 	Transformation		*transform_sbc_setup = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
 
 	Transformation		*transform_mgc_setup = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
-	Transformation		*transform_mgc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
+	Transformation		*transform_mgc_setup2 = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
 
 	Transformation		*transform_brc_setup = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
-	Transformation		*transform_brc_setup2 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
-	Transformation		*transform_brc_setup3 = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
-	Transformation		*transform_brc_setup4 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
+	Transformation		*transform_brc_setup2 = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
+	Transformation		*transform_brc_setup3 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 
-	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 60.0f);
+	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 1.0f, 0.0f, 60.0f);
 
 	anim_vector[0]->animation_transform = {transform_sbc_animation};
 	anim_vector[0]->setup_transform = {transform_sbc_setup};
 	anim_vector[1]->setup_transform = {transform_mgc_setup, transform_mgc_setup2};
-	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup2, transform_brc_setup3, transform_brc_setup4};
-	runAllAnimSetup();
+	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup2, transform_brc_setup3};
 }
 
 void
@@ -99,8 +97,8 @@ Model::runAllAnimAnim(void)
 void
 Model::animate(void)
 {
-	runAllAnimSetup();
-	// runAllAnimAnim();
+	runAllAnimAnim();
+	// runAllAnimSetup();
 
 	// ////////////////////////
 	// // SEE use in Initiator

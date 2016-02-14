@@ -2,6 +2,7 @@
 # define ANIM_HPP
 
 # include "Transformation.hpp"
+# include <iostream>
 # include <vector>
 
 class Anim

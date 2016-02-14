@@ -27,6 +27,7 @@ Anim::runTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m)
 void
 Anim::runAnim(void)
 {
+	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
 	if (parent == NULL)
 	{
 		runTransformVector(animation_transform, this->matrix);
@@ -51,6 +52,7 @@ Anim::runAnim(void)
 			runTransformVector(setup_transform, this->matrix);			
 		}
 	}
+	// std::cerr << "Matrix OUT: " << matrix << std::endl << *matrix << std::endl;
 }
 
 void
@@ -58,36 +60,3 @@ Anim::runSetup(void)
 {
 	runTransformVector(setup_transform, this->matrix);
 }
-
-
-/*
-
-for (every parts)
-{
-	if (Parent == NULL)
-	{
-		Transform.anim(my_matrix);
-		Transform.setup(my_matrix);
-	}
-	else if (Parent != NULL)
-	{
-		if (Parent->Parent == NULL)
-		{
-			Parent->Transform.anim(my_matrix);
-			Parent->Transform.setup(my_matrix);
-			Transform.anim(my_matrix);
-			Transform.setup(my_matrix);
-		}
-		else if (Parent->Parent != NULL)
-		{
-			Parent->Parent->Transform.anim(my_matrix);
-			Parent->Parent->Transform.setup(my_matrix);
-			Parent->Transform.anim(my_matrix);
-			Parent->Transform.setup(my_matrix);
-			Transform.anim(my_matrix);
-			Transform.setup(my_matrix);
-		}
-	}
-}
-
-*/
