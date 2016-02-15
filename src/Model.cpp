@@ -95,18 +95,19 @@ Model::buildPouet(void)
 	
 	anim_vector = {sbc_a, mgc_a, brc_a};
 
-	anim_vector[SBC]->setScale(0.5f, 0.5f, 0.5f);
-	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 3000.0f, 0, 1200);
+	anim_vector[SBC]->setScale(1.0f, 7.0f, 1.0f);
+	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 360.0f, 0, 1200);
 
-	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
+	anim_vector[MGC]->setScale(3.0f, 1.0f, 1.0f);
 	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
+	anim_vector[MGC]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
 	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 3000.0f, 0, 1200);
 	// anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, 0, 200);
 	
-	anim_vector[BRC]->setScale(2.0f, 10.0f, 1.0f);
+	anim_vector[BRC]->setScale(1.0f, 10.0f, 3.0f);
 	// anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
-	// anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
-	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 360.0f, 0, 1200);
+	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
+	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 36000.0f, 0, 1200);
 }
 
 void

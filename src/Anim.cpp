@@ -107,7 +107,6 @@ void
 Anim::runAnim(GLuint current_frame)
 {
 	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
-	scale->runSetup(this->matrix);	
 	if (parent == NULL)
 	{
 		runAnimationTransformVector(animation_transform, this->matrix, current_frame);
@@ -132,5 +131,6 @@ Anim::runAnim(GLuint current_frame)
 			runSetupTransformVector(setup_transform, this->matrix);			
 		}
 	}
+	scale->runSetup(this->matrix);	
 	// std::cerr << "Matrix OUT: " << matrix << std::endl << *matrix << std::endl;
 }
