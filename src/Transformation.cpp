@@ -17,9 +17,9 @@ Transformation::~Transformation(void)
 }
 
 void
-Transformation::run(Mat4<GLfloat> *matrix)
+Transformation::runSetup(Mat4<GLfloat> *matrix)
 {
-	if (this->_start_frame - this->_end_frame == 0)
+	if (_start_frame - _end_frame == 0)
 	{
 		if (_transformation_type == T_TRANSLATE)
 		{
@@ -32,8 +32,26 @@ Transformation::run(Mat4<GLfloat> *matrix)
 		else if (_transformation_type == T_SCALE)
 		{
 			matrix->scale(_x, _y, _z);
-		}		
+		}
+	}		
+	return;
+}
+
+void
+Transformation::runAnimation(Mat4<GLfloat> *matrix)
+{
+	if (_transformation_type == T_TRANSLATE)
+	{
+		matrix->translate(_x, _y, _z);
 	}
+	else if (_transformation_type == T_ROTATE)
+	{
+		matrix->rotate(_angle, _x, _y, _z);
+	}
+	else if (_transformation_type == T_SCALE)
+	{
+		matrix->scale(_x, _y, _z);
+	}		
 	return;
 }
 

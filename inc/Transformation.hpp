@@ -45,7 +45,8 @@ public:
 	void		setAngle(GLfloat a);
 	void		setX(GLfloat x);
 	void		setY(GLfloat y);
-	void		run(Mat4<GLfloat> *matrix);
+	void		runSetup(Mat4<GLfloat> *matrix);
+	void		runAnimation(Mat4<GLfloat> *matrix);
 };
 
 #endif
