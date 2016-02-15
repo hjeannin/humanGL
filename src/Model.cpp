@@ -72,7 +72,7 @@ Model::buildPouet(void)
 	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
 	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
 	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 0.1f, 0, 1200);
-	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 10.0f, 0.0f, 0, 1200);
+	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, 0, 200);
 	
 	anim_vector[BRC]->setScale(2.0f, 2.0f, 2.0f);
 	anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
@@ -81,36 +81,24 @@ Model::buildPouet(void)
 }
 
 void
-Model::runAllAnimAnim(void)
+Model::runAnimVectorAnim(void)
 {
 	for (GLuint i = 0; i < anim_vector.size(); i++)
 	{
-		anim_vector[i]->runAnim();
+		anim_vector[i]->runAnim(frame);
 	}	
 }
 
 void
 Model::animate(void)
 {
-	GLuint		max_frame = 1200;
-
-	if (frame < max_frame)
-	{
-		// TODO search in class and * by frame
-		// TODO framerange in anim
-		// anim_vector[SBC]->animation_transform[0]->setAngle(1.0f * frame);
-
-		// anim_vector[MGC]->animation_transform[0]->setAngle(1.0f * frame);
-
-		// anim_vector[BRC]->animation_transform[0]->setAngle(60.0f * frame);
-	}
 	frame++;
 	if (frame == max_frame)
 		frame = 0;
-	runAllAnimAnim();
+	runAnimVectorAnim();
 
 	////////////////////////
-	// SEE use in Initiator
+	// SEE use in Initiator->drawModel()
 	////////////////////////
 }
 

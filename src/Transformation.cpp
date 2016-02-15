@@ -20,7 +20,7 @@ Transformation::~Transformation(void)
 void
 Transformation::runSetup(Mat4<GLfloat> *matrix)
 {
-	if (_frame_range <= 0.0f)
+	if (_frame_range == 0.0f)
 	{
 		if (_transformation_type == T_TRANSLATE)
 		{
@@ -42,25 +42,38 @@ Transformation::runSetup(Mat4<GLfloat> *matrix)
 }
 
 void
-Transformation::runAnimation(Mat4<GLfloat> *matrix)
+Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 {
-	// start_frame = 0, end_frame = 240
-	// translate 10.0f en X
-
 	if (_frame_range > 0.0f)
 	{
-		if (_transformation_type == T_TRANSLATE)
+		if (current_frame >= _start_frame && current_frame < _end_frame)
 		{
-			matrix->translate(_x / this->_frame_range, _y / this->_frame_range, _z / this->_frame_range);
+			if (_transformation_type == T_TRANSLATE)
+			{
+				matrix->translate(	_x / this->_frame_range * current_frame,
+					_y / this->_frame_range * current_frame,
+					_z / this->_frame_range * current_frame);
+			}
+			else if (_transformation_type == T_ROTATE)
+			{
+				matrix->rotate(_angle, _x, _y, _z);
+			}
+			else if (_transformation_type == T_SCALE)
+			{
+				matrix->scale(_x, _y, _z);
+			}				
 		}
-		else if (_transformation_type == T_ROTATE)
+		else if (current_frame >= _end_frame)
 		{
-			matrix->rotate(_angle, _x, _y, _z);
+			if (_transformation_type == T_TRANSLATE)
+			{
+				matrix->translate(_x, _y, _z);
+			}
 		}
-		else if (_transformation_type == T_SCALE)
+		else
 		{
-			matrix->scale(_x, _y, _z);
-		}				
+			std::cerr << "runAnimation error, current_frame = " << current_frame << std::endl;
+		}
 	}
 	else
 	{

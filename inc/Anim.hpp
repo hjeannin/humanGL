@@ -26,8 +26,9 @@ public:
 	void		addScale(bool isAnimation, GLfloat x, GLfloat y, GLfloat z,
 							GLuint start_frame = 0, GLuint end_frame = 0);
 	void		runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
-	void		runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
-	void		runAnim(void);
+	void		runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m,
+							GLuint current_frame);
+	void		runAnim(GLuint current_frame);
 };
 
 #endif

@@ -95,40 +95,40 @@ Anim::runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m
 }
 
 void
-Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m)
+Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m, GLuint current_frame)
 {
 	for (GLuint i = 0; i < v.size(); i++)
 	{
-		v[i]->runAnimation(m);
+		v[i]->runAnimation(m, current_frame);
 	}
 }
 
 void
-Anim::runAnim(void)
+Anim::runAnim(GLuint current_frame)
 {
 	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
 	scale->runSetup(this->matrix);	
 	if (parent == NULL)
 	{
-		runAnimationTransformVector(animation_transform, this->matrix);
+		runAnimationTransformVector(animation_transform, this->matrix, current_frame);
 		runSetupTransformVector(setup_transform, this->matrix);			
 	}
 	else if (parent != NULL)
 	{
 		if (parent->parent == NULL)
 		{
-			runAnimationTransformVector(parent->animation_transform, this->matrix);			
+			runAnimationTransformVector(parent->animation_transform, this->matrix, current_frame);			
 			runSetupTransformVector(parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(animation_transform, this->matrix);			
+			runAnimationTransformVector(animation_transform, this->matrix, current_frame);			
 			runSetupTransformVector(setup_transform, this->matrix);			
 		}
 		else if (parent->parent != NULL)
 		{
-			runAnimationTransformVector(parent->parent->animation_transform, this->matrix);			
+			runAnimationTransformVector(parent->parent->animation_transform, this->matrix, current_frame);			
 			runSetupTransformVector(parent->parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(parent->animation_transform, this->matrix);			
+			runAnimationTransformVector(parent->animation_transform, this->matrix, current_frame);			
 			runSetupTransformVector(parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(animation_transform, this->matrix);						
+			runAnimationTransformVector(animation_transform, this->matrix, current_frame);						
 			runSetupTransformVector(setup_transform, this->matrix);			
 		}
 	}

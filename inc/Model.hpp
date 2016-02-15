@@ -70,6 +70,7 @@ public:
 	};
 
 	GLuint					frame = 0;
+	GLuint					max_frame = 1200;
 	Part					*part;
 	std::vector<Anim *>		anim_vector;
 
@@ -82,7 +83,7 @@ public:
 	Mat4<GLfloat>	*findMatrix(int index);
 
 	void		buildPouet(void);
-	void		runAllAnimAnim(void);
+	void		runAnimVectorAnim(void);
 
 	void		buildHuman(void);
 
