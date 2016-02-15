@@ -80,19 +80,17 @@ public:
 	GLuint		getPartCount(void) const;
 	
 	void		setNeededPart(GLuint n);
+	void		changePartColor(int id, GLuint color);
 	Mat4<GLfloat>	*findMatrix(int index);
-
-	void		buildPouet(void);
 	void		runAnimVectorAnim(void);
-
-	void		buildHuman(void);
-
 	void		animate(void);
 	void		reset(void);
 
+	void		buildPouet(void);
+	void		buildHuman(void);
+
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);
-	void		changePartColor(int id, GLuint color);
 	// void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);
 
 };

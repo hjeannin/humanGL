@@ -44,7 +44,6 @@ public:
 	Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f, GLuint start_frame = 0, GLuint end_frame = 0);
 	~Transformation(void);
 
-	void		setAngle(GLfloat a);
 	void		runSetup(Mat4<GLfloat> *matrix);
 	void		runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame);
 };

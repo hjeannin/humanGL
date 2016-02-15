@@ -51,6 +51,35 @@ Mat4<GLfloat>
 }
 
 void
+Model::runAnimVectorAnim(void)
+{
+	for (GLuint i = 0; i < anim_vector.size(); i++)
+	{
+		anim_vector[i]->runAnim(frame);
+	}	
+}
+
+////////////////////////
+// SEE use in Initiator->drawModel()
+void
+Model::animate(void)
+{
+	frame++;
+	if (frame == max_frame)
+		frame = 0;
+	runAnimVectorAnim();
+}
+
+void
+Model::reset(void)
+{
+	part[SBC].matrix.setIdentity();
+	part[MGC].matrix.setIdentity();
+	part[BRC].matrix.setIdentity();
+}
+////////////////////////
+
+void
 Model::buildPouet(void)
 {
 	setNeededPart(3);
@@ -67,47 +96,17 @@ Model::buildPouet(void)
 	anim_vector = {sbc_a, mgc_a, brc_a};
 
 	anim_vector[SBC]->setScale(0.5f, 0.5f, 0.5f);
-	// anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 0.1f, 0, 1200);
+	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 3000.0f, 0, 1200);
 
 	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
 	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
-	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 0.1f, 0, 1200);
-	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, 0, 200);
+	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 3000.0f, 0, 1200);
+	// anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, 0, 200);
 	
-	anim_vector[BRC]->setScale(2.0f, 2.0f, 2.0f);
-	anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
-	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
-	// anim_vector[BRC]->addRotation(ANIM, Z_AXIS, 1.0f, 0, 1200);
-}
-
-void
-Model::runAnimVectorAnim(void)
-{
-	for (GLuint i = 0; i < anim_vector.size(); i++)
-	{
-		anim_vector[i]->runAnim(frame);
-	}	
-}
-
-void
-Model::animate(void)
-{
-	frame++;
-	if (frame == max_frame)
-		frame = 0;
-	runAnimVectorAnim();
-
-	////////////////////////
-	// SEE use in Initiator->drawModel()
-	////////////////////////
-}
-
-void
-Model::reset(void)
-{
-	part[SBC].matrix.setIdentity();
-	part[MGC].matrix.setIdentity();
-	part[BRC].matrix.setIdentity();
+	anim_vector[BRC]->setScale(2.0f, 10.0f, 1.0f);
+	// anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
+	// anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
+	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 360.0f, 0, 1200);
 }
 
 void
