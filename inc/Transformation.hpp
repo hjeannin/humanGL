@@ -20,6 +20,9 @@
 # define Y_AXIS		71
 # define Z_AXIS		72
 
+# define ANIM		true
+# define SETUP		false
+
 # include <glfw3.h>
 # include "Mat4.hpp"
 

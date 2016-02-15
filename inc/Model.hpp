@@ -31,10 +31,6 @@
 # define MGC		1
 # define BRC		2
 
-# define X_AXIS		70
-# define Y_AXIS		71
-# define Z_AXIS		72
-
 # include <glfw3.h>
 # include <iostream>
 # include <map>

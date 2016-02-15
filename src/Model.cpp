@@ -67,21 +67,17 @@ Model::buildPouet(void)
 	anim_vector = {sbc_a, mgc_a, brc_a};
 
 	anim_vector[SBC]->setScale(0.5f, 0.5f, 0.5f);
-	anim_vector[SBC]->addRotation(true, Y_AXIS, 0.1f);
+	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 0.1f);
 
 	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
-	Transformation		*transform_mgc_setup = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
-	anim_vector[MGC]->setup_transform = {transform_mgc_setup};
-	Transformation		*transform_mgc_animation = new Transformation(T_ROTATE, 1.0f, 0.0f, 0.0f, 0.1f);
-	Transformation		*transform_mgc_animation1 = new Transformation(T_TRANSLATE, 0.0f, 1.0f, 0.0f);
-	anim_vector[MGC]->animation_transform = {transform_mgc_animation, transform_mgc_animation1};
+	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
+	anim_vector[MGC]->addRotation(ANIM, X_AXIS, 0.1f);
+	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f);
 	
 	anim_vector[BRC]->setScale(2.0f, 2.0f, 2.0f);
-	Transformation		*transform_brc_setup = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
-	Transformation		*transform_brc_setup1 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
-	anim_vector[BRC]->setup_transform = {transform_brc_setup, transform_brc_setup1};
-	Transformation		*transform_brc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 20.0f, 1.0f);
-	anim_vector[BRC]->animation_transform = {transform_brc_animation};
+	anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
+	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
+	anim_vector[BRC]->addRotation(ANIM, Z_AXIS, 1.0f);
 }
 
 void
