@@ -24,6 +24,7 @@
 # define SETUP		false
 
 # include <glfw3.h>
+# include <iostream>
 # include "Mat4.hpp"
 
 class Transformation
@@ -34,8 +35,9 @@ private:
 	GLfloat		_y;
 	GLfloat		_z;
 	GLfloat		_angle;
-	GLfloat		_start_frame;
-	GLfloat		_end_frame;
+	GLuint		_start_frame;
+	GLuint		_end_frame;
+	GLfloat		_frame_range;
 
 public:
 	Transformation(void);
@@ -43,8 +45,6 @@ public:
 	~Transformation(void);
 
 	void		setAngle(GLfloat a);
-	void		setX(GLfloat x);
-	void		setY(GLfloat y);
 	void		runSetup(Mat4<GLfloat> *matrix);
 	void		runAnimation(Mat4<GLfloat> *matrix);
 };

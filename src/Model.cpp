@@ -67,17 +67,17 @@ Model::buildPouet(void)
 	anim_vector = {sbc_a, mgc_a, brc_a};
 
 	anim_vector[SBC]->setScale(0.5f, 0.5f, 0.5f);
-	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 0.1f);
+	// anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 0.1f, 0, 1200);
 
 	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
 	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
-	anim_vector[MGC]->addRotation(ANIM, X_AXIS, 0.1f);
-	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f);
+	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 0.1f, 0, 1200);
+	anim_vector[MGC]->addTranslation(ANIM, 0.0f, 10.0f, 0.0f, 0, 1200);
 	
 	anim_vector[BRC]->setScale(2.0f, 2.0f, 2.0f);
 	anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
 	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
-	anim_vector[BRC]->addRotation(ANIM, Z_AXIS, 1.0f);
+	// anim_vector[BRC]->addRotation(ANIM, Z_AXIS, 1.0f, 0, 1200);
 }
 
 void
@@ -98,10 +98,11 @@ Model::animate(void)
 	{
 		// TODO search in class and * by frame
 		// TODO framerange in anim
-		anim_vector[0]->animation_transform[0]->setAngle(1.0f * frame);
-		anim_vector[1]->animation_transform[0]->setAngle(1.0f * frame);
-		anim_vector[1]->animation_transform[1]->setY(0.001f * frame);
-		anim_vector[2]->animation_transform[0]->setAngle(60.0f * frame);
+		// anim_vector[SBC]->animation_transform[0]->setAngle(1.0f * frame);
+
+		// anim_vector[MGC]->animation_transform[0]->setAngle(1.0f * frame);
+
+		// anim_vector[BRC]->animation_transform[0]->setAngle(60.0f * frame);
 	}
 	frame++;
 	if (frame == max_frame)
