@@ -16,6 +16,10 @@
 # define T_TRANSLATE	202
 # define T_ROTATE		203
 
+# define X_AXIS		70
+# define Y_AXIS		71
+# define Z_AXIS		72
+
 # include <glfw3.h>
 # include "Mat4.hpp"
 
@@ -27,10 +31,12 @@ private:
 	GLfloat		_y;
 	GLfloat		_z;
 	GLfloat		_angle;
+	GLfloat		_start_frame;
+	GLfloat		_end_frame;
 
 public:
 	Transformation(void);
-	Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f);
+	Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle = 0.0f, GLuint start_frame = 0, GLuint end_frame = 0);
 	~Transformation(void);
 
 	void		setAngle(GLfloat a);

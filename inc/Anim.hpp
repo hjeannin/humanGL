@@ -18,8 +18,14 @@ public:
 	Anim(Mat4<GLfloat> *m, Anim *p);
 	~Anim(void);
 
-	void		runTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
+	void		setScale(GLfloat x, GLfloat y, GLfloat z);
 
+	void		addRotation(bool isAnimation, int axis, GLfloat angle,
+							GLuint start_frame = 0, GLuint end_frame = 0);
+	void		addTranslation(bool isAnimation, GLfloat x, GLfloat y, GLfloat z,
+							GLuint start_frame = 0, GLuint end_frame = 0);
+
+	void		runTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
 	void		runAnim(void);
 };
 

@@ -60,24 +60,23 @@ Model::buildPouet(void)
 	changePartColor(MGC, 0x00FF0000);
 	changePartColor(BRC, 0xFF000000);
 
-	Anim		*pouet_sbc = new Anim(findMatrix(SBC), NULL);
-	Anim		*pouet_mgc = new Anim(findMatrix(MGC), pouet_sbc);
-	Anim		*pouet_brc = new Anim(findMatrix(BRC), pouet_mgc);
+	Anim		*sbc_a = new Anim(findMatrix(SBC), NULL);
+	Anim		*mgc_a = new Anim(findMatrix(MGC), sbc_a);
+	Anim		*brc_a = new Anim(findMatrix(BRC), mgc_a);
 	
-	anim_vector = {pouet_sbc, pouet_mgc, pouet_brc};
+	anim_vector = {sbc_a, mgc_a, brc_a};
 
-	anim_vector[SBC]->scale = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
-	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 1.0f, 0.0f, 0.1f);
-	anim_vector[SBC]->animation_transform = {transform_sbc_animation};
+	anim_vector[SBC]->setScale(0.5f, 0.5f, 0.5f);
+	anim_vector[SBC]->addRotation(true, Y_AXIS, 0.1f);
 
-	anim_vector[MGC]->scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
+	anim_vector[MGC]->setScale(1.0f, 1.0f, 1.0f);
 	Transformation		*transform_mgc_setup = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
 	anim_vector[MGC]->setup_transform = {transform_mgc_setup};
 	Transformation		*transform_mgc_animation = new Transformation(T_ROTATE, 1.0f, 0.0f, 0.0f, 0.1f);
 	Transformation		*transform_mgc_animation1 = new Transformation(T_TRANSLATE, 0.0f, 1.0f, 0.0f);
 	anim_vector[MGC]->animation_transform = {transform_mgc_animation, transform_mgc_animation1};
 	
-	anim_vector[BRC]->scale = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
+	anim_vector[BRC]->setScale(2.0f, 2.0f, 2.0f);
 	Transformation		*transform_brc_setup = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
 	Transformation		*transform_brc_setup1 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
 	anim_vector[BRC]->setup_transform = {transform_brc_setup, transform_brc_setup1};

@@ -75,7 +75,6 @@ public:
 
 	GLuint					frame = 0;
 	Part					*part;
-	std::map<int, GLuint>	ids;
 	std::vector<Anim *>		anim_vector;
 
 	Model(void);
@@ -84,7 +83,7 @@ public:
 	GLuint		getPartCount(void) const;
 	
 	void		setNeededPart(GLuint n);
-	Mat4<GLfloat>	*findMatrix(int id);
+	Mat4<GLfloat>	*findMatrix(int index);
 
 	void		buildPouet(void);
 	void		runAllAnimAnim(void);
