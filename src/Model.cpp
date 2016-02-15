@@ -27,16 +27,27 @@ Model::setNeededPart(GLuint n)
 	part = new Part[_part_count];	
 }
 
-GLuint
-Model::findIDIndex(int id)
+void
+Model::changePartColor(int index, GLuint color)
 {
-	return (ids[id]);
+	GLubyte		a = (color >> 0) & 0xFF;
+	GLubyte		b = (color >> 8) & 0xFF;
+	GLubyte		g = (color >> 16) & 0xFF;
+	GLubyte		r = (color >> 24) & 0xFF;
+
+	for (GLuint j = 0; j < part[index].v_num_elem; j++)
+	{
+		part[index].v_array[j].r = r;
+		part[index].v_array[j].g = g;
+		part[index].v_array[j].b = b;
+		part[index].v_array[j].a = a;
+	}
 }
 
 Mat4<GLfloat>
-*Model::findMatrix(int id)
+*Model::findMatrix(int index)
 {
-	return (&part[findIDIndex(id)].matrix);
+	return (&part[index].matrix);
 }
 
 void
@@ -44,10 +55,6 @@ Model::buildPouet(void)
 {
 	setNeededPart(3);
 	genCubes();
-	
-	ids[SBC] = 0;
-	ids[MGC] = 1;
-	ids[BRC] = 2;
 	
 	changePartColor(SBC, 0x0000FF00);
 	changePartColor(MGC, 0x00FF0000);
@@ -59,23 +66,23 @@ Model::buildPouet(void)
 	
 	anim_vector = {pouet_sbc, pouet_mgc, pouet_brc};
 
-	anim_vector[0]->scale = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
+	anim_vector[SBC]->scale = new Transformation(T_SCALE, 0.5f, 0.5f, 0.5f);
 	Transformation		*transform_sbc_animation = new Transformation(T_ROTATE, 0.0f, 1.0f, 0.0f, 0.1f);
-	anim_vector[0]->animation_transform = {transform_sbc_animation};
+	anim_vector[SBC]->animation_transform = {transform_sbc_animation};
 
-	anim_vector[1]->scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
+	anim_vector[MGC]->scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
 	Transformation		*transform_mgc_setup = new Transformation(T_TRANSLATE, 2.0f, 0.0f, 0.0f);
-	anim_vector[1]->setup_transform = {transform_mgc_setup};
+	anim_vector[MGC]->setup_transform = {transform_mgc_setup};
 	Transformation		*transform_mgc_animation = new Transformation(T_ROTATE, 1.0f, 0.0f, 0.0f, 0.1f);
 	Transformation		*transform_mgc_animation1 = new Transformation(T_TRANSLATE, 0.0f, 1.0f, 0.0f);
-	anim_vector[1]->animation_transform = {transform_mgc_animation, transform_mgc_animation1};
+	anim_vector[MGC]->animation_transform = {transform_mgc_animation, transform_mgc_animation1};
 	
-	anim_vector[2]->scale = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
+	anim_vector[BRC]->scale = new Transformation(T_SCALE, 2.0f, 2.0f, 2.0f);
 	Transformation		*transform_brc_setup = new Transformation(T_ROTATE, 0.0f, 0.0f, 1.0f, 90.0f);
 	Transformation		*transform_brc_setup1 = new Transformation(T_TRANSLATE, 1.0f, 0.0f, 0.0f);
-	anim_vector[2]->setup_transform = {transform_brc_setup, transform_brc_setup1};
+	anim_vector[BRC]->setup_transform = {transform_brc_setup, transform_brc_setup1};
 	Transformation		*transform_brc_animation = new Transformation(T_ROTATE, 0.0f, 0.0f, 20.0f, 1.0f);
-	anim_vector[2]->animation_transform = {transform_brc_animation};
+	anim_vector[BRC]->animation_transform = {transform_brc_animation};
 }
 
 void
@@ -95,6 +102,7 @@ Model::animate(void)
 	if (frame < max_frame)
 	{
 		// TODO search in class and * by frame
+		// TODO framerange in anim
 		anim_vector[0]->animation_transform[0]->setAngle(1.0f * frame);
 		anim_vector[1]->animation_transform[0]->setAngle(1.0f * frame);
 		anim_vector[1]->animation_transform[1]->setY(0.001f * frame);
@@ -113,9 +121,9 @@ Model::animate(void)
 void
 Model::reset(void)
 {
-	part[findIDIndex(SBC)].matrix.setIdentity();
-	part[findIDIndex(MGC)].matrix.setIdentity();
-	part[findIDIndex(BRC)].matrix.setIdentity();
+	part[SBC].matrix.setIdentity();
+	part[MGC].matrix.setIdentity();
+	part[BRC].matrix.setIdentity();
 }
 
 void
@@ -137,7 +145,6 @@ Model::buildHuman(void)
 
 	setNeededPart(10);
 	genCubes();
-	fillHumanIDs();
 
 	changePartColor(BODY, 0xad45ed00);
 	part[0].matrix.scale(2.0f, 3.0f, 1.0f);
@@ -172,21 +179,6 @@ Model::buildHuman(void)
 }
 
 void
-Model::fillHumanIDs(void)
-{
-	ids[BODY] = 0;
-	ids[HEAD] = 1;
-	ids[ARM_R_R] = 2;
-	ids[ARM_R_F] = 3;
-	ids[ARM_L_R] = 4;
-	ids[ARM_L_F] = 5;
-	ids[LEG_R_R] = 6;
-	ids[LEG_R_F] = 7;
-	ids[LEG_L_R] = 8;
-	ids[LEG_L_F] = 9;
-}
-
-void
 Model::genCubes(void)
 {
 	if (_part_count != 0)
@@ -202,24 +194,6 @@ Model::genCubes(void)
 	else
 	{
 		std::cerr << "parts not allocated" << std::endl;
-	}
-}
-
-void
-Model::changePartColor(int id, GLuint color)
-{
-	GLuint		i = findIDIndex(id);
-	GLubyte		a = (color >> 0) & 0xFF;
-	GLubyte		b = (color >> 8) & 0xFF;
-	GLubyte		g = (color >> 16) & 0xFF;
-	GLubyte		r = (color >> 24) & 0xFF;
-
-	for (GLuint j = 0; j < part[i].v_num_elem; j++)
-	{
-		part[i].v_array[j].r = r;
-		part[i].v_array[j].g = g;
-		part[i].v_array[j].b = b;
-		part[i].v_array[j].a = a;
 	}
 }
 
@@ -305,29 +279,6 @@ Model::generateCube(Part *current_part, int nfb, int nvb)
 	current_part->f_array[33] = nvb + 7;
 	current_part->f_array[34] = nvb + 3;
 	current_part->f_array[35] = nvb + 2;
-}
-
-void
-Model::scale(int id, GLfloat x, GLfloat y, GLfloat z)
-{
-	findMatrix(id)->scale(x, y, z);
-}
-
-void
-Model::translate(int id, GLfloat x, GLfloat y, GLfloat z)
-{
-	findMatrix(id)->translate(x, y, z);
-}
-
-void
-Model::rotate(int id, GLfloat angle, int axis)
-{
-	if (axis == X_AXIS)
-		findMatrix(id)->rotate(angle, 1.0f, 0.0f, 0.0f);
-	if (axis == Y_AXIS)
-		findMatrix(id)->rotate(angle, 0.0f, 1.0f, 0.0f);
-	if (axis ==  Z_AXIS)
-		findMatrix(id)->rotate(angle, 0.0f, 0.0f, 1.0f);
 }
 
 // void

@@ -27,9 +27,9 @@
 # define LEG_L_F	52
 
 # define NONE		-1
-# define BRC		345
-# define SBC		346
-# define MGC		347
+# define SBC		0
+# define MGC		1
+# define BRC		2
 
 # define X_AXIS		70
 # define Y_AXIS		71
@@ -86,16 +86,10 @@ public:
 	void		setNeededPart(GLuint n);
 	Mat4<GLfloat>	*findMatrix(int id);
 
-	void		scale(int id, GLfloat x, GLfloat y, GLfloat z);
-	void		translate(int id, GLfloat x, GLfloat y, GLfloat z);
-	void		rotate(int id, GLfloat angle, int axis);
-
 	void		buildPouet(void);
 	void		runAllAnimAnim(void);
 
 	void		buildHuman(void);
-	void		fillHumanIDs(void);
-	GLuint		findIDIndex(int id);
 
 	void		animate(void);
 	void		reset(void);
