@@ -54,11 +54,27 @@ Anim::addRotation(bool isAnimation, int axis, GLfloat angle, GLuint start_frame,
 }
 
 void
-Anim::addTranslation(bool isAnimation, GLfloat x, GLfloat y, GLfloat z,	GLuint start_frame, GLuint end_frame)
+Anim::addTranslation(bool isAnimation, GLfloat x, GLfloat y, GLfloat z, GLuint start_frame, GLuint end_frame)
 {
 	Transformation		*new_transformation;
 
 	new_transformation = new Transformation(T_TRANSLATE, x, y, z, 0.0f, start_frame, end_frame);
+	if (isAnimation == true)
+	{
+		this->animation_transform.push_back(new_transformation);
+	}
+	if (isAnimation == false)
+	{
+		this->setup_transform.push_back(new_transformation);
+	}
+}
+
+void
+Anim::addScale(bool isAnimation, GLfloat x, GLfloat y, GLfloat z, GLuint start_frame, GLuint end_frame)
+{
+	Transformation		*new_transformation;
+
+	new_transformation = new Transformation(T_SCALE, x, y, z, 0.0f, start_frame, end_frame);
 	if (isAnimation == true)
 	{
 		this->animation_transform.push_back(new_transformation);
