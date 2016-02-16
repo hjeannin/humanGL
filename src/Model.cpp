@@ -99,13 +99,14 @@ Model::multiAnim(void)
 	Anim	*sub8 = new Anim(findMatrix(8), main);
 	Anim	*sub9 = new Anim(findMatrix(9), main);
 	Anim	*sub10 = new Anim(findMatrix(10), main);
-	// Anim	*sub11 = new Anim(findMatrix(11), main);
-	// Anim	*sub12 = new Anim(findMatrix(12), main);
-	// Anim	*sub13 = new Anim(findMatrix(13), main);
-	// Anim	*sub14 = new Anim(findMatrix(14), main);
-	// Anim	*sub15 = new Anim(findMatrix(15), main);
-	// Anim	*sub16 = new Anim(findMatrix(16), main);
-	// Anim	*sub17 = new Anim(findMatrix(17), main);
+	Anim	*sub11 = new Anim(findMatrix(11), main);
+	Anim	*sub12 = new Anim(findMatrix(12), main);
+	Anim	*sub13 = new Anim(findMatrix(13), main);
+	Anim	*sub14 = new Anim(findMatrix(14), main);
+	Anim	*sub15 = new Anim(findMatrix(15), main);
+	Anim	*sub16 = new Anim(findMatrix(16), main);
+	Anim	*sub17 = new Anim(findMatrix(17), main);
+	Anim	*sub18 = new Anim(findMatrix(18), main);
 
 	anim_vector.push_back(main);
 	anim_vector.push_back(sub1);
@@ -118,13 +119,14 @@ Model::multiAnim(void)
 	anim_vector.push_back(sub8);
 	anim_vector.push_back(sub9);
 	anim_vector.push_back(sub10);
-	// anim_vector.push_back(sub11);
-	// anim_vector.push_back(sub12);
-	// anim_vector.push_back(sub13);
-	// anim_vector.push_back(sub14);
-	// anim_vector.push_back(sub15);
-	// anim_vector.push_back(sub16);
-	// anim_vector.push_back(sub17);
+	anim_vector.push_back(sub11);
+	anim_vector.push_back(sub12);
+	anim_vector.push_back(sub13);
+	anim_vector.push_back(sub14);
+	anim_vector.push_back(sub15);
+	anim_vector.push_back(sub16);
+	anim_vector.push_back(sub17);
+	anim_vector.push_back(sub18);
 }
 
 void
@@ -135,11 +137,11 @@ Model::buildWTF(void)
 	GLuint		ef = 120;
 
 	max_frame = ef;
-	// setNeededPart(18);
-	setNeededPart(11);
+	setNeededPart(19);
 	genCubes();
 	multiAnim();
-	// anim_vector[0]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
+	anim_vector[0]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
+	anim_vector[0]->addRotation(ANIM, X_AXIS, 360.0f, sf, ef);
 
 	anim_vector[1]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
 	anim_vector[2]->addTranslation(SETUP, -1.0f, 0.0f, 0.0f);
@@ -150,9 +152,18 @@ Model::buildWTF(void)
 
 	anim_vector[7]->addTranslation(SETUP, 1.0f, 1.0f, 0.0f);
 	anim_vector[8]->addTranslation(SETUP, 1.0f, -1.0f, 0.0f);
-
 	anim_vector[9]->addTranslation(SETUP, -1.0f, 1.0f, 0.0f);
 	anim_vector[10]->addTranslation(SETUP, -1.0f, -1.0f, 0.0f);
+
+	anim_vector[11]->addTranslation(SETUP, 1.0f, 1.0f, 1.0f);
+	anim_vector[12]->addTranslation(SETUP, 1.0f, -1.0f, 1.0f);
+	anim_vector[13]->addTranslation(SETUP, -1.0f, 1.0f, 1.0f);
+	anim_vector[14]->addTranslation(SETUP, -1.0f, -1.0f, 1.0f);
+
+	anim_vector[15]->addTranslation(SETUP, 1.0f, 1.0f, -1.0f);
+	anim_vector[16]->addTranslation(SETUP, 1.0f, -1.0f, -1.0f);
+	anim_vector[17]->addTranslation(SETUP, -1.0f, 1.0f, -1.0f);
+	anim_vector[18]->addTranslation(SETUP, -1.0f, -1.0f, -1.0f);
 
 	anim_vector[1]->addTranslation(ANIM, -2.0f, 0.0f, 0.0f, sf, mf);
 	anim_vector[2]->addTranslation(ANIM, 2.0f, 0.0f, 0.0f, sf, mf);
@@ -179,23 +190,25 @@ Model::buildWTF(void)
 	anim_vector[9]->addTranslation(ANIM, -2.0f, 2.0f, 0.0f, mf, ef);
 	anim_vector[10]->addTranslation(ANIM, -2.0f, -2.0f, 0.0f, mf, ef);
 
-	// anim_vector[1]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
-	// anim_vector[2]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
-	// anim_vector[3]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
-	// anim_vector[4]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
-	// anim_vector[5]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
-	// anim_vector[6]->addRotation(ANIM, Y_AXIS, 360.0f, 0, ef);
+	anim_vector[11]->addTranslation(ANIM, -2.0f, -2.0f, -2.0f, sf, mf);
+	anim_vector[12]->addTranslation(ANIM, -2.0f, 2.0f, -2.0f, sf, mf);
+	anim_vector[11]->addTranslation(ANIM, 2.0f, 2.0f, 2.0f, mf, ef);
+	anim_vector[12]->addTranslation(ANIM, 2.0f, -2.0f, 2.0f, mf, ef);
 
+	anim_vector[13]->addTranslation(ANIM, 2.0f, -2.0f, -2.0f, sf, mf);
+	anim_vector[14]->addTranslation(ANIM, 2.0f, 2.0f, -2.0f, sf, mf);
+	anim_vector[13]->addTranslation(ANIM, -2.0f, 2.0f, 2.0f, mf, ef);
+	anim_vector[14]->addTranslation(ANIM, -2.0f, -2.0f, 2.0f, mf, ef);
 
-	// anim_vector[5]->addTranslation(ANIM, 0.0f, 0.0f, 2.0f, 0, mf);
-	// anim_vector[6]->addTranslation(ANIM, 0.0f, 0.0f, -2.0f, 0, mf);
+	anim_vector[15]->addTranslation(ANIM, -2.0f, -2.0f, 2.0f, sf, mf);
+	anim_vector[16]->addTranslation(ANIM, -2.0f, 2.0f, 2.0f, sf, mf);
+	anim_vector[15]->addTranslation(ANIM, 2.0f, 2.0f, -2.0f, mf, ef);
+	anim_vector[16]->addTranslation(ANIM, 2.0f, -2.0f, -2.0f, mf, ef);
 
-
-	// anim_vector[3]->addTranslation(ANIM, 0.0f, -2.0f, 0.0f, mf, ef);
-	// anim_vector[4]->addTranslation(ANIM, 0.0f, 2.0f, 0.0f, mf, ef);
-	// anim_vector[5]->addTranslation(ANIM, 0.0f, 0.0f, -2.0f, mf, ef);
-	// anim_vector[6]->addTranslation(ANIM, 0.0f, 0.0f, 2.0f, mf, ef);
-
+	anim_vector[17]->addTranslation(ANIM, 2.0f, -2.0f, 2.0f, sf, mf);
+	anim_vector[18]->addTranslation(ANIM, 2.0f, 2.0f, 2.0f, sf, mf);
+	anim_vector[17]->addTranslation(ANIM, -2.0f, 2.0f, -2.0f, mf, ef);
+	anim_vector[18]->addTranslation(ANIM, -2.0f, -2.0f, -2.0f, mf, ef);
 }
 
 void
