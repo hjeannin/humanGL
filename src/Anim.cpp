@@ -101,24 +101,18 @@ Anim::addScale(bool isAnimation, GLfloat x, GLfloat y, GLfloat z, GLuint start_f
 void
 Anim::runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m)
 {
-	if (v.size() > 0)
+	for (GLuint i = 0; i < v.size(); i++)
 	{
-		for (GLuint i = 0; i < v.size(); i++)
-		{
-			v[i]->runSetup(m);
-		}
+		v[i]->runSetup(m);
 	}
 }
 
 void
 Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m, GLuint current_frame)
 {
-	if (v.size() > 0)
+	for (GLuint i = 0; i < v.size(); i++)
 	{
-		for (GLuint i = 0; i < v.size(); i++)
-		{
-			v[i]->runAnimation(m, current_frame);
-		}
+		v[i]->runAnimation(m, current_frame);
 	}
 }
 

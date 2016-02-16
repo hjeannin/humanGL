@@ -69,7 +69,7 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 								_z / _frame_range * current_frame);
 			}				
 		}
-		else if (current_frame >= _end_frame)
+		else if (current_frame >= _end_frame || current_frame < _start_frame)
 		{
 			if (_transformation_type == T_TRANSLATE)
 			{
@@ -84,14 +84,14 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 				matrix->scale(	_x, _y, _z);
 			}				
 		}
-		else
-		{
-			std::cerr 	<< "runAnimation error, current_frame = " << current_frame
-						<< " _frame_range = " << _frame_range
-						<< " _start_frame = " << _start_frame
-						<< " _end_frame = " << _end_frame
-						<< std::endl;
-		}
+		// else
+		// {
+		// 	std::cerr 	<< "runAnimation error, current_frame = " << current_frame
+		// 				<< " _frame_range = " << _frame_range
+		// 				<< " _start_frame = " << _start_frame
+		// 				<< " _end_frame = " << _end_frame
+		// 				<< std::endl;
+		// }
 	}
 	else
 	{

@@ -36,8 +36,8 @@ private:
 	GLfloat		_z;
 	GLfloat		_angle;
 	GLuint		_start_frame;
-	GLuint		_end_frame;
 	GLfloat		_frame_range;
+	GLuint		_end_frame;
 
 public:
 	Transformation(void);

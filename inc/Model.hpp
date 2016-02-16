@@ -70,7 +70,7 @@ public:
 	};
 
 	GLuint					frame = 0;
-	GLuint					max_frame = 240;
+	GLuint					max_frame = 120;
 	Part					*part;
 	std::vector<Anim *>		anim_vector;
 
