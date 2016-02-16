@@ -18,6 +18,14 @@ Anim::~Anim(void)
 	{
 		delete (scale);
 	}
+	for (GLuint i = 0; i < animation_transform.size(); i++)
+	{
+		delete (animation_transform[i]);
+	}
+	for (GLuint j = 0; j < animation_transform.size(); j++)
+	{
+		delete (setup_transform[j]);
+	}
 	return;
 }
 

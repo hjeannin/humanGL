@@ -19,6 +19,7 @@ Initiator::Initiator(Initiator const &src)
 
 Initiator::~Initiator(void)
 {
+	delete (mod);
 	return;
 }
 
