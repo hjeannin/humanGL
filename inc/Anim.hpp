@@ -31,4 +31,6 @@ public:
 	void		runAnim(GLuint current_frame);
 };
 
+std::ostream	&operator<<(std::ostream &o, Anim const &i);
+
 #endif

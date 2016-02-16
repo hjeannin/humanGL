@@ -38,7 +38,10 @@ Transformation::runSetup(Mat4<GLfloat> *matrix)
 	}
 	else
 	{
-		std::cerr << "runSetup error, frame_range = " << _frame_range << std::endl;
+		std::cerr << "runSetup error: _frame_range = " << _frame_range
+						<< " _start_frame = " << _start_frame
+						<< " _end_frame = " << _end_frame
+						<< std::endl;
 	}
 }
 
@@ -83,7 +86,11 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 		}
 		else
 		{
-			std::cerr << "runAnimation error, current_frame = " << current_frame << std::endl;
+			std::cerr 	<< "runAnimation error, current_frame = " << current_frame
+						<< " _frame_range = " << _frame_range
+						<< " _start_frame = " << _start_frame
+						<< " _end_frame = " << _end_frame
+						<< std::endl;
 		}
 	}
 	else

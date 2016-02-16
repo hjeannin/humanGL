@@ -22,7 +22,7 @@ Anim::~Anim(void)
 	{
 		delete (animation_transform[i]);
 	}
-	for (GLuint j = 0; j < animation_transform.size(); j++)
+	for (GLuint j = 0; j < setup_transform.size(); j++)
 	{
 		delete (setup_transform[j]);
 	}
@@ -156,4 +156,12 @@ Anim::runAnim(GLuint current_frame)
 	}
 	scale->runSetup(this->matrix);	
 	// std::cerr << "Matrix OUT: " << matrix << std::endl << *matrix << std::endl;
+}
+
+std::ostream
+&operator<<(std::ostream &o, Anim const &i)
+{
+	o 	<< "Animation link to this matrix: " << i.matrix << std::endl
+		<< "Parent: " << i.parent << std::endl;
+	return o;
 }
