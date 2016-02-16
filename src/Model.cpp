@@ -80,6 +80,56 @@ Model::reset(void)
 ////////////////////////
 
 void
+Model::multiAnim(void)
+{
+	Anim	*main = new Anim(findMatrix(0), NULL);
+	Anim	*sub1 = new Anim(findMatrix(1), main);
+	Anim	*sub2 = new Anim(findMatrix(2), main);
+	Anim	*sub3 = new Anim(findMatrix(3), main);
+	Anim	*sub4 = new Anim(findMatrix(4), main);
+	Anim	*sub5 = new Anim(findMatrix(5), main);
+	Anim	*sub6 = new Anim(findMatrix(6), main);
+	Anim	*sub7 = new Anim(findMatrix(7), main);
+	Anim	*sub8 = new Anim(findMatrix(8), main);
+	Anim	*sub9 = new Anim(findMatrix(9), main);
+	Anim	*sub10 = new Anim(findMatrix(10), main);
+	Anim	*sub11 = new Anim(findMatrix(11), main);
+	Anim	*sub12 = new Anim(findMatrix(12), main);
+	Anim	*sub13 = new Anim(findMatrix(13), main);
+	Anim	*sub14 = new Anim(findMatrix(14), main);
+	Anim	*sub15 = new Anim(findMatrix(15), main);
+	Anim	*sub16 = new Anim(findMatrix(16), main);
+	Anim	*sub17 = new Anim(findMatrix(17), main);
+
+	anim_vector.push_back(main);
+	anim_vector.push_back(sub1);
+	anim_vector.push_back(sub2);
+	anim_vector.push_back(sub3);
+	anim_vector.push_back(sub4);
+	anim_vector.push_back(sub5);
+	anim_vector.push_back(sub6);
+	anim_vector.push_back(sub7);
+	anim_vector.push_back(sub8);
+	anim_vector.push_back(sub9);
+	anim_vector.push_back(sub10);
+	anim_vector.push_back(sub11);
+	anim_vector.push_back(sub12);
+	anim_vector.push_back(sub13);
+	anim_vector.push_back(sub14);
+	anim_vector.push_back(sub15);
+	anim_vector.push_back(sub16);
+	anim_vector.push_back(sub17);
+}
+
+void
+Model::buildWTF(void)
+{
+	setNeededPart(18);
+	genCubes();
+	multiAnim();
+}
+
+void
 Model::buildPouet(void)
 {
 	setNeededPart(3);
@@ -107,7 +157,7 @@ Model::buildPouet(void)
 	anim_vector[BRC]->setScale(1.0f, 10.0f, 3.0f);
 	// anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
 	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
-	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 36000.0f, 0, 1200);
+	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 3600.0f, 0, 1200);
 }
 
 void

@@ -89,6 +89,10 @@ public:
 	void		buildPouet(void);
 	void		buildHuman(void);
 
+
+	void		buildWTF(void);
+	void		multiAnim(void);
+
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);
 	// void		generateSphere(int size, GLubyte color_r, GLubyte color_g, GLubyte color_b);

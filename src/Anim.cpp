@@ -2,17 +2,22 @@
 
 Anim::Anim(void) : matrix(0), parent(NULL)
 {
+	scale = NULL;
 	return;
 }
 
 Anim::Anim(Mat4<GLfloat> *m, Anim *p) : matrix(m), parent(p)
 {
+	scale = NULL;
 	return;
 }
 
 Anim::~Anim(void)
 {
-	delete (scale);
+	if (scale != NULL)
+	{
+		delete (scale);
+	}
 	return;
 }
 
@@ -88,18 +93,24 @@ Anim::addScale(bool isAnimation, GLfloat x, GLfloat y, GLfloat z, GLuint start_f
 void
 Anim::runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m)
 {
-	for (GLuint i = 0; i < v.size(); i++)
+	if (v.size() > 0)
 	{
-		v[i]->runSetup(m);
+		for (GLuint i = 0; i < v.size(); i++)
+		{
+			v[i]->runSetup(m);
+		}
 	}
 }
 
 void
 Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m, GLuint current_frame)
 {
-	for (GLuint i = 0; i < v.size(); i++)
+	if (v.size() > 0)
 	{
-		v[i]->runAnimation(m, current_frame);
+		for (GLuint i = 0; i < v.size(); i++)
+		{
+			v[i]->runAnimation(m, current_frame);
+		}
 	}
 }
 
@@ -130,6 +141,10 @@ Anim::runAnim(GLuint current_frame)
 			runAnimationTransformVector(animation_transform, this->matrix, current_frame);						
 			runSetupTransformVector(setup_transform, this->matrix);			
 		}
+	}
+	if (scale == NULL)
+	{
+		scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
 	}
 	scale->runSetup(this->matrix);	
 	// std::cerr << "Matrix OUT: " << matrix << std::endl << *matrix << std::endl;

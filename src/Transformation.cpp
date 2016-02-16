@@ -2,6 +2,7 @@
 
 Transformation::Transformation(void) : _transformation_type(0), _x(0.0f), _y(0.0f), _z(0.0f), _angle(0.0f), _start_frame(0), _end_frame(0)
 {
+	this->_frame_range = 0.0f;
 	return;
 }
 
