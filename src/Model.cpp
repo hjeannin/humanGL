@@ -302,6 +302,14 @@ Model::buildHuman(void)
 	//
 	////////////////////////////////////////////////////////////////////////////////
 
+	GLuint		sf = 0;
+	GLuint		mf = 60;
+	GLuint		ef = 120;
+
+	(void)sf;
+	(void)mf;
+	(void)ef;
+	max_frame = ef;
 	setNeededPart(22);
 	genCubes();
 
@@ -345,6 +353,33 @@ Model::buildHuman(void)
 					rb, rrl, rk, rfl, rf,
 					lb, lrl, lk, lfl, lf};
 
+	changePartColor(HEAD, 0xB9886500);
+	changePartColor(RE, 0xB9886500);
+	changePartColor(RFA, 0xB9886500);
+	changePartColor(LE, 0xB9886500);
+	changePartColor(LFA, 0xB9886500);
+	
+	changePartColor(RH, 0xCB005C00);
+	changePartColor(LH, 0xCB005C00);
+
+	changePartColor(BODY, 0xFFFFFF00);
+	changePartColor(RS, 0xFFFFFF00);
+	changePartColor(LS, 0xFFFFFF00);
+	changePartColor(RRA, 0xFFFFFF00);
+	changePartColor(LRA, 0xFFFFFF00);
+
+	changePartColor(RB, 0x00327000);
+	changePartColor(LB, 0x00327000);
+	changePartColor(RRL, 0x00327000);
+	changePartColor(LRL, 0x00327000);
+	changePartColor(RK, 0x00327000);
+	changePartColor(LK, 0x00327000);
+	changePartColor(RFL, 0x00327000);
+	changePartColor(LFL, 0x00327000);
+
+	changePartColor(RF, 0xFD9A2900);
+	changePartColor(LF, 0xFD9A2900);
+
 	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
 
 	anim_vector[HEAD]->setScale(2.0f, 2.0f, 2.0f);
@@ -352,24 +387,65 @@ Model::buildHuman(void)
 
 // right arm
 	anim_vector[RS]->addTranslation(SETUP, 2.0f, 1.5f, 0.0f);
-	anim_vector[RRA]->addTranslation(SETUP, 0.0f, 0.0f, 0.0f);
-	anim_vector[RE]->addTranslation(SETUP, 0.0f, -2.0f, 0.0f);
-	anim_vector[RFA]->addTranslation(SETUP, 0.0f, 0.0f, 0.0f);
-	anim_vector[RH]->addTranslation(SETUP, 0.0f, -2.0f, 0.0f);
+	anim_vector[RS]->addRotation(SETUP, Z_AXIS, -8.0f);
+	anim_vector[RS]->addRotation(SETUP, X_AXIS, 8.0f);
+	anim_vector[RRA]->setScale(0.8f, 1.0f, 0.8f);
+	anim_vector[RRA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[RE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[RE]->addRotation(SETUP, Z_AXIS, 8.0f);
+	anim_vector[RE]->addRotation(SETUP, X_AXIS, -16.0f);
+	anim_vector[RFA]->setScale(0.8f, 1.0f, 0.8f);
+	anim_vector[RFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[RH]->setScale(1.0f, 1.5f, 1.0f);
+	anim_vector[RH]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 
 
 // left arm
 	anim_vector[LS]->addTranslation(SETUP, -2.0f, 1.5f, 0.0f);
+	anim_vector[LS]->addRotation(SETUP, Z_AXIS, 8.0f);
+	anim_vector[LS]->addRotation(SETUP, X_AXIS, 8.0f);
+	anim_vector[LRA]->setScale(0.8f, 1.0f, 0.8f);
+	anim_vector[LRA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[LE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[LE]->addRotation(SETUP, Z_AXIS, -8.0f);
+	anim_vector[LE]->addRotation(SETUP, X_AXIS, -16.0f);
+	anim_vector[LFA]->setScale(0.8f, 1.0f, 0.8f);
+	anim_vector[LFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[LH]->setScale(1.0f, 1.5f, 1.0f);
+	anim_vector[LH]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 
 
 // right leg
 	anim_vector[RB]->setScale(1.5f, 1.0f, 1.0f);
 	anim_vector[RB]->addTranslation(SETUP, 0.8f, -2.5f, 0.0f);
-
+	anim_vector[RRL]->setScale(1.0f, 2.0f, 1.0f);
+	anim_vector[RRL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
+	anim_vector[RK]->setScale(1.2f, 1.2f, 1.2f);
+	anim_vector[RK]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[RFL]->setScale(1.0f, 2.0f, 1.0f);
+	anim_vector[RFL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
+	anim_vector[RF]->setScale(1.0f, 1.0f, 2.0f);
+	anim_vector[RF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
 
 //	left leg
 	anim_vector[LB]->setScale(1.5f, 1.0f, 1.0f);
 	anim_vector[LB]->addTranslation(SETUP, -0.8f, -2.5f, 0.0f);
+	anim_vector[LRL]->setScale(1.0f, 2.0f, 1.0f);
+	anim_vector[LRL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
+	anim_vector[LK]->setScale(1.2f, 1.2f, 1.2f);
+	anim_vector[LK]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[LFL]->setScale(1.0f, 2.0f, 1.0f);
+	anim_vector[LFL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
+	anim_vector[LF]->setScale(1.0f, 1.0f, 2.0f);
+	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
+
+//	head
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, mf);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+
+//	right arm
+	// anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
+	// anim_vector[RS]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
 }
 
 void
