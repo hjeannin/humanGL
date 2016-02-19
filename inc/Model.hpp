@@ -15,7 +15,6 @@
 # define CUBE		101
 # define SPHERE		102
 
-
 //HUMAN
 
 # define BODY		0
@@ -105,10 +104,10 @@ public:
 	void		animate(void);
 	void		reset(void);
 
+	void		deduceChilds(void);
+
 	void		buildPouet(void);
 	void		buildHuman(void);
-
-
 	void		buildWTF(void);
 	void		multiAnim(void);
 

@@ -3,12 +3,14 @@
 Anim::Anim(void) : matrix(0), parent(NULL)
 {
 	scale = NULL;
+	child = NULL;
 	return;
 }
 
 Anim::Anim(Mat4<GLfloat> *m, Anim *p) : matrix(m), parent(p)
 {
 	scale = NULL;
+	child = NULL;
 	return;
 }
 
@@ -119,30 +121,27 @@ Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat
 void
 Anim::runAnim(GLuint current_frame)
 {
+	Anim		*tmp = this;
+
 	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
-	if (parent == NULL)
+	// std::cout << "Starting adress: " << tmp << std::endl; 
+	while (tmp->parent != NULL)
 	{
-		runAnimationTransformVector(animation_transform, this->matrix, current_frame);
-		runSetupTransformVector(setup_transform, this->matrix);			
+		tmp = tmp->parent;
+		// std::cout << "Moved        to :" << tmp << std::endl; 
 	}
-	else if (parent != NULL)
+	if (tmp->child == NULL)
 	{
-		if (parent->parent == NULL)
-		{
-			runAnimationTransformVector(parent->animation_transform, this->matrix, current_frame);			
-			runSetupTransformVector(parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(animation_transform, this->matrix, current_frame);			
-			runSetupTransformVector(setup_transform, this->matrix);			
-		}
-		else if (parent->parent != NULL)
-		{
-			runAnimationTransformVector(parent->parent->animation_transform, this->matrix, current_frame);			
-			runSetupTransformVector(parent->parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(parent->animation_transform, this->matrix, current_frame);			
-			runSetupTransformVector(parent->setup_transform, this->matrix);			
-			runAnimationTransformVector(animation_transform, this->matrix, current_frame);						
-			runSetupTransformVector(setup_transform, this->matrix);			
-		}
+		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
+		runSetupTransformVector(tmp->setup_transform, this->matrix);
+		// std::cout << "Done            :" << tmp << std::endl; 
+	}
+	while (tmp->child != NULL && tmp != this)
+	{
+		tmp = tmp->child;
+		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
+		runSetupTransformVector(tmp->setup_transform, this->matrix);
+		// std::cout << "Done            :" << tmp << std::endl; 
 	}
 	if (scale == NULL)
 	{

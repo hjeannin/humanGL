@@ -9,6 +9,7 @@ class Anim
 public:
 	Mat4<GLfloat>					*matrix;
 	Anim							*parent;
+	Anim							*child;
 	Transformation					*scale;
 	std::vector<Transformation *>	animation_transform;
 	std::vector<Transformation *>	setup_transform;
