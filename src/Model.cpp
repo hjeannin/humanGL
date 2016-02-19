@@ -349,6 +349,13 @@ Model::buildHuman(void)
 
 	deduceChilds();
 
+	// for (GLuint i = 0; i < anim_vector.size(); i++)
+	// {
+	// 	std::cout 	<< "Parent: " << anim_vector[i]->parent
+	// 				<< " Me: " << anim_vector[i]
+	// 				<< " Child: " << anim_vector[i]->child << std::endl;
+	// }	
+
 	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
 
 	anim_vector[HEAD]->setScale(2.0f, 2.0f, 2.0f);

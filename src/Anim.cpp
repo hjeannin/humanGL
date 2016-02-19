@@ -123,6 +123,8 @@ Anim::runAnim(GLuint current_frame)
 {
 	Anim		*tmp = this;
 
+	//AJOUTER LE MULTI CHILLD!!!!!!!!!!!!!!!
+
 	// std::cerr << "Matrix IN: " << matrix << std::endl << *matrix << std::endl;
 	// std::cout << "Starting adress: " << tmp << std::endl; 
 	while (tmp->parent != NULL)
@@ -130,19 +132,16 @@ Anim::runAnim(GLuint current_frame)
 		tmp = tmp->parent;
 		// std::cout << "Moved        to :" << tmp << std::endl; 
 	}
-	if (tmp->child == NULL)
-	{
-		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
-		runSetupTransformVector(tmp->setup_transform, this->matrix);
-		// std::cout << "Done            :" << tmp << std::endl; 
-	}
 	while (tmp->child != NULL && tmp != this)
 	{
-		tmp = tmp->child;
 		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
 		runSetupTransformVector(tmp->setup_transform, this->matrix);
-		// std::cout << "Done            :" << tmp << std::endl; 
+		// std::cout << "Done            :" << tmp << std::endl;
+		tmp = tmp->child;
 	}
+	runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
+	runSetupTransformVector(tmp->setup_transform, this->matrix);
+	// std::cout << "Done            :" << tmp << std::endl;
 	if (scale == NULL)
 	{
 		scale = new Transformation(T_SCALE, 1.0f, 1.0f, 1.0f);
