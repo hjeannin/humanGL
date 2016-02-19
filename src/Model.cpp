@@ -80,17 +80,17 @@ Model::reset(void)
 }
 ////////////////////////
 
-void
-Model::deduceChilds(void)
-{
-	for (GLuint i = 0; i < anim_vector.size(); i++)
-	{
-		if (anim_vector[i]->parent != NULL)
-		{
-			anim_vector[i]->parent->child = anim_vector[i];
-		}
-	}	
-}
+// void
+// Model::deduceChilds(void)
+// {
+// 	for (GLuint i = 0; i < anim_vector.size(); i++)
+// 	{
+// 		if (anim_vector[i]->parent != NULL)
+// 		{
+// 			anim_vector[i]->parent->child = anim_vector[i];
+// 		}
+// 	}	
+// }
 
 void
 Model::multiAnim(void)
@@ -163,7 +163,6 @@ Model::buildWTF(void)
 	setNeededPart(27);
 	genCubes();
 	multiAnim();
-	deduceChilds();
 	// anim_vector[0]->addRotation(ANIM, X_AXIS, 360.0f, sf, ef);
 	// anim_vector[0]->addRotation(ANIM, Y_AXIS, 180.0f, sf, mf);
 	// anim_vector[0]->addRotation(ANIM, Y_AXIS, -180.0f, mf, ef);
@@ -264,7 +263,6 @@ Model::buildPouet(void)
 	Anim		*brc_a = new Anim(findMatrix(BRC), mgc_a);
 	
 	anim_vector = {sbc_a, mgc_a, brc_a};
-	deduceChilds();
 
 	anim_vector[SBC]->setScale(1.0f, 7.0f, 1.0f);
 	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 360.0f, 0, 1200);
@@ -346,15 +344,6 @@ Model::buildHuman(void)
 					ls, lra, le, lfa, lh,
 					rb, rrl, rk, rfl, rf,
 					lb, lrl, lk, lfl, lf};
-
-	deduceChilds();
-
-	// for (GLuint i = 0; i < anim_vector.size(); i++)
-	// {
-	// 	std::cout 	<< "Parent: " << anim_vector[i]->parent
-	// 				<< " Me: " << anim_vector[i]
-	// 				<< " Child: " << anim_vector[i]->child << std::endl;
-	// }	
 
 	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
 

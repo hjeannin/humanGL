@@ -129,6 +129,7 @@ Anim::runAnim(GLuint current_frame)
 	// std::cout << "Starting adress: " << tmp << std::endl; 
 	while (tmp->parent != NULL)
 	{
+		tmp->parent->child = tmp;
 		tmp = tmp->parent;
 		// std::cout << "Moved        to :" << tmp << std::endl; 
 	}
