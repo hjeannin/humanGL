@@ -16,15 +16,15 @@ Anim::~Anim(void)
 {
 	if (scale != NULL)
 	{
-		delete (scale);
+		delete scale;
 	}
 	for (GLuint i = 0; i < animation_transform.size(); i++)
 	{
-		delete (animation_transform[i]);
+		delete animation_transform[i];
 	}
 	for (GLuint j = 0; j < setup_transform.size(); j++)
 	{
-		delete (setup_transform[j]);
+		delete setup_transform[j];
 	}
 	return;
 }

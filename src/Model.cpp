@@ -9,7 +9,7 @@ Model::~Model(void)
 {
 	for (GLuint j = 0; j < anim_vector.size(); j++)
 	{
-		delete (anim_vector[j]);
+		delete anim_vector[j];
 	}
 	return;
 }

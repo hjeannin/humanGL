@@ -19,7 +19,7 @@ Initiator::Initiator(Initiator const &src)
 
 Initiator::~Initiator(void)
 {
-	delete (mod);
+	delete mod;
 	return;
 }
 
@@ -137,8 +137,8 @@ Initiator::LoadModel(void)
 	glEnableVertexAttribArray(this->color_loc);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->faces_mem_size, this->faces_array, GL_STATIC_DRAW);
-	delete (this->vertices_array);
-	delete (this->faces_array);
+	delete this->vertices_array;
+	delete this->faces_array;
 }
 
 bool

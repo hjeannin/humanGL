@@ -19,6 +19,7 @@ private:
 	int			_status;
 
 public:
+	int				isSet;
 	GLFWwindow		*window;
 	Camera			camera;
 	GLuint			vao;
