@@ -15,16 +15,35 @@
 # define CUBE		101
 # define SPHERE		102
 
-# define BODY		10
-# define HEAD		11
-# define ARM_R_R	21
-# define ARM_R_F	22
-# define ARM_L_R	31
-# define ARM_L_F	32
-# define LEG_R_R	41
-# define LEG_R_F	42
-# define LEG_L_R	51
-# define LEG_L_F	52
+
+//HUMAN
+
+# define BODY		0
+# define HEAD		1
+
+# define RS			2
+# define RRA		3
+# define RE			4
+# define RFA		5
+# define RH			6
+
+# define LS			7
+# define LRA		8
+# define LE			9
+# define LFA		10
+# define LH			11
+
+# define RB			12
+# define RRL		13
+# define RK			14
+# define RFL		15
+# define RF			16
+
+# define LB			17
+# define LRL		18
+# define LK			19
+# define LFL		20
+# define LF			21
 
 # define NONE		-1
 # define SBC		0

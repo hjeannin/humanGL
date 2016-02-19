@@ -270,53 +270,52 @@ Model::buildPouet(void)
 void
 Model::buildHuman(void)
 {
-	/////////////////////////////////////////////////////
-	//			BACK VIEW
+	/////////////////////////////////////////////////////////////////////////////////
+	//							BACK VIEW
 	//
-	//					[11]
-	//LEFT				  |					RIGHT
-	//		[32]--[31]--[10]--[21]--[22]
-	//					 ||
-	//					/	\
-	//				[51]	[41]
-	//				  |		  |
-	//				[52]	[42]
+	//									  [HEAD]
+	//LEFT									|								RIGHT
+	//	  [LH]--[LFA]--[LE]--[LRA]--[LS]--[BODY]--[RS]--[RRA]--[RE]--[RFA]--[RH]
+	//										||
+	//										/	\
+	//									[LB]	[RB]
+	//									  |		  |
+	//									[LRL]	[RRL]
+	//									  |		  |
+	//									[LK]	[RK]
+	//									  |		  |
+	//									[LFL]	[RFL]
+	//									  |		  |
+	//									[LF]	[RF]
 	//
-	/////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
 
-	setNeededPart(10);
+	setNeededPart(22);
 	genCubes();
 
-	changePartColor(BODY, 0xad45ed00);
-	part[0].matrix.scale(2.0f, 3.0f, 1.0f);
+	Anim		*body = new Anim(findMatrix(BODY), NULL);
+	Anim		*head = new Anim(findMatrix(HEAD), body);
 
-	changePartColor(HEAD, 0xFafafa00);
-	part[1].matrix.translate(0.0f, 2.0f, 0.0f);
-
-	part[2].matrix.scale(2.0f, 0.8f, 0.8f);
-	part[2].matrix.translate(1.0f, 0.8f, 0.0f);
+	Anim		*rra = new Anim(findMatrix(RRA), body);
+	Anim		*rfa = new Anim(findMatrix(RFA), rra);
 	
-	part[3].matrix.scale(2.0f, 0.8f, 0.8f);
-	part[3].matrix.translate(2.0f, 0.8f, 0.0f);
+	Anim		*lra = new Anim(findMatrix(LRA), body);
+	Anim		*lfa = new Anim(findMatrix(LFA), lra);
+	
+	Anim		*rrl = new Anim(findMatrix(RRL), body);
+	Anim		*rfl = new Anim(findMatrix(RFL), rrl);
+	
+	Anim		*lrl = new Anim(findMatrix(LRL), body);
+	Anim		*lfl = new Anim(findMatrix(LFL), lrl);
 
-	part[4].matrix.scale(2.0f, 0.8f, 0.8f);
-	part[4].matrix.translate(-1.0f, 0.8f, 0.0f);
+	anim_vector = {body, head, rra, rfa, lra, lfa, rrl, rfl, lrl, lfl};
 
-	part[5].matrix.scale(2.0f, 0.8f, 0.8f);
-	part[5].matrix.translate(-2.0f, 0.8f, 0.0f);
+	anim_vector[BODY]->setScale(2.0f, 3.0f, 1.0f);
 
-	part[6].matrix.scale(0.8f, 2.0f, 0.8f);
-	part[6].matrix.translate(1.0f, -1.0f, 0.0f);
+	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 2.0f, 0.0f);
 
-	part[7].matrix.scale(0.8f, 2.0f, 0.8f);
-	part[7].matrix.translate(1.0f, -2.0f, 0.0f);
-
-	part[8].matrix.scale(0.8f, 2.0f, 0.8f);
-	part[8].matrix.translate(-1.0f, -1.0f, 0.0f);
-
-	changePartColor(LEG_L_F, 0xffffff00);
-	part[9].matrix.scale(0.8f, 2.0f, 0.8f);
-	part[9].matrix.translate(-1.0f, -2.0f, 0.0f);
+	anim_vector[RRA]->setScale(0.8f, 2.0f, 0.8f);
+	anim_vector[RRA]->addTranslation(SETUP, 1.5f, 1.0f, 0.0f);
 }
 
 void

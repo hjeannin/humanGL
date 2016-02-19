@@ -14,8 +14,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-		init->printArray(init->faces_array, init->faces_num_elem);
-	std::cerr << init->isSet << std::endl;
+		std::cout << *init << std::endl;
 }
 
 static void
@@ -81,7 +80,6 @@ initGlfw(Initiator &init)
 		glfwTerminate();
 		return (0);
 	}
-	init.isSet = 0;
 	glfwSetWindowUserPointer(init.window, &init);
 	glfwMakeContextCurrent(init.window); // make the opengl context of the init.window current on the main thread
 	glfwSwapInterval(1); // VSYNC 60 fps max
@@ -152,7 +150,6 @@ int main()
 			frames = 0.0;
 			lastTime += 1.0;
 		}
-		init.isSet++;
 	}
 
 	return 0;
