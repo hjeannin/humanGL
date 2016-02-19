@@ -296,24 +296,31 @@ Model::buildHuman(void)
 	Anim		*body = new Anim(findMatrix(BODY), NULL);
 	Anim		*head = new Anim(findMatrix(HEAD), body);
 
+//	right arm
 	Anim		*rs = new Anim(findMatrix(RS), body);
 	Anim		*rra = new Anim(findMatrix(RRA), rs);
 	Anim		*re = new Anim(findMatrix(RE), rra);
 	Anim		*rfa = new Anim(findMatrix(RFA), re);
 	Anim		*rh = new Anim(findMatrix(RH), rfa);
 
+
+//	left arm
 	Anim		*ls = new Anim(findMatrix(LS), body);
 	Anim		*lra = new Anim(findMatrix(LRA), ls);
 	Anim		*le = new Anim(findMatrix(LE), lra);
 	Anim		*lfa = new Anim(findMatrix(LFA), le);
 	Anim		*lh = new Anim(findMatrix(LH), lfa);
 
+
+//	right leg
 	Anim		*rb = new Anim(findMatrix(RB), body);
 	Anim		*rrl = new Anim(findMatrix(RRL), rb);
 	Anim		*rk = new Anim(findMatrix(RK), rrl);
 	Anim		*rfl = new Anim(findMatrix(RFL), rk);
 	Anim		*rf = new Anim(findMatrix(RF), rfl);
 
+
+//	left leg
 	Anim		*lb = new Anim(findMatrix(LB), body);
 	Anim		*lrl = new Anim(findMatrix(LRL), lb);
 	Anim		*lk = new Anim(findMatrix(LK), lrl);
@@ -326,12 +333,31 @@ Model::buildHuman(void)
 					rb, rrl, rk, rfl, rf,
 					lb, lrl, lk, lfl, lf};
 
-	anim_vector[BODY]->setScale(2.0f, 3.0f, 1.0f);
+	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
 
-	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 2.0f, 0.0f);
+	anim_vector[HEAD]->setScale(2.0f, 2.0f, 2.0f);
+	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
 
-	anim_vector[RRA]->setScale(0.8f, 2.0f, 0.8f);
-	anim_vector[RRA]->addTranslation(SETUP, 1.5f, 1.0f, 0.0f);
+// right arm
+	anim_vector[RS]->addTranslation(SETUP, 2.0f, 1.5f, 0.0f);
+	anim_vector[RRA]->addTranslation(SETUP, 0.0f, 0.0f, 0.0f);
+	anim_vector[RE]->addTranslation(SETUP, 0.0f, -2.0f, 0.0f);
+	anim_vector[RFA]->addTranslation(SETUP, 0.0f, 0.0f, 0.0f);
+	anim_vector[RH]->addTranslation(SETUP, 0.0f, -2.0f, 0.0f);
+
+
+// left arm
+	anim_vector[LS]->addTranslation(SETUP, -2.0f, 1.5f, 0.0f);
+
+
+// right leg
+	anim_vector[RB]->setScale(1.5f, 1.0f, 1.0f);
+	anim_vector[RB]->addTranslation(SETUP, 0.8f, -2.5f, 0.0f);
+
+
+//	left leg
+	anim_vector[LB]->setScale(1.5f, 1.0f, 1.0f);
+	anim_vector[LB]->addTranslation(SETUP, -0.8f, -2.5f, 0.0f);
 }
 
 void
