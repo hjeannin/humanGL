@@ -90,7 +90,7 @@ Initiator::createImage(void)
 }
 
 void
-Initiator::ConbineParts(Model::Part *part, GLuint part_count)
+Initiator::ConbineParts(std::vector<Model::Part> &part, GLuint part_count)
 {
 	for (GLuint i = 0; i < part_count; i++)
 	{
@@ -142,7 +142,7 @@ Initiator::LoadModel(void)
 }
 
 bool
-Initiator::drawModel(Model::Part *part, GLuint part_count)
+Initiator::drawModel(std::vector<Model::Part> &part, GLuint part_count)
 {
 	mod->animate();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

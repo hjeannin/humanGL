@@ -71,7 +71,7 @@ public:
 
 	GLuint					frame = 0;
 	GLuint					max_frame = 120;
-	Part					*part;
+	std::vector<Part>		part;
 	std::vector<Anim *>		anim_vector;
 
 	Model(void);

@@ -7,11 +7,6 @@ Model::Model(void)
 
 Model::~Model(void)
 {
-	// TODO transform *part in vector for deletion
-	// for (GLuint i = 0; i < _part_count; i++)
-	// {
-	// 	delete (part[i]);
-	// }
 	for (GLuint j = 0; j < anim_vector.size(); j++)
 	{
 		delete (anim_vector[j]);
@@ -29,7 +24,7 @@ void
 Model::setNeededPart(GLuint n)
 {
 	_part_count = n;
-	part = new Part[_part_count];	
+	part.reserve(n);
 }
 
 void
@@ -156,9 +151,9 @@ Model::buildWTF(void)
 	setNeededPart(27);
 	genCubes();
 	multiAnim();
-	anim_vector[0]->addRotation(ANIM, X_AXIS, 360.0f, sf, ef);
-	anim_vector[0]->addRotation(ANIM, Y_AXIS, 180.0f, sf, mf);
-	anim_vector[0]->addRotation(ANIM, Y_AXIS, -180.0f, mf, ef);
+	// anim_vector[0]->addRotation(ANIM, X_AXIS, 360.0f, sf, ef);
+	// anim_vector[0]->addRotation(ANIM, Y_AXIS, 180.0f, sf, mf);
+	// anim_vector[0]->addRotation(ANIM, Y_AXIS, -180.0f, mf, ef);
 
 	anim_vector[1]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
 	anim_vector[2]->addTranslation(SETUP, -1.0f, 0.0f, 0.0f);

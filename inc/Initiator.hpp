@@ -61,9 +61,9 @@ public:
 	void		genShaders(void);
 
 	void		createImage(void);
-	void		ConbineParts(Model::Part *part, GLuint part_count);
+	void		ConbineParts(std::vector<Model::Part> &part, GLuint part_count);
 	void		LoadModel(void);
-	bool		drawModel(Model::Part *part, GLuint part_count);
+	bool		drawModel(std::vector<Model::Part> &part, GLuint part_count);
 
 	void		checkGlError(std::string file, int line);
 
