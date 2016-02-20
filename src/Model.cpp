@@ -317,15 +317,6 @@ Model::buildHuman(void)
 	//
 	////////////////////////////////////////////////////////////////////////////////
 
-	GLuint		sf = 0;
-	GLuint		mf = 60;
-	GLuint		ef = 120;
-
-	(void)sf;
-	(void)mf;
-	(void)ef;
-	max_frame = ef;
-
 	setNeededPart(22);
 	genCubes();
 
@@ -457,6 +448,16 @@ Model::buildHuman(void)
 	anim_vector[LFL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
 	anim_vector[LF]->setScale(1.0f, 1.0f, 2.0f);
 	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
+}
+
+void
+Model::humanWalk(void)
+{
+	GLuint		sf = 0;
+	GLuint		mf = 60;
+	GLuint		ef = 120;
+
+	max_frame = ef;
 
 //	head
 	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -5.0f, sf, mf);
@@ -501,6 +502,56 @@ Model::buildHuman(void)
 	anim_vector[LK]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
 	
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 0.0f, -0.08f, GLOBAL, GLOBAL);
+}
+
+void
+Model::humanWTF(void)
+{
+	GLuint		sf = 0;
+	GLuint		nsf = 40;
+	GLuint		mf = 60;
+	GLuint		nef = 80;
+	GLuint		ef = 120;
+
+	(void)nef;
+	(void)nsf;
+	max_frame = ef;
+
+//	head
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, mf);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+
+//	right arm
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -180.0f, nsf, mf);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 180.0f, mf, ef);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, -20.0f, nsf, mf);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+
+//	left arm
+	anim_vector[LS]->addRotation(ANIM, X_AXIS, -180.0f, nsf, mf);
+	anim_vector[LS]->addRotation(ANIM, X_AXIS, 180.0f, mf, ef);
+	anim_vector[LE]->addRotation(ANIM, X_AXIS, -20.0f, nsf, mf);
+	anim_vector[LE]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+
+//	right leg
+	anim_vector[RB]->addRotation(ANIM, X_AXIS, -80.0f, sf, nsf);
+	anim_vector[RB]->addRotation(ANIM, X_AXIS, 80.0f, nsf, mf);
+	anim_vector[RK]->addRotation(ANIM, X_AXIS, 160.0f, sf, nsf);
+	anim_vector[RK]->addRotation(ANIM, X_AXIS, -160.0f, nsf, mf);
+	
+//	left leg
+	anim_vector[LB]->addRotation(ANIM, X_AXIS, -80.0f, sf, nsf);
+	anim_vector[LB]->addRotation(ANIM, X_AXIS, 80.0f, nsf, mf);
+	anim_vector[LK]->addRotation(ANIM, X_AXIS, 160.0f, sf, nsf);
+	anim_vector[LK]->addRotation(ANIM, X_AXIS, -160.0f, nsf, mf);
+
+// body
+	anim_vector[BODY]->addRotation(ANIM, X_AXIS, -360.0f, mf, ef);
+	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -2.0f, 0.0f, sf, nsf);
+	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 3.0f, 0.0f, nsf, mf);
+	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -1.0f, 0.0f, mf, ef);
+	
+	// anim_vector[BODY]->addTranslation(ANIM, 0.0f, 0.0f, -0.08f, GLOBAL, GLOBAL);
 }
 
 void

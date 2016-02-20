@@ -115,6 +115,9 @@ public:
 
 	void		buildPouet(void);
 	void		buildHuman(void);
+	void		humanWalk(void);
+	void		humanWTF(void);
+
 	void		buildWTF(void);
 	void		multiAnim(void);
 
