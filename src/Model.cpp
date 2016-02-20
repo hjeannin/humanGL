@@ -380,8 +380,8 @@ Model::buildHuman(void)
 	changePartColor(LH, 0xCB005C00);
 
 	changePartColor(BODY, 0xFFFFFF00);
-	changePartColor(RS, 0xFFFFFF00);
-	changePartColor(LS, 0xFFFFFF00);
+	changePartColor(RS, 0xDDDDDD00);
+	changePartColor(LS, 0xDDDDDD00);
 	changePartColor(RRA, 0xFFFFFF00);
 	changePartColor(LRA, 0xFFFFFF00);
 
@@ -459,13 +459,25 @@ Model::buildHuman(void)
 	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
 
 //	head
-	// anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, ef);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -10.0f, sf, mf);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 10.0f, mf, ef);
 
 //	right arm
-	anim_vector[RS]->addRotation(ANIM, X_AXIS, -45.0f, sf, mf);
-	anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, mf, ef);
+	anim_vector[RS]->addRotation(SETUP, X_AXIS, 24.0f);
 
-	// anim_vector[RH]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -42.0f, sf, mf);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 42.0f, mf, ef);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, -80.0f, sf, mf);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, 80.0f, mf, ef);
+
+	anim_vector[LS]->addRotation(SETUP, X_AXIS, -18.0f);
+	anim_vector[LE]->addRotation(SETUP, X_AXIS, -80.0f);
+
+	anim_vector[LS]->addRotation(ANIM, X_AXIS, 42.0f, sf, mf);
+	anim_vector[LS]->addRotation(ANIM, X_AXIS, -42.0f, mf, ef);
+	anim_vector[LE]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
+	anim_vector[LE]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
+
 }
 
 void

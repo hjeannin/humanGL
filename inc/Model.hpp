@@ -16,33 +16,35 @@
 # define SPHERE		102
 
 //HUMAN
+typedef enum
+{
+	BODY,
+	HEAD,
 
-# define BODY		0
-# define HEAD		1
+	RS,
+	RRA,
+	RE,
+	RFA,
+	RH,
 
-# define RS			2
-# define RRA		3
-# define RE			4
-# define RFA		5
-# define RH			6
+	LS,
+	LRA,
+	LE,
+	LFA,
+	LH,
 
-# define LS			7
-# define LRA		8
-# define LE			9
-# define LFA		10
-# define LH			11
+	RB,
+	RRL,
+	RK,
+	RFL,
+	RF,
 
-# define RB			12
-# define RRL		13
-# define RK			14
-# define RFL		15
-# define RF			16
-
-# define LB			17
-# define LRL		18
-# define LK			19
-# define LFL		20
-# define LF			21
+	LB,
+	LRL,
+	LK,
+	LFL,
+	LF
+}			humanParts;
 
 # define NONE		-1
 # define RED		0

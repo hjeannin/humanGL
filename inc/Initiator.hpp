@@ -8,7 +8,6 @@
 # include <iostream>
 # include "Shaders.hpp"
 # include "Mat4.hpp"
-# include "StackMat4.hpp"
 # include "Camera.hpp"
 # include "Model.hpp"
 
