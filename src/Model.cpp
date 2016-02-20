@@ -318,8 +318,8 @@ Model::buildHuman(void)
 	////////////////////////////////////////////////////////////////////////////////
 
 	GLuint		sf = 0;
-	GLuint		mf = 120;
-	GLuint		ef = 240;
+	GLuint		mf = 60;
+	GLuint		ef = 120;
 
 	(void)sf;
 	(void)mf;
@@ -384,12 +384,12 @@ Model::buildHuman(void)
 	changePartColor(RRA, 0xFFFFFF00);
 	changePartColor(LRA, 0xFFFFFF00);
 
-	changePartColor(RB, 0x00327000);
-	changePartColor(LB, 0x00327000);
+	changePartColor(RB, 0x00225000);
+	changePartColor(LB, 0x00225000);
 	changePartColor(RRL, 0x00327000);
 	changePartColor(LRL, 0x00327000);
-	changePartColor(RK, 0x00327000);
-	changePartColor(LK, 0x00327000);
+	changePartColor(RK, 0x00225000);
+	changePartColor(LK, 0x00225000);
 	changePartColor(RFL, 0x00327000);
 	changePartColor(LFL, 0x00327000);
 
@@ -397,7 +397,7 @@ Model::buildHuman(void)
 	changePartColor(LF, 0xFD9A2900);
 
 	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
-	anim_vector[BODY]->addRotation(SETUP, Y_AXIS, 90.0f);
+	anim_vector[BODY]->addRotation(SETUP, Y_AXIS, 135.0f);
 
 	anim_vector[HEAD]->setScale(2.0f, 2.0f, 2.0f);
 	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
@@ -462,7 +462,10 @@ Model::buildHuman(void)
 	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -5.0f, sf, mf);
 	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 5.0f, mf, ef);
 
-//	right arm
+//	body tilted
+	anim_vector[BODY]->addRotation(SETUP, X_AXIS, 5.0f);
+
+//	right arm backward
 	anim_vector[RS]->addRotation(SETUP, X_AXIS, 24.0f);
 
 	anim_vector[RS]->addRotation(ANIM, X_AXIS, -42.0f, sf, mf);
@@ -470,6 +473,7 @@ Model::buildHuman(void)
 	anim_vector[RE]->addRotation(ANIM, X_AXIS, -80.0f, sf, mf);
 	anim_vector[RE]->addRotation(ANIM, X_AXIS, 80.0f, mf, ef);
 
+//	left arm forward
 	anim_vector[LS]->addRotation(SETUP, X_AXIS, -18.0f);
 	anim_vector[LE]->addRotation(SETUP, X_AXIS, -80.0f);
 
@@ -478,6 +482,24 @@ Model::buildHuman(void)
 	anim_vector[LE]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
 	anim_vector[LE]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
 
+//	right leg forward
+	anim_vector[RB]->addRotation(SETUP, X_AXIS, -30.0f);
+	anim_vector[RK]->addRotation(SETUP, X_AXIS, 10.0f);
+
+	anim_vector[RB]->addRotation(ANIM, X_AXIS, 50.0f, sf, mf);
+	anim_vector[RB]->addRotation(ANIM, X_AXIS, -50.0f, mf, ef);
+	anim_vector[RK]->addRotation(ANIM, X_AXIS, 20.0f, sf, mf);
+	anim_vector[RK]->addRotation(ANIM, X_AXIS, -20.0f, mf, ef);
+	
+//	left leg backward
+	anim_vector[LB]->addRotation(SETUP, X_AXIS, 20.0f);
+	anim_vector[LK]->addRotation(SETUP, X_AXIS, 20.0f);
+
+	anim_vector[LB]->addRotation(ANIM, X_AXIS, -50.0f, sf, mf);
+	anim_vector[LB]->addRotation(ANIM, X_AXIS, 50.0f, mf, ef);
+	anim_vector[LK]->addRotation(ANIM, X_AXIS, -20.0f, sf, mf);
+	anim_vector[LK]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+	
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 0.0f, -0.08f, GLOBAL, GLOBAL);
 }
 
