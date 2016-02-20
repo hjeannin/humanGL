@@ -45,9 +45,11 @@
 # define LF			21
 
 # define NONE		-1
-# define SBC		0
-# define MGC		1
-# define BRC		2
+# define RED		0
+# define GREEN		1
+# define BLUE		2
+# define ORANGE		3
+# define WHITE		4
 
 # include <glfw3.h>
 # include <iostream>

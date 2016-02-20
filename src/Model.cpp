@@ -251,32 +251,49 @@ Model::buildWTF(void)
 void
 Model::buildPouet(void)
 {
-	setNeededPart(3);
+	GLuint		sf = 0;
+	GLuint		mf = 120;
+	GLuint		ef = 240;
+
+	(void)sf;
+	(void)mf;
+	(void)ef;
+
+	max_frame = ef;
+
+	setNeededPart(5);
 	genCubes();
 	
-	changePartColor(SBC, 0x0000FF00);
-	changePartColor(MGC, 0x00FF0000);
-	changePartColor(BRC, 0xFF000000);
+	changePartColor(RED, 0xFF000000);
+	changePartColor(GREEN, 0x00FF0000);
+	changePartColor(BLUE, 0x0000FF00);
+	changePartColor(ORANGE, 0xFFA50000);
+	changePartColor(WHITE, 0xFFFFFF00);
 
-	Anim		*sbc_a = new Anim(findMatrix(SBC), NULL);
-	Anim		*mgc_a = new Anim(findMatrix(MGC), sbc_a);
-	Anim		*brc_a = new Anim(findMatrix(BRC), mgc_a);
+	Anim		*red = new Anim(findMatrix(RED), NULL);
+	Anim		*green = new Anim(findMatrix(GREEN), red);
+	Anim		*blue = new Anim(findMatrix(BLUE), green);
+	Anim		*orange = new Anim(findMatrix(ORANGE), red);
+	Anim		*white = new Anim(findMatrix(WHITE), orange);
 	
-	anim_vector = {sbc_a, mgc_a, brc_a};
+	anim_vector = {red, green, blue, orange, white};
 
-	anim_vector[SBC]->setScale(1.0f, 7.0f, 1.0f);
-	anim_vector[SBC]->addRotation(ANIM, Y_AXIS, 360.0f, 0, 1200);
+	anim_vector[BLUE]->setScale(3.0f, 1.0f, 1.0f);
+	anim_vector[BLUE]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
 
-	anim_vector[MGC]->setScale(3.0f, 1.0f, 1.0f);
-	anim_vector[MGC]->addTranslation(SETUP, 2.0f, 0.0f, 0.0f);
-	anim_vector[MGC]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
-	// anim_vector[MGC]->addRotation(ANIM, X_AXIS, 3000.0f, 0, 1200);
-	// anim_vector[MGC]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, 0, 200);
-	
-	anim_vector[BRC]->setScale(1.0f, 10.0f, 3.0f);
-	// anim_vector[BRC]->addRotation(SETUP, Z_AXIS, 90.0f);
-	anim_vector[BRC]->addTranslation(SETUP, 1.0f, 0.0f, 0.0f);
-	anim_vector[BRC]->addRotation(ANIM, X_AXIS, 3600.0f, 0, 1200);
+	anim_vector[GREEN]->addTranslation(SETUP, 0.0f, 2.0f, 0.0f);
+
+	anim_vector[RED]->setScale(1.0f, 3.0f, 1.0f);
+
+	anim_vector[ORANGE]->setScale(2.0f, 1.0f, 2.0f);
+	anim_vector[ORANGE]->addTranslation(SETUP, 0.0f, -2.0f, 0.0f);
+
+	anim_vector[WHITE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[WHITE]->setScale(3.0f, 1.0f, 3.0f);
+
+	anim_vector[GREEN]->addRotation(ANIM, Z_AXIS, -180.0f, sf, mf);
+	anim_vector[GREEN]->addRotation(ANIM, Z_AXIS, 180.0f, mf, ef);
+	anim_vector[RED]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
 }
 
 void
@@ -444,8 +461,8 @@ Model::buildHuman(void)
 	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
 
 //	right arm
-	// anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
-	// anim_vector[RS]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
 }
 
 void

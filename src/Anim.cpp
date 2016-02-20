@@ -135,13 +135,13 @@ Anim::runAnim(GLuint current_frame)
 	}
 	while (tmp->child != NULL && tmp != this)
 	{
-		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
 		runSetupTransformVector(tmp->setup_transform, this->matrix);
+		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
 		// std::cout << "Done            :" << tmp << std::endl;
 		tmp = tmp->child;
 	}
-	runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
 	runSetupTransformVector(tmp->setup_transform, this->matrix);
+	runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
 	// std::cout << "Done            :" << tmp << std::endl;
 	if (scale == NULL)
 	{
