@@ -546,7 +546,7 @@ Model::humanWTF(void)
 	anim_vector[LK]->addRotation(ANIM, X_AXIS, -160.0f, nsf, mf);
 
 // body
-	anim_vector[BODY]->addRotation(ANIM, X_AXIS, -360.0f, mf, ef);
+	anim_vector[BODY]->addRotation(ANIM, X_AXIS, -360.0f, mf, 100);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -2.0f, 0.0f, sf, nsf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 3.0f, 0.0f, nsf, mf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -1.0f, 0.0f, mf, ef);
