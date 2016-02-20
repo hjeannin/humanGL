@@ -23,6 +23,7 @@
 # define ANIM		true
 # define SETUP		false
 
+
 # include <glfw3.h>
 # include <iostream>
 # include "Mat4.hpp"
@@ -45,7 +46,7 @@ public:
 	~Transformation(void);
 
 	void		runSetup(Mat4<GLfloat> *matrix);
-	void		runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame);
+	void		runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame);
 };
 
 #endif

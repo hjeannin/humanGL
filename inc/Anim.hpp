@@ -28,8 +28,8 @@ public:
 							GLuint start_frame = 0, GLuint end_frame = 0);
 	void		runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m);
 	void		runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m,
-							GLuint current_frame);
-	void		runAnim(GLuint current_frame);
+							GLuint current_frame, GLuint global_frame);
+	void		runAnim(GLuint current_frame, GLuint global_frame);
 };
 
 std::ostream	&operator<<(std::ostream &o, Anim const &i);

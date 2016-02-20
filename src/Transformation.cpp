@@ -9,7 +9,14 @@ Transformation::Transformation(void) : _transformation_type(0), _x(0.0f), _y(0.0
 Transformation::Transformation(int tt, GLfloat x, GLfloat y, GLfloat z, GLfloat angle, GLuint sf, GLuint ef) :
 	_transformation_type(tt), _x(x), _y(y), _z(z), _angle(angle), _start_frame(sf), _end_frame(ef)
 {
-	this->_frame_range = _end_frame - _start_frame;
+	if (_start_frame == 0xFFFFFFFF && _end_frame == 0xFFFFFFFF)
+	{
+		this->_frame_range = -1.0f;
+	}
+	else
+	{
+		this->_frame_range = _end_frame - _start_frame;
+	}
 	return;
 }
 
@@ -39,7 +46,7 @@ Transformation::runSetup(Mat4<GLfloat> *matrix)
 }
 
 void
-Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
+Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame)
 {
 	if (_frame_range > 0.0f)
 	{
@@ -47,9 +54,9 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 		{
 			if (_transformation_type == T_TRANSLATE)
 			{
-				matrix->translate(	_x / _frame_range * current_frame,
-									_y / _frame_range * current_frame,
-									_z / _frame_range * current_frame);
+				matrix->translate(	_x / _frame_range * (current_frame - _start_frame),
+									_y / _frame_range * (current_frame - _start_frame),
+									_z / _frame_range * (current_frame - _start_frame));
 			}
 			else if (_transformation_type == T_ROTATE)
 			{
@@ -57,24 +64,42 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame)
 			}
 			else if (_transformation_type == T_SCALE)
 			{
-				matrix->scale(	_x / _frame_range * current_frame,
-								_y / _frame_range * current_frame,
-								_z / _frame_range * current_frame);
+				matrix->scale(	_x / _frame_range * (current_frame - _start_frame),
+								_y / _frame_range * (current_frame - _start_frame),
+								_z / _frame_range * (current_frame - _start_frame));
 			}				
 			// std::cerr << "DEBUG: " << "current angle[" << _angle / _frame_range * (current_frame - _start_frame) << "] given angle[" << _angle <<  "] fr[" << _frame_range << "] sf[" << _start_frame  << "] ef[" << _end_frame << "] " << std::endl;
 		}
 		if (current_frame >= _end_frame)
 		{
-			if (_transformation_type == T_ROTATE)
+			if (_transformation_type == T_TRANSLATE)
+			{
+				matrix->translate(_x, _y, _z);
+			}
+			else if (_transformation_type == T_ROTATE)
 			{
 				matrix->rotate(_angle, _x, _y, _z);
-
-				// std::cout << "JUST DO IT! " << _angle << std::endl;	
+			}
+			else if (_transformation_type == T_SCALE)
+			{
+				matrix->scale(_x, _y, _z);
 			}
 		}
 	}
-	else
+	// NEVER ENDING TRANFORMATION
+	else if (_frame_range < 0.0f)
 	{
-		std::cerr << "runAnimation error, frame_range = " << _frame_range << std::endl;
+		if (_transformation_type == T_TRANSLATE)
+		{
+			matrix->translate(_x * global_frame, _y * global_frame, _z * global_frame);
+		}
+		else if (_transformation_type == T_ROTATE)
+		{
+			matrix->rotate(_angle * global_frame, _x, _y, _z);
+		}
+		else if (_transformation_type == T_SCALE)
+		{
+			matrix->scale(_x * global_frame, _y * global_frame, _z * global_frame);
+		}
 	}
 }

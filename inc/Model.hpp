@@ -53,6 +53,8 @@ typedef enum
 # define ORANGE		3
 # define WHITE		4
 
+# define GLOBAL		0xFFFFFFFF
+
 # include <glfw3.h>
 # include <iostream>
 # include <map>
@@ -92,7 +94,8 @@ public:
 	};
 
 	GLuint					frame = 0;
-	GLuint					max_frame = 120;
+	GLuint					max_frame = 240;
+	GLuint					global_frame = 0;
 	std::vector<Part>		part;
 	std::vector<Anim *>		anim_vector;
 

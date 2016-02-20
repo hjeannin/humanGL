@@ -55,7 +55,7 @@ Model::runAnimVectorAnim(void)
 {
 	for (GLuint i = 0; i < anim_vector.size(); i++)
 	{
-		anim_vector[i]->runAnim(frame);
+		anim_vector[i]->runAnim(frame, global_frame);
 	}	
 }
 
@@ -64,9 +64,10 @@ Model::runAnimVectorAnim(void)
 void
 Model::animate(void)
 {
-	frame++;
-	if (frame == max_frame)
+	if (frame >= max_frame)
 		frame = 0;
+	frame++;
+	global_frame++;
 	runAnimVectorAnim();
 }
 
@@ -159,7 +160,6 @@ Model::buildWTF(void)
 	GLuint		mf = 30;
 	GLuint		ef = 60;
 
-	max_frame = ef;
 	setNeededPart(27);
 	genCubes();
 	multiAnim();
@@ -259,8 +259,6 @@ Model::buildPouet(void)
 	(void)mf;
 	(void)ef;
 
-	max_frame = ef;
-
 	setNeededPart(5);
 	genCubes();
 	
@@ -327,6 +325,7 @@ Model::buildHuman(void)
 	(void)mf;
 	(void)ef;
 	max_frame = ef;
+
 	setNeededPart(22);
 	genCubes();
 
@@ -459,8 +458,8 @@ Model::buildHuman(void)
 	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
 
 //	head
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -10.0f, sf, mf);
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 10.0f, mf, ef);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -5.0f, sf, mf);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 5.0f, mf, ef);
 
 //	right arm
 	anim_vector[RS]->addRotation(SETUP, X_AXIS, 24.0f);
@@ -478,6 +477,7 @@ Model::buildHuman(void)
 	anim_vector[LE]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
 	anim_vector[LE]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
 
+	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 0.0f, -0.08f, GLOBAL, GLOBAL);
 }
 
 void

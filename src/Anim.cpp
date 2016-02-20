@@ -110,16 +110,16 @@ Anim::runSetupTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m
 }
 
 void
-Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m, GLuint current_frame)
+Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat> *m, GLuint current_frame, GLuint global_frame)
 {
 	for (GLuint i = 0; i < v.size(); i++)
 	{
-		v[i]->runAnimation(m, current_frame);
+		v[i]->runAnimation(m, current_frame, global_frame);
 	}
 }
 
 void
-Anim::runAnim(GLuint current_frame)
+Anim::runAnim(GLuint current_frame, GLuint global_frame)
 {
 	Anim		*tmp = this;
 
@@ -136,12 +136,12 @@ Anim::runAnim(GLuint current_frame)
 	while (tmp->child != NULL && tmp != this)
 	{
 		runSetupTransformVector(tmp->setup_transform, this->matrix);
-		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
+		runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame, global_frame);
 		// std::cout << "Done            :" << tmp << std::endl;
 		tmp = tmp->child;
 	}
 	runSetupTransformVector(tmp->setup_transform, this->matrix);
-	runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame);
+	runAnimationTransformVector(tmp->animation_transform, this->matrix, current_frame, global_frame);
 	// std::cout << "Done            :" << tmp << std::endl;
 	if (scale == NULL)
 	{
