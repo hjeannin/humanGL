@@ -397,6 +397,7 @@ Model::buildHuman(void)
 	changePartColor(LF, 0xFD9A2900);
 
 	anim_vector[BODY]->setScale(3.0f, 4.0f, 1.0f);
+	anim_vector[BODY]->addRotation(SETUP, Y_AXIS, 90.0f);
 
 	anim_vector[HEAD]->setScale(2.0f, 2.0f, 2.0f);
 	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
