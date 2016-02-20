@@ -320,8 +320,8 @@ Model::buildHuman(void)
 	////////////////////////////////////////////////////////////////////////////////
 
 	GLuint		sf = 0;
-	GLuint		mf = 60;
-	GLuint		ef = 120;
+	GLuint		mf = 120;
+	GLuint		ef = 240;
 
 	(void)sf;
 	(void)mf;
@@ -408,6 +408,7 @@ Model::buildHuman(void)
 	anim_vector[RS]->addRotation(SETUP, X_AXIS, 8.0f);
 	anim_vector[RRA]->setScale(0.8f, 1.0f, 0.8f);
 	anim_vector[RRA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	// anim_vector[RE]->setScale(0.8f, 0.8f, 0.8f);
 	anim_vector[RE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[RE]->addRotation(SETUP, Z_AXIS, 8.0f);
 	anim_vector[RE]->addRotation(SETUP, X_AXIS, -16.0f);
@@ -444,6 +445,7 @@ Model::buildHuman(void)
 	anim_vector[RF]->setScale(1.0f, 1.0f, 2.0f);
 	anim_vector[RF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
 
+
 //	left leg
 	anim_vector[LB]->setScale(1.5f, 1.0f, 1.0f);
 	anim_vector[LB]->addTranslation(SETUP, -0.8f, -2.5f, 0.0f);
@@ -457,12 +459,13 @@ Model::buildHuman(void)
 	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
 
 //	head
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, mf);
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+	// anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, ef);
 
 //	right arm
-	anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, sf, mf);
-	anim_vector[RS]->addRotation(ANIM, X_AXIS, -80.0f, mf, ef);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -45.0f, sf, mf);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 80.0f, mf, ef);
+
+	// anim_vector[RH]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
 }
 
 void

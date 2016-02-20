@@ -83,8 +83,8 @@ Initiator::createImage(void)
 	mod = new Model();	
 
 	// mod->buildWTF();
-	mod->buildPouet();
-	// mod->buildHuman();
+	// mod->buildPouet();
+	mod->buildHuman();
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
 }
