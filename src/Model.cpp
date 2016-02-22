@@ -249,19 +249,15 @@ Model::buildWTF(void)
 }
 
 void
+Model::allocatePouet(void)
+{
+	setNeededPart(5);
+	genCubes();	
+}
+
+void
 Model::buildPouet(void)
 {
-	GLuint		sf = 0;
-	GLuint		mf = 120;
-	GLuint		ef = 240;
-
-	(void)sf;
-	(void)mf;
-	(void)ef;
-
-	setNeededPart(5);
-	genCubes();
-	
 	changePartColor(RED, 0xFF000000);
 	changePartColor(GREEN, 0x00FF0000);
 	changePartColor(BLUE, 0x0000FF00);
@@ -288,10 +284,46 @@ Model::buildPouet(void)
 
 	anim_vector[WHITE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[WHITE]->setScale(3.0f, 1.0f, 3.0f);
+}
+
+void
+Model::pouetSwing(void)
+{	
+	GLuint		sf = 0;
+	GLuint		mf = 120;
+	GLuint		ef = 240;
+
+	(void)sf;
+	(void)mf;
+	(void)ef;
 
 	anim_vector[GREEN]->addRotation(ANIM, Z_AXIS, -180.0f, sf, mf);
 	anim_vector[GREEN]->addRotation(ANIM, Z_AXIS, 180.0f, mf, ef);
 	anim_vector[RED]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
+}
+
+void
+Model::pouetRotate(void)
+{	
+	GLuint		sf = 0;
+	GLuint		mf = 120;
+	GLuint		ef = 240;
+
+	(void)sf;
+	(void)mf;
+	(void)ef;
+
+	anim_vector[GREEN]->addRotation(ANIM, Y_AXIS, 3600.0f, sf, ef);
+	anim_vector[RED]->addRotation(ANIM, Y_AXIS, 360.0f, sf, ef);
+	anim_vector[WHITE]->addRotation(ANIM, Y_AXIS, -360.0f, sf, ef);
+	anim_vector[ORANGE]->addRotation(ANIM, Y_AXIS, -360.0f, sf, ef);
+}
+
+void
+Model::allocateHuman(void)
+{
+	setNeededPart(23);
+	genCubes();	
 }
 
 void
@@ -316,9 +348,6 @@ Model::buildHuman(void)
 	//									[LF]	[RF]
 	//
 	////////////////////////////////////////////////////////////////////////////////
-
-	setNeededPart(23);
-	genCubes();
 
 	Anim		*body = new Anim(findMatrix(BODY), NULL);
 	Anim		*head = new Anim(findMatrix(HEAD), body);
@@ -554,10 +583,42 @@ Model::humanBackFlip(void)
 	anim_vector[LK]->addRotation(ANIM, X_AXIS, -160.0f, nsf, mf);
 
 // body
-	anim_vector[BODY]->addRotation(ANIM, X_AXIS, -360.0f, mf, 100);
+	anim_vector[BODY]->addRotation(ANIM, X_AXIS, -360.0f, mf, 90);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -2.0f, 0.0f, sf, nsf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 3.0f, 0.0f, nsf, mf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -1.0f, 0.0f, mf, ef);
+}
+
+void
+Model::clearAnimationAndSetup(void)
+{
+	for (GLuint k = 0; k < anim_vector.size(); k++)
+	{
+		if (anim_vector[k]->scale != NULL)
+		{
+			delete anim_vector[k]->scale;
+		}
+		for (GLuint i = 0; i < anim_vector[k]->animation_transform.size(); i++)
+		{
+			delete anim_vector[k]->animation_transform[i];
+		}
+		for (GLuint j = 0; j < anim_vector[k]->setup_transform.size(); j++)
+		{
+			delete anim_vector[k]->setup_transform[j];
+		}
+	}
+}
+
+void
+Model::switchAnimation(int	animation)
+{
+	clearAnimationAndSetup();
+	buildHuman();
+	global_frame = 0;
+	if (animation == 1)
+		humanWalk();
+	if (animation == 2)
+		humanBackFlip();
 }
 
 void

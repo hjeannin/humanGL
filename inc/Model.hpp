@@ -15,7 +15,8 @@
 # define CUBE		101
 # define SPHERE		102
 
-//HUMAN
+# define GLOBAL		0xFFFFFFFF
+
 typedef enum
 {
 	BODY,
@@ -48,14 +49,15 @@ typedef enum
 	GRASS
 }			humanParts;
 
-# define NONE		-1
-# define RED		0
-# define GREEN		1
-# define BLUE		2
-# define ORANGE		3
-# define WHITE		4
+typedef enum
+{
+	RED,
+	GREEN,
+	BLUE,
+	ORANGE,
+	WHITE
+}			pouetParts;
 
-# define GLOBAL		0xFFFFFFFF
 
 # include <glfw3.h>
 # include <iostream>
@@ -113,13 +115,22 @@ public:
 	void		animate(void);
 	void		reset(void);
 
+	void		allocatePouet(void);
 	void		buildPouet(void);
+	void		pouetSwing(void);
+	void		pouetRotate(void);
+
+
+	void		allocateHuman(void);
 	void		buildHuman(void);
 	void		humanWalk(void);
 	void		humanBackFlip(void);
 
 	void		buildWTF(void);
 	void		multiAnim(void);
+
+	void		clearAnimationAndSetup(void);
+	void		switchAnimation(int animation);
 
 	void		genCubes(void);
 	void		generateCube(Part *current_part, int nfb, int nvb);

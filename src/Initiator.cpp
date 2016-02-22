@@ -83,7 +83,11 @@ Initiator::createImage(void)
 	mod = new Model();	
 
 	// mod->buildWTF();
+
+	// mod->allocatePouet();
 	// mod->buildPouet();
+	// mod->pouetSwing();
+	mod->allocateHuman();
 	mod->buildHuman();
 	mod->humanWalk();
 	// mod->humanBackFlip();
