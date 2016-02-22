@@ -26,27 +26,31 @@ typedef enum
 	RRA,
 	RE,
 	RFA,
+	RW,
 	RH,
 
 	LS,
 	LRA,
 	LE,
 	LFA,
+	LW,
 	LH,
 
 	RB,
 	RRL,
 	RK,
 	RFL,
+	RA,
 	RF,
 
 	LB,
 	LRL,
 	LK,
 	LFL,
+	LA,
 	LF,
 
-	GRASS
+	GROUND
 }			humanParts;
 
 typedef enum

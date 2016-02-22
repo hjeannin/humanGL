@@ -84,7 +84,7 @@ Model::reset(void)
 void
 Model::allocateHuman(void)
 {
-	setNeededPart(23);
+	setNeededPart(27);
 	genCubes();	
 }
 
@@ -96,9 +96,9 @@ Model::buildHuman(void)
 	//
 	//									  [HEAD]
 	//LEFT									|								RIGHT
-	//	  [LH]--[LFA]--[LE]--[LRA]--[LS]--[BODY]--[RS]--[RRA]--[RE]--[RFA]--[RH]
-	//										||
-	//										/	\
+	//	  [LW]--[LFA]--[LE]--[LRA]--[LS]--[BODY]--[RS]--[RRA]--[RE]--[RFA]--[RW]
+	//		|								||								  |
+	//	  [LH]							   /	\							[RH]
 	//									[LB]	[RB]
 	//									  |		  |
 	//									[LRL]	[RRL]
@@ -107,8 +107,9 @@ Model::buildHuman(void)
 	//									  |		  |
 	//									[LFL]	[RFL]
 	//									  |		  |
+	//									[LA]	[RA]
+	//									  |		  |
 	//									[LF]	[RF]
-	//
 	////////////////////////////////////////////////////////////////////////////////
 
 	Anim		*body = new Anim(findMatrix(BODY), NULL);
@@ -119,7 +120,8 @@ Model::buildHuman(void)
 	Anim		*rra = new Anim(findMatrix(RRA), rs);
 	Anim		*re = new Anim(findMatrix(RE), rra);
 	Anim		*rfa = new Anim(findMatrix(RFA), re);
-	Anim		*rh = new Anim(findMatrix(RH), rfa);
+	Anim		*rw = new Anim(findMatrix(RW), rfa);
+	Anim		*rh = new Anim(findMatrix(RH), rw);
 
 
 //	left arm
@@ -127,7 +129,8 @@ Model::buildHuman(void)
 	Anim		*lra = new Anim(findMatrix(LRA), ls);
 	Anim		*le = new Anim(findMatrix(LE), lra);
 	Anim		*lfa = new Anim(findMatrix(LFA), le);
-	Anim		*lh = new Anim(findMatrix(LH), lfa);
+	Anim		*lw = new Anim(findMatrix(LW), lfa);
+	Anim		*lh = new Anim(findMatrix(LH), lw);
 
 
 //	right leg
@@ -135,7 +138,8 @@ Model::buildHuman(void)
 	Anim		*rrl = new Anim(findMatrix(RRL), rb);
 	Anim		*rk = new Anim(findMatrix(RK), rrl);
 	Anim		*rfl = new Anim(findMatrix(RFL), rk);
-	Anim		*rf = new Anim(findMatrix(RF), rfl);
+	Anim		*ra = new Anim(findMatrix(RA), rfl);
+	Anim		*rf = new Anim(findMatrix(RF), ra);
 
 
 //	left leg
@@ -143,21 +147,22 @@ Model::buildHuman(void)
 	Anim		*lrl = new Anim(findMatrix(LRL), lb);
 	Anim		*lk = new Anim(findMatrix(LK), lrl);
 	Anim		*lfl = new Anim(findMatrix(LFL), lk);
-	Anim		*lf = new Anim(findMatrix(LF), lfl);
+	Anim		*la = new Anim(findMatrix(LA), lfl);
+	Anim		*lf = new Anim(findMatrix(LF), la);
 
 //	floor grass
-	Anim		*grass = new Anim(findMatrix(GRASS), NULL);
+	Anim		*ground = new Anim(findMatrix(GROUND), NULL);
 
 	anim_vector = {	body, head,
-					rs, rra, re, rfa, rh,
-					ls, lra, le, lfa, lh,
-					rb, rrl, rk, rfl, rf,
-					lb, lrl, lk, lfl, lf,
-					grass};
+					rs, rra, re, rfa, rw, rh,
+					ls, lra, le, lfa, lw, lh,
+					rb, rrl, rk, rfl, ra, rf,
+					lb, lrl, lk, lfl, la, lf,
+					ground};
 
-	changePartColor(GRASS, 0x007B0C00);
-	anim_vector[GRASS]->setScale(5000.0f, 1.0f, 5000.f);
-	anim_vector[GRASS]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
+	changePartColor(GROUND, 0x007B0C00);
+	anim_vector[GROUND]->setScale(5000.0f, 1.0f, 5000.f);
+	anim_vector[GROUND]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
 
 	changePartColor(HEAD, 0xB9886500);
 	changePartColor(RE, 0xB9886500);
