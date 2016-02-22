@@ -19,6 +19,8 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 		init->mod->switchAnimation(1);
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
 		init->mod->switchAnimation(2);
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+		init->mod->switchAnimation(3);
 }
 
 static void

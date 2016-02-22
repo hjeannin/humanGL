@@ -130,6 +130,7 @@ public:
 	void		buildHuman(void);
 	void		humanWalk(void);
 	void		humanBackFlip(void);
+	void		humanHello(void);
 
 	void		buildWTF(void);
 	void		multiAnim(void);

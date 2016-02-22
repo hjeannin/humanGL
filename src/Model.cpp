@@ -262,8 +262,8 @@ Model::buildHuman(void)
 	anim_vector[RFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[RW]->setScale(1.0f, 0.4f, 1.0f);
 	anim_vector[RW]->addTranslation(SETUP, 0.0f, -0.6f, 0.0f);
-	anim_vector[RH]->setScale(0.6f, 1.4f, 1.0f);
-	anim_vector[RH]->addTranslation(SETUP, 0.0f, -0.9f, 0.0f);
+	anim_vector[RH]->setScale(0.6f, 1.2f, 0.8f);
+	anim_vector[RH]->addTranslation(SETUP, 0.0f, -0.8f, 0.0f);
 
 
 // left arm
@@ -279,8 +279,8 @@ Model::buildHuman(void)
 	anim_vector[LFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[LW]->setScale(1.0f, 0.4f, 1.0f);
 	anim_vector[LW]->addTranslation(SETUP, 0.0f, -0.6f, 0.0f);
-	anim_vector[LH]->setScale(0.6f, 1.4f, 1.0f);
-	anim_vector[LH]->addTranslation(SETUP, 0.0f, -0.9f, 0.0f);
+	anim_vector[LH]->setScale(0.6f, 1.2f, 0.8f);
+	anim_vector[LH]->addTranslation(SETUP, 0.0f, -0.8f, 0.0f);
 
 
 // right leg
@@ -426,6 +426,42 @@ Model::humanBackFlip(void)
 }
 
 void
+Model::humanHello(void)
+{
+	GLuint		sf = 0;
+	GLuint		nsf = 40;
+	GLuint		mf = 50;
+	GLuint		nef = 70;
+	GLuint		ef = 80;
+	GLuint		lf = 140;
+	GLuint		lef = 180;
+
+	(void)sf;
+	(void)nsf;
+	(void)mf;
+	(void)nef;
+	(void)ef;
+	max_frame = lef;
+
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -50.0f, sf, nsf);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, -90.0f, sf, nsf);
+	anim_vector[RW]->addRotation(ANIM, Y_AXIS, -90.0f, sf, nsf);
+	anim_vector[RW]->addRotation(ANIM, Z_AXIS, -30.0f, sf, nsf);
+
+	anim_vector[RE]->addRotation(ANIM, Z_AXIS, -10.0f, nsf, mf);
+	anim_vector[RE]->addRotation(ANIM, Z_AXIS, 20.0f, mf, ef);
+
+	anim_vector[RW]->addRotation(ANIM, X_AXIS, 30.0f, nsf, mf);
+	anim_vector[RW]->addRotation(ANIM, X_AXIS, -60.0f, mf, nef);
+	anim_vector[RW]->addRotation(ANIM, X_AXIS, 30.0f, nef, ef);
+
+	anim_vector[RW]->addRotation(ANIM, Z_AXIS, 30.0f, ef, lf);
+	anim_vector[RW]->addRotation(ANIM, Y_AXIS, 90.0f, ef, lf);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, 90.0f, ef, lf);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 50.0f, ef, lf);
+}
+
+void
 Model::clearAnimationAndSetup(void)
 {
 	for (GLuint k = 0; k < anim_vector.size(); k++)
@@ -450,11 +486,14 @@ Model::switchAnimation(int	animation)
 {
 	clearAnimationAndSetup();
 	buildHuman();
+	frame = 0;
 	global_frame = 0;
 	if (animation == 1)
 		humanWalk();
 	if (animation == 2)
 		humanBackFlip();
+	if (animation == 3)
+		humanHello();
 }
 
 void
