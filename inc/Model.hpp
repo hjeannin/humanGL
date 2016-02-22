@@ -50,7 +50,9 @@ typedef enum
 	LA,
 	LF,
 
-	GROUND
+	GROUND,
+	HANDLE,
+	LAZER
 }			humanParts;
 
 typedef enum
@@ -131,6 +133,7 @@ public:
 	void		humanWalk(void);
 	void		humanBackFlip(void);
 	void		humanHello(void);
+	void		humanVader(void);
 
 	void		buildWTF(void);
 	void		multiAnim(void);

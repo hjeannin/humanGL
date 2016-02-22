@@ -131,7 +131,7 @@ Model::reset(void)
 void
 Model::allocateHuman(void)
 {
-	setNeededPart(27);
+	setNeededPart(29);
 	genCubes();	
 }
 
@@ -148,7 +148,7 @@ Model::buildHuman(void)
 	//	  [LH]							   /	\							[RH]
 	//									[LB]	[RB]
 	//									  |		  |
-	//									[LRL]	[RRL]
+	//									[LRL]	[RRL]			[LAZER]
 	//									  |		  |
 	//									[LK]	[RK]
 	//									  |		  |
@@ -199,17 +199,26 @@ Model::buildHuman(void)
 
 //	floor grass
 	Anim		*ground = new Anim(findMatrix(GROUND), NULL);
+	Anim		*handle = new Anim(findMatrix(HANDLE), rh);
+	Anim		*lazer = new Anim(findMatrix(LAZER), handle);
 
 	anim_vector = {	body, head,
 					rs, rra, re, rfa, rw, rh,
 					ls, lra, le, lfa, lw, lh,
 					rb, rrl, rk, rfl, ra, rf,
 					lb, lrl, lk, lfl, la, lf,
-					ground};
+					ground, handle, lazer};
 
 	changePartColorSwagg(GROUND, 0x42121200);
+	changePartColor(HANDLE, 0x42424200);
+	changePartColorSwagg(LAZER, 0xd0000000);
 	anim_vector[GROUND]->setScale(500.0f, 1.0f, 500.f);
 	anim_vector[GROUND]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
+	anim_vector[HANDLE]->setScale(0.5f, 0.5f, 1.6f);
+	anim_vector[LAZER]->setScale(0.4f, 0.4f, 6.0f);
+	anim_vector[LAZER]->addTranslation(SETUP, 0.0f, 0.0f, -3.4f);
+// HIDE
+	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, -5.0f, -10000.0f);
 
 	changePartColor(HEAD, 0xB9886500);
 	changePartColor(RE, 0xB9886500);
@@ -462,6 +471,27 @@ Model::humanHello(void)
 }
 
 void
+Model::humanVader(void)
+{
+	GLuint		sf = 0;
+	GLuint		nsf = 20;
+	GLuint		mf = 50;
+	GLuint		nef = 70;
+	GLuint		ef = 80;
+
+	(void)sf;
+	(void)nsf;
+	(void)mf;
+	(void)nef;
+	(void)ef;
+	max_frame = ef;
+
+	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 5.0f, 10000.0f);
+	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, -5.0f, -100.0f);
+	anim_vector[HANDLE]->addTranslation(ANIM, 0.0f, 5.0f, 100.0f, sf, nsf);
+}
+
+void
 Model::clearAnimationAndSetup(void)
 {
 	for (GLuint k = 0; k < anim_vector.size(); k++)
@@ -494,6 +524,8 @@ Model::switchAnimation(int	animation)
 		humanBackFlip();
 	if (animation == 3)
 		humanHello();
+	if (animation == 4)
+		humanVader();
 }
 
 void
