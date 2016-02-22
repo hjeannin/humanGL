@@ -317,7 +317,7 @@ Model::buildHuman(void)
 	//
 	////////////////////////////////////////////////////////////////////////////////
 
-	setNeededPart(22);
+	setNeededPart(23);
 	genCubes();
 
 	Anim		*body = new Anim(findMatrix(BODY), NULL);
@@ -354,11 +354,19 @@ Model::buildHuman(void)
 	Anim		*lfl = new Anim(findMatrix(LFL), lk);
 	Anim		*lf = new Anim(findMatrix(LF), lfl);
 
+//	floor grass
+	Anim		*grass = new Anim(findMatrix(GRASS), NULL);
+
 	anim_vector = {	body, head,
 					rs, rra, re, rfa, rh,
 					ls, lra, le, lfa, lh,
 					rb, rrl, rk, rfl, rf,
-					lb, lrl, lk, lfl, lf};
+					lb, lrl, lk, lfl, lf,
+					grass};
+
+	changePartColor(GRASS, 0x007B0C00);
+	anim_vector[GRASS]->setScale(5000.0f, 1.0f, 5000.f);
+	anim_vector[GRASS]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
 
 	changePartColor(HEAD, 0xB9886500);
 	changePartColor(RE, 0xB9886500);
@@ -464,7 +472,8 @@ Model::humanWalk(void)
 	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 5.0f, mf, ef);
 
 //	body tilted
-	anim_vector[BODY]->addRotation(SETUP, X_AXIS, 5.0f);
+	// anim_vector[BODY]->addRotation(ANIM, X_AXIS, 5.0f, sf, mf);
+	// anim_vector[BODY]->addRotation(ANIM, X_AXIS, -5.0f, mf, ef);
 
 //	right arm backward
 	anim_vector[RS]->addRotation(SETUP, X_AXIS, 24.0f);
@@ -505,7 +514,7 @@ Model::humanWalk(void)
 }
 
 void
-Model::humanWTF(void)
+Model::humanBackFlip(void)
 {
 	GLuint		sf = 0;
 	GLuint		nsf = 40;
@@ -513,13 +522,12 @@ Model::humanWTF(void)
 	GLuint		nef = 80;
 	GLuint		ef = 120;
 
-	(void)nef;
-	(void)nsf;
 	max_frame = ef;
 
 //	head
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -20.0f, sf, mf);
-	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, mf, ef);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 20.0f, sf, mf);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, -60.0f, mf, nef);
+	anim_vector[HEAD]->addRotation(ANIM, X_AXIS, 40.0f, nef, ef);
 
 //	right arm
 	anim_vector[RS]->addRotation(ANIM, X_AXIS, -180.0f, nsf, mf);
@@ -550,8 +558,6 @@ Model::humanWTF(void)
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -2.0f, 0.0f, sf, nsf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 3.0f, 0.0f, nsf, mf);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, -1.0f, 0.0f, mf, ef);
-	
-	// anim_vector[BODY]->addTranslation(ANIM, 0.0f, 0.0f, -0.08f, GLOBAL, GLOBAL);
 }
 
 void

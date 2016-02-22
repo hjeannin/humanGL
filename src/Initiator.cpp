@@ -85,8 +85,8 @@ Initiator::createImage(void)
 	// mod->buildWTF();
 	// mod->buildPouet();
 	mod->buildHuman();
-	// mod->humanWalk();
-	mod->humanWTF();
+	mod->humanWalk();
+	// mod->humanBackFlip();
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
 }
