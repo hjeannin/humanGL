@@ -14,15 +14,30 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == GLFW_KEY_R && action == GLFW_PRESS)
+	{
 		init->mod->switchAnimation(0);
+		init->camera.reset();
+	}
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	{
 		init->mod->switchAnimation(1);
+		init->camera.reset();
+	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	{
 		init->mod->switchAnimation(2);
+		init->camera.reset();
+	}
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+	{
 		init->mod->switchAnimation(3);
+		init->camera.reset();
+	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	{
 		init->mod->switchAnimation(4);
+		init->camera.reset();
+	}
 }
 
 static void

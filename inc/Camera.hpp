@@ -26,6 +26,7 @@ public:
 
 	void					init(void);
 	void					moveForward(void);
+	void					reset(void);
 	void					moveBackward(void);
 	void					strafeRight(void);
 	void					strafeLeft(void);

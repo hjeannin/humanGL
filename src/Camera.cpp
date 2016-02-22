@@ -56,12 +56,20 @@ Camera::set(void)
 }
 
 void
+Camera::reset(void)
+{
+	hangle = 0.0f;
+	vangle = 0.0f;
+	pos.set(0.0f, 0.0f, 15.0f);
+}
+
+void
 Camera::init(void)
 {
 	hangle = 0.0f;
 	vangle = 0.0f;
 	speed = 0.4;
-	pos.set(0.0f, 0.0f, 10.0f);
+	pos.set(0.0f, 0.0f, 15.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);
 	forward.set(lookAt - pos);
 	forward.normalize();

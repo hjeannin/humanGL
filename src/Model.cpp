@@ -209,7 +209,7 @@ Model::buildHuman(void)
 					lb, lrl, lk, lfl, la, lf,
 					ground, handle, lazer};
 
-	changePartColorSwagg(GROUND, 0x42121200);
+	changePartColor(GROUND, 0x54545400);
 	changePartColor(HANDLE, 0x42424200);
 	changePartColorSwagg(LAZER, 0xd0000000);
 	anim_vector[GROUND]->setScale(500.0f, 1.0f, 500.f);
@@ -218,7 +218,7 @@ Model::buildHuman(void)
 	anim_vector[LAZER]->setScale(0.4f, 0.4f, 6.0f);
 	anim_vector[LAZER]->addTranslation(SETUP, 0.0f, 0.0f, -3.4f);
 // HIDE
-	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, -5.0f, -10000.0f);
+	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 0.0f, -10000.0f);
 
 	changePartColor(HEAD, 0xB9886500);
 	changePartColor(RE, 0xB9886500);
@@ -458,7 +458,8 @@ Model::humanHello(void)
 	anim_vector[RW]->addRotation(ANIM, Z_AXIS, -30.0f, sf, nsf);
 
 	anim_vector[RE]->addRotation(ANIM, Z_AXIS, -10.0f, nsf, mf);
-	anim_vector[RE]->addRotation(ANIM, Z_AXIS, 20.0f, mf, ef);
+	anim_vector[RE]->addRotation(ANIM, Z_AXIS, 20.0f, mf, nef);
+	anim_vector[RE]->addRotation(ANIM, Z_AXIS, -10.0f, nef, ef);
 
 	anim_vector[RW]->addRotation(ANIM, X_AXIS, 30.0f, nsf, mf);
 	anim_vector[RW]->addRotation(ANIM, X_AXIS, -60.0f, mf, nef);
@@ -474,8 +475,8 @@ void
 Model::humanVader(void)
 {
 	GLuint		sf = 0;
-	GLuint		nsf = 20;
-	GLuint		mf = 50;
+	GLuint		nsf = 40;
+	GLuint		mf = 60;
 	GLuint		nef = 70;
 	GLuint		ef = 80;
 
@@ -486,9 +487,18 @@ Model::humanVader(void)
 	(void)ef;
 	max_frame = ef;
 
-	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 5.0f, 10000.0f);
+// place saber
+	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 0.0f, 10000.0f);
 	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, -5.0f, -100.0f);
-	anim_vector[HANDLE]->addTranslation(ANIM, 0.0f, 5.0f, 100.0f, sf, nsf);
+
+// move hand
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -30.0f, sf, nsf);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, -90.0f, sf, nsf);
+	anim_vector[RW]->addRotation(ANIM, Y_AXIS, -90.0f, sf, nsf);
+	anim_vector[RW]->addRotation(ANIM, Z_AXIS, -30.0f, sf, nsf);
+
+// force saber
+	anim_vector[HANDLE]->addTranslation(ANIM, 0.0f, 5.0f, 100.0f, nsf, mf);
 }
 
 void
