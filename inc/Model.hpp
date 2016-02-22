@@ -114,6 +114,7 @@ public:
 	
 	void		setNeededPart(GLuint n);
 	void		changePartColor(int id, GLuint color);
+	void		changePartColorSwagg(int id, GLuint color);
 	Mat4<GLfloat>	*findMatrix(int index);
 	void		runAnimVectorAnim(void);
 	void		animate(void);
