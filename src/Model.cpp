@@ -160,7 +160,7 @@ Model::buildHuman(void)
 					lb, lrl, lk, lfl, la, lf,
 					ground};
 
-	changePartColor(GROUND, 0x007B0C00);
+	changePartColor(GROUND, 0x42121200);
 	anim_vector[GROUND]->setScale(5000.0f, 1.0f, 5000.f);
 	anim_vector[GROUND]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
 
@@ -179,6 +179,9 @@ Model::buildHuman(void)
 	changePartColor(RRA, 0xFFFFFF00);
 	changePartColor(LRA, 0xFFFFFF00);
 
+	changePartColor(RW, 0xffd70000);
+	changePartColor(LW, 0xffd70000);
+
 	changePartColor(RB, 0x00225000);
 	changePartColor(LB, 0x00225000);
 	changePartColor(RRL, 0x00327000);
@@ -187,6 +190,8 @@ Model::buildHuman(void)
 	changePartColor(LK, 0x00225000);
 	changePartColor(RFL, 0x00327000);
 	changePartColor(LFL, 0x00327000);
+	changePartColor(RA, 0xffffff00);
+	changePartColor(LA, 0xffffff00);
 
 	changePartColor(RF, 0xFD9A2900);
 	changePartColor(LF, 0xFD9A2900);
@@ -203,14 +208,15 @@ Model::buildHuman(void)
 	anim_vector[RS]->addRotation(SETUP, X_AXIS, 8.0f);
 	anim_vector[RRA]->setScale(0.8f, 1.0f, 0.8f);
 	anim_vector[RRA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
-	// anim_vector[RE]->setScale(0.8f, 0.8f, 0.8f);
 	anim_vector[RE]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[RE]->addRotation(SETUP, Z_AXIS, 8.0f);
 	anim_vector[RE]->addRotation(SETUP, X_AXIS, -16.0f);
 	anim_vector[RFA]->setScale(0.8f, 1.0f, 0.8f);
 	anim_vector[RFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
-	anim_vector[RH]->setScale(1.0f, 1.5f, 1.0f);
-	anim_vector[RH]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[RW]->setScale(1.0f, 0.4f, 1.0f);
+	anim_vector[RW]->addTranslation(SETUP, 0.0f, -0.6f, 0.0f);
+	anim_vector[RH]->setScale(0.8f, 1.4f, 1.0f);
+	anim_vector[RH]->addTranslation(SETUP, 0.0f, -0.9f, 0.0f);
 
 
 // left arm
@@ -224,8 +230,10 @@ Model::buildHuman(void)
 	anim_vector[LE]->addRotation(SETUP, X_AXIS, -16.0f);
 	anim_vector[LFA]->setScale(0.8f, 1.0f, 0.8f);
 	anim_vector[LFA]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
-	anim_vector[LH]->setScale(1.0f, 1.5f, 1.0f);
-	anim_vector[LH]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
+	anim_vector[LW]->setScale(1.0f, 0.4f, 1.0f);
+	anim_vector[LW]->addTranslation(SETUP, 0.0f, -0.6f, 0.0f);
+	anim_vector[LH]->setScale(0.8f, 1.4f, 1.0f);
+	anim_vector[LH]->addTranslation(SETUP, 0.0f, -0.9f, 0.0f);
 
 
 // right leg
@@ -237,8 +245,10 @@ Model::buildHuman(void)
 	anim_vector[RK]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[RFL]->setScale(1.0f, 2.0f, 1.0f);
 	anim_vector[RFL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
-	anim_vector[RF]->setScale(1.0f, 1.0f, 2.0f);
-	anim_vector[RF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
+	anim_vector[RA]->setScale(1.0f, 0.4f, 1.0f);
+	anim_vector[RA]->addTranslation(SETUP, 0.0f, -1.2f, 0.0f);
+	anim_vector[RF]->setScale(1.0f, 0.6f, 2.0f);
+	anim_vector[RF]->addTranslation(SETUP, 0.0f, -0.5f, -0.5f);
 
 
 //	left leg
@@ -250,8 +260,10 @@ Model::buildHuman(void)
 	anim_vector[LK]->addTranslation(SETUP, 0.0f, -1.0f, 0.0f);
 	anim_vector[LFL]->setScale(1.0f, 2.0f, 1.0f);
 	anim_vector[LFL]->addTranslation(SETUP, 0.0f, -1.5f, 0.0f);
-	anim_vector[LF]->setScale(1.0f, 1.0f, 2.0f);
-	anim_vector[LF]->addTranslation(SETUP, 0.0f, -1.5f, -0.5f);
+	anim_vector[LA]->setScale(1.0f, 0.4f, 1.0f);
+	anim_vector[LA]->addTranslation(SETUP, 0.0f, -1.2f, 0.0f);
+	anim_vector[LF]->setScale(1.0f, 0.6f, 2.0f);
+	anim_vector[LF]->addTranslation(SETUP, 0.0f, -0.5f, -0.5f);
 }
 
 void

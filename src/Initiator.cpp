@@ -84,7 +84,7 @@ Initiator::createImage(void)
 
 	mod->allocateHuman();
 	mod->buildHuman();
-	mod->humanWalk();
+	// mod->humanWalk();
 
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();

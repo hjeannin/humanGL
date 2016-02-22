@@ -14,7 +14,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == GLFW_KEY_R && action == GLFW_PRESS)
-		init->mod->global_frame = 0;
+		init->mod->switchAnimation(0);
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 		init->mod->switchAnimation(1);
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
