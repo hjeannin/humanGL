@@ -113,8 +113,6 @@ public:
 	void		animate(void);
 	void		reset(void);
 
-	// void		deduceChilds(void);
-
 	void		buildPouet(void);
 	void		buildHuman(void);
 	void		humanWalk(void);
