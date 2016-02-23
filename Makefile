@@ -10,14 +10,15 @@ PLATFORM	:=	$(shell uname)
 HEADER		=	-I./$(INC_PATH) -I./compiled_GLFW/include/
 FLAGS		=	-O3 -Wall -Wextra -Werror -std=gnu++11
 
-CC			=	g++
 
 ifeq "$(PLATFORM)" "Darwin" #MAC
 GLFW		=	./compiled_GLFW/src/libglfw3_darwin.a
 LIBS		=	$(GLFW) -framework Carbon -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL -framework CoreVideo
+CC			=	g++
 else ifeq "$(PLATFORM)" "Linux" #LINUX
 GLFW		=	./compiled_GLFW/src/libglfw3_linux.a
 LIBS		=	$(GLFW) -lGL -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lXcursor -lm -lXinerama `libpng-config --libs` -ldl
+CC			=	clang++
 endif
 
 NAME		=	humanGL
