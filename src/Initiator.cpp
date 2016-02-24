@@ -84,7 +84,6 @@ Initiator::createImage(void)
 
 	mod->allocateHuman();
 	mod->buildHuman();
-	mod->humanVader();
 
 	ConbineParts(mod->part, mod->getPartCount());
 	LoadModel();
