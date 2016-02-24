@@ -131,7 +131,7 @@ Model::reset(void)
 void
 Model::allocateHuman(void)
 {
-	setNeededPart(30);
+	setNeededPart(31);
 	genCubes();	
 }
 
@@ -200,28 +200,35 @@ Model::buildHuman(void)
 
 //	floor grass
 	Anim		*ground = new Anim(findMatrix(GROUND), NULL);
+
 	Anim		*handle = new Anim(findMatrix(HANDLE), rh);
 	Anim		*lazer = new Anim(findMatrix(LAZER), handle);
+
+	Anim		*explosion = new Anim(findMatrix(EXPLOSION), body);
 
 	anim_vector = {	body, head, hairs,
 					rs, rra, re, rfa, rw, rh,
 					ls, lra, le, lfa, lw, lh,
 					rb, rrl, rk, rfl, ra, rf,
 					lb, lrl, lk, lfl, la, lf,
-					ground, handle, lazer};
+					ground, handle, lazer, explosion};
 
-	changePartColor(GROUND, 0x54545400);
-	changePartColor(HANDLE, 0x42424200);
-	changePartColorSwagg(LAZER, 0xd0000000);
 	anim_vector[GROUND]->setScale(500.0f, 1.0f, 500.f);
 	anim_vector[GROUND]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
 	anim_vector[HANDLE]->setScale(0.5f, 0.5f, 1.6f);
 	anim_vector[LAZER]->setScale(0.4f, 0.4f, 6.0f);
 	anim_vector[LAZER]->addTranslation(SETUP, 0.0f, 0.0f, -3.4f);
-// HIDE
+	anim_vector[EXPLOSION]->setScale(0.1f, 0.1f, 0.1f);
+// HIDE SABER
 	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 0.0f, -10000.0f);
 
-	changePartColor(HAIRS, 0xF2DA9100);
+
+	changePartColorSwagg(EXPLOSION, 0xDDD10000);
+	changePartColor(GROUND, 0x54545400);
+	changePartColor(HANDLE, 0x42424200);
+	changePartColorSwagg(LAZER, 0xd0000000);
+
+	changePartColor(HAIRS, 0xFFD57D00);
 	changePartColor(HEAD, 0xB9886500);
 	changePartColor(RE, 0xB9886500);
 	changePartColor(RFA, 0xB9886500);
@@ -237,8 +244,8 @@ Model::buildHuman(void)
 	changePartColor(RRA, 0xffffff00);
 	changePartColor(LRA, 0xffffff00);
 
-	changePartColor(RW, 0xffd70000);
-	changePartColor(LW, 0xffd70000);
+	changePartColor(RW, 0xc0c0c000);
+	changePartColor(LW, 0xc0c0c000);
 
 	changePartColorSwagg(RB, 0x00225000);
 	changePartColorSwagg(LB, 0x00225000);
@@ -259,7 +266,7 @@ Model::buildHuman(void)
 
 	anim_vector[HEAD]->setScale(1.6f, 2.0f, 2.0f);
 	anim_vector[HEAD]->addTranslation(SETUP, 0.0f, 3.0f, 0.0f);
-	anim_vector[HAIRS]->setScale(2.2f, 1.4f, 2.2f);
+	anim_vector[HAIRS]->setScale(2.1f, 1.1f, 2.1f);
 	anim_vector[HAIRS]->addTranslation(SETUP, 0.0f, 1.2f, 0.0f);
 
 // right arm
@@ -483,12 +490,12 @@ Model::humanHulk(void)
 	GLuint		start = 0;
 	GLuint		back = 100;
 	GLuint		jigle1 = 130;
-	GLuint		jigle2 = 150;
+	GLuint		jigle2 = 160;
 	GLuint		grow = 170;
-	GLuint		explode = 250;
-	GLuint		explode1 = 270;
-	GLuint		explode2 = 280;
-	GLuint		ef = 1000;
+	GLuint		explode = 350;
+	GLuint		explode1 = 370;
+	GLuint		explode2 = 380;
+	GLuint		ef = 10000;
 
 	max_frame = ef;
 
@@ -538,10 +545,10 @@ Model::humanHulk(void)
 	anim_vector[LE]->addRotation(ANIM, X_AXIS, 20.0f, jigle2 - move, jigle2);
 
 // grow
-	anim_vector[RS]->addScale(ANIM, 1.8f, 1.8f, 1.8f, jigle2, grow);
-	anim_vector[LS]->addScale(ANIM, 1.8f, 1.8f, 1.8f, jigle2, grow);
-	anim_vector[RB]->addScale(ANIM, 1.8f, 1.8f, 1.8f, jigle2, grow);
-	anim_vector[LB]->addScale(ANIM, 1.8f, 1.8f, 1.8f, jigle2, grow);
+	anim_vector[RRA]->addScale(ANIM, 1.3f, 1.3f, 1.3f, jigle2, grow);
+	anim_vector[LRA]->addScale(ANIM, 1.3f, 1.3f, 1.3f, jigle2, grow);
+	anim_vector[RRL]->addScale(ANIM, 1.3f, 1.3f, 1.3f, jigle2, grow);
+	anim_vector[LRL]->addScale(ANIM, 1.3f, 1.3f, 1.3f, jigle2, grow);
 	anim_vector[HAIRS]->addTranslation(ANIM, 0.0f, 1.0f, 0.0f, jigle2, grow);
 	anim_vector[HAIRS]->addScale(ANIM, 0.2f, 1.0f, 0.2f, jigle2, grow);
 	anim_vector[BODY]->addTranslation(ANIM, 0.0f, 8.0f, 0.0f, jigle2, grow);
@@ -552,7 +559,11 @@ Model::humanHulk(void)
 	anim_vector[RB]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[LB]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[HAIRS]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
-	anim_vector[BODY]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
+	anim_vector[BODY]->addScale(ANIM, 0.3f, 0.3f, 0.3f, explode, explode1);
+
+	anim_vector[EXPLOSION]->addScale(ANIM, 10.0f, 10.0f, 10.0f, explode1, explode1 + 5);
+	anim_vector[EXPLOSION]->addScale(ANIM, -10.0f, -10.0f, -10.0f, explode1 + 5, explode2 - 5);
+	anim_vector[EXPLOSION]->addScale(ANIM, 10000.0f, 10000.0f, 10000.0f, explode2 - 5, explode2);
 
 // explode12
 	anim_vector[RS]->addScale(ANIM, 1000.8f, 1000.8f, 1000.8f, explode1, explode2);
@@ -570,7 +581,7 @@ Model::humanVader(void)
 	GLuint		nsf = 40;
 	GLuint		mf = 60;
 	GLuint		nef = 70;
-	GLuint		ef = 80;
+	GLuint		ef = 800;
 
 	(void)sf;
 	(void)nsf;
@@ -580,8 +591,8 @@ Model::humanVader(void)
 	max_frame = ef;
 
 // place saber
-	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 0.0f, 10000.0f);
-	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, -5.0f, -100.0f);
+	anim_vector[HANDLE]->addTranslation(ANIM, 0.0f, 0.0f, 10000.0f, sf, nsf);
+	anim_vector[HANDLE]->addTranslation(SETUP, -10.0f, 5.0f, 0.0f);
 
 // move hand
 	anim_vector[RS]->addRotation(ANIM, X_AXIS, -30.0f, sf, nsf);
@@ -590,7 +601,7 @@ Model::humanVader(void)
 	anim_vector[RW]->addRotation(ANIM, Z_AXIS, -30.0f, sf, nsf);
 
 // force saber
-	anim_vector[HANDLE]->addTranslation(ANIM, 0.0f, 5.0f, 100.0f, nsf, mf);
+	anim_vector[HANDLE]->addTranslation(ANIM, 10.0f, -5.0f, 0.0f, nsf, mf);
 }
 
 void

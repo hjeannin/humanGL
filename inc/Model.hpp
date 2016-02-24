@@ -53,7 +53,8 @@ typedef enum
 
 	GROUND,
 	HANDLE,
-	LAZER
+	LAZER,
+	EXPLOSION
 }			humanParts;
 
 typedef enum
