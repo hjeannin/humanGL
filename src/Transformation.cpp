@@ -46,7 +46,7 @@ Transformation::runSetup(Mat4<GLfloat> *matrix)
 }
 
 void
-Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame)
+Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame, Transformation *scale)
 {
 	if (_frame_range > 0.0f)
 	{
@@ -64,9 +64,9 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint
 			}
 			else if (_transformation_type == T_SCALE)
 			{
-				matrix->scale(	_x / _frame_range * (current_frame - _start_frame),
-								_y / _frame_range * (current_frame - _start_frame),
-								_z / _frame_range * (current_frame - _start_frame));
+				matrix->scale(	_x / _frame_range * (current_frame - _start_frame) + scale->getX(),
+								_y / _frame_range * (current_frame - _start_frame) + scale->getY(),
+								_z / _frame_range * (current_frame - _start_frame) + scale->getZ());
 			}				
 			// std::cerr << "DEBUG: " << "current angle[" << _angle / _frame_range * (current_frame - _start_frame) << "] given angle[" << _angle <<  "] fr[" << _frame_range << "] sf[" << _start_frame  << "] ef[" << _end_frame << "] " << std::endl;
 		}
@@ -82,7 +82,7 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint
 			}
 			else if (_transformation_type == T_SCALE)
 			{
-				matrix->scale(_x, _y, _z);
+				matrix->scale(_x + scale->getX(), _y + scale->getY(), _z + scale->getZ());
 			}
 		}
 	}
@@ -102,4 +102,22 @@ Transformation::runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint
 			matrix->scale(_x * global_frame, _y * global_frame, _z * global_frame);
 		}
 	}
+}
+
+GLfloat
+Transformation::getX(void) const
+{
+	return this->_x;
+}
+
+GLfloat
+Transformation::getY(void) const
+{
+	return this->_y;
+}
+
+GLfloat
+Transformation::getZ(void) const
+{
+	return this->_z;
 }

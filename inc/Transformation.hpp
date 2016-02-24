@@ -46,7 +46,10 @@ public:
 	~Transformation(void);
 
 	void		runSetup(Mat4<GLfloat> *matrix);
-	void		runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame);
+	void		runAnimation(Mat4<GLfloat> *matrix, GLuint current_frame, GLuint global_frame, Transformation *scale);
+	GLfloat		getX(void) const;
+	GLfloat		getY(void) const;
+	GLfloat		getZ(void) const;
 };
 
 #endif

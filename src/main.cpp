@@ -38,6 +38,11 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 		init->mod->switchAnimation(4);
 		init->camera.reset();
 	}
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+	{
+		init->mod->switchAnimation(5);
+		init->camera.reset();
+	}
 }
 
 static void

@@ -21,6 +21,7 @@ typedef enum
 {
 	BODY,
 	HEAD,
+	HAIRS,
 
 	RS,
 	RRA,
@@ -133,6 +134,7 @@ public:
 	void		humanWalk(void);
 	void		humanBackFlip(void);
 	void		humanHello(void);
+	void		humanHulk(void);
 	void		humanVader(void);
 
 	void		buildWTF(void);

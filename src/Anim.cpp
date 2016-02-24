@@ -114,7 +114,7 @@ Anim::runAnimationTransformVector(std::vector<Transformation *> &v, Mat4<GLfloat
 {
 	for (GLuint i = 0; i < v.size(); i++)
 	{
-		v[i]->runAnimation(m, current_frame, global_frame);
+		v[i]->runAnimation(m, current_frame, global_frame, scale);
 	}
 }
 
