@@ -560,6 +560,7 @@ Model::humanHulk(void)
 	anim_vector[LB]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[HAIRS]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[BODY]->addScale(ANIM, 0.3f, 0.3f, 0.3f, explode, explode1);
+	anim_vector[EXPLOSION]->addScale(ANIM, 1.0f, 1.0f, 1.0f, explode, explode1);
 
 	anim_vector[EXPLOSION]->addScale(ANIM, 10.0f, 10.0f, 10.0f, explode1, explode1 + 5);
 	anim_vector[EXPLOSION]->addScale(ANIM, -10.0f, -10.0f, -10.0f, explode1 + 5, explode2 - 5);
@@ -580,14 +581,11 @@ Model::humanVader(void)
 	GLuint		sf = 0;
 	GLuint		nsf = 40;
 	GLuint		mf = 60;
-	GLuint		nef = 70;
+	GLuint		nef = 120;
+	GLuint		la = 140;
+	GLuint		slash = 160;
 	GLuint		ef = 800;
 
-	(void)sf;
-	(void)nsf;
-	(void)mf;
-	(void)nef;
-	(void)ef;
 	max_frame = ef;
 
 // place saber
@@ -602,6 +600,36 @@ Model::humanVader(void)
 
 // force saber
 	anim_vector[HANDLE]->addTranslation(ANIM, 10.0f, -5.0f, 0.0f, nsf, mf);
+
+// back to init
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 30.0f, mf, nef);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, 90.0f, mf, nef);
+	anim_vector[RW]->addRotation(ANIM, Y_AXIS, 90.0f, mf, nef);
+
+// lift arm
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, -140.0f, nef, la);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, 10.0f, nef, la);
+	anim_vector[RW]->addRotation(ANIM, X_AXIS, 30.0f, nef, la);
+
+// leg moves
+	anim_vector[RB]->addRotation(ANIM, Y_AXIS, 10, nef, slash);
+	anim_vector[RB]->addRotation(ANIM, Z_AXIS, -10, nef, slash);
+	anim_vector[RK]->addRotation(ANIM, X_AXIS, 20, nef, slash);
+	anim_vector[RA]->addRotation(ANIM, X_AXIS, -10, nef, slash);
+
+	anim_vector[LB]->addRotation(ANIM, Y_AXIS, 10, nef, slash);
+	anim_vector[LB]->addRotation(ANIM, Z_AXIS, 10, nef, slash);
+	anim_vector[LK]->addRotation(ANIM, X_AXIS, 20, nef, slash);
+	anim_vector[LA]->addRotation(ANIM, X_AXIS, -10, nef, slash);
+
+// slash
+	anim_vector[BODY]->addRotation(ANIM, Y_AXIS, -20.0f, la, slash);
+	anim_vector[RS]->addRotation(ANIM, X_AXIS, 160.0f, la, slash);
+	anim_vector[RS]->addRotation(ANIM, Y_AXIS, 20.0f, la, slash);
+	anim_vector[RE]->addRotation(ANIM, Y_AXIS, 20.0f, la, slash);
+	anim_vector[RE]->addRotation(ANIM, X_AXIS, -20.0f, la, slash);
+	anim_vector[RW]->addRotation(ANIM, Z_AXIS, 20.0f, la, slash);
+	anim_vector[RW]->addRotation(ANIM, X_AXIS, 30.0f, la, slash);
 }
 
 void
