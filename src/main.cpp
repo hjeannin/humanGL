@@ -16,32 +16,26 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_R && action == GLFW_PRESS)
 	{
 		init->mod->switchAnimation(0);
-		init->camera.reset();
 	}
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
 		init->mod->switchAnimation(1);
-		init->camera.reset();
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
 	{
 		init->mod->switchAnimation(2);
-		init->camera.reset();
 	}
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
 	{
 		init->mod->switchAnimation(3);
-		init->camera.reset();
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
 	{
-		init->mod->switchAnimation(4);
-		init->camera.reset();
+		init->mod->switchAnimation(5);
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
 	{
-		init->mod->switchAnimation(5);
-		init->camera.reset();
+		init->mod->switchAnimation(4);
 	}
 }
 

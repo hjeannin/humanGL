@@ -560,7 +560,7 @@ Model::humanHulk(void)
 	anim_vector[LB]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[HAIRS]->addScale(ANIM, 0.1f, 0.1f, 0.1f, explode, explode1);
 	anim_vector[BODY]->addScale(ANIM, 0.3f, 0.3f, 0.3f, explode, explode1);
-	anim_vector[EXPLOSION]->addScale(ANIM, 1.0f, 1.0f, 1.0f, explode, explode1);
+	anim_vector[EXPLOSION]->addScale(ANIM, 2.0f, 2.0f, 2.0f, explode, explode1);
 
 	anim_vector[EXPLOSION]->addScale(ANIM, 10.0f, 10.0f, 10.0f, explode1, explode1 + 5);
 	anim_vector[EXPLOSION]->addScale(ANIM, -10.0f, -10.0f, -10.0f, explode1 + 5, explode2 - 5);
