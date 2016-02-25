@@ -16,6 +16,7 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	if (key == GLFW_KEY_R && action == GLFW_PRESS)
 	{
 		init->mod->switchAnimation(0);
+		init->camera.reset();
 	}
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
@@ -31,11 +32,11 @@ keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
 	{
-		init->mod->switchAnimation(5);
+		init->mod->switchAnimation(4);
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
 	{
-		init->mod->switchAnimation(4);
+		init->mod->switchAnimation(5);
 	}
 }
 
@@ -53,12 +54,12 @@ cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 	}
 	else
 	{
-		init->camera.vangle -= ((ypos - init->res_y / 2) * init->camera.speed);
+		init->camera.vangle -= ((ypos - init->res_y / 2) * init->camera.cam_speed);
 		if (init->camera.vangle > 89)
 			init->camera.vangle = 89;
 		if (init->camera.vangle < -89)
 			init->camera.vangle = -89;
-		init->camera.hangle += ((xpos - init->res_x / 2) * init->camera.speed);
+		init->camera.hangle += ((xpos - init->res_x / 2) * init->camera.cam_speed);
 		init->camera.hangle = fmod(init->camera.hangle, 360);
 		glfwSetCursorPos(init->window, init->res_x / 2, init->res_y / 2);
 	}

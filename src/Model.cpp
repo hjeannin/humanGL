@@ -216,8 +216,7 @@ Model::buildHuman(void)
 	anim_vector[GROUND]->setScale(500.0f, 1.0f, 500.f);
 	anim_vector[GROUND]->addTranslation(SETUP, 0.0f, -9.0f, 0.0f);
 	anim_vector[HANDLE]->setScale(0.5f, 0.5f, 1.6f);
-	anim_vector[LAZER]->setScale(0.4f, 0.4f, 6.0f);
-	anim_vector[LAZER]->addTranslation(SETUP, 0.0f, 0.0f, -3.4f);
+	anim_vector[LAZER]->setScale(0.4f, 0.4f, 0.4f);
 	anim_vector[EXPLOSION]->setScale(0.1f, 0.1f, 0.1f);
 // HIDE SABER
 	anim_vector[HANDLE]->addTranslation(SETUP, 0.0f, 0.0f, -10000.0f);
@@ -622,6 +621,10 @@ Model::humanVader(void)
 	anim_vector[LK]->addRotation(ANIM, X_AXIS, 20, nef, slash);
 	anim_vector[LA]->addRotation(ANIM, X_AXIS, -10, nef, slash);
 
+// deploy lazer
+	anim_vector[LAZER]->addScale(ANIM, 0.2f, 0.2f, 18.0f, la, slash);
+	anim_vector[LAZER]->addTranslation(ANIM, 0.0f, 0.0f, -0.2f, la, slash);
+
 // slash
 	anim_vector[BODY]->addRotation(ANIM, Y_AXIS, -20.0f, la, slash);
 	anim_vector[RS]->addRotation(ANIM, X_AXIS, 160.0f, la, slash);
@@ -660,15 +663,15 @@ Model::switchAnimation(int	animation)
 	frame = 0;
 	global_frame = 0;
 	if (animation == 1)
-		humanWalk();
-	if (animation == 2)
-		humanBackFlip();
-	if (animation == 3)
 		humanHello();
+	if (animation == 2)
+		humanWalk();
+	if (animation == 3)
+		humanBackFlip();
 	if (animation == 4)
-		humanHulk();
-	if (animation == 5)
 		humanVader();
+	if (animation == 5)
+		humanHulk();
 }
 
 void

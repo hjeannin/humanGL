@@ -68,7 +68,8 @@ Camera::init(void)
 {
 	hangle = 0.0f;
 	vangle = 0.0f;
-	speed = 0.4;
+	move_speed = 0.4;
+	cam_speed = 0.1;
 	pos.set(0.0f, 0.0f, 15.0f);
 	lookAt.set(0.0f, 0.0f, 0.0f);
 	forward.set(lookAt - pos);
@@ -79,28 +80,28 @@ Camera::init(void)
 void
 Camera::moveForward(void)
 {
-	pos += forward * speed;
+	pos += forward * move_speed;
 	set();
 }
 
 void
 Camera::moveBackward(void)
 {
-	pos -= forward * speed;
+	pos -= forward * move_speed;
 	set();
 }
 
 void
 Camera::strafeRight(void)
 {
-	pos += right * speed;
+	pos += right * move_speed;
 	set();
 }
 
 void
 Camera::strafeLeft(void)
 {
-	pos -= right * speed;
+	pos -= right * move_speed;
 	set();
 }
 

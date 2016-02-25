@@ -20,7 +20,8 @@ public:
 	Vec3<float>				forward;
 	Vec3<float>				up;
 	Vec3<float>				right;
-	float					speed;
+	float					move_speed;
+	float					cam_speed;
 	float					hangle; //horizontal camera angle
 	float					vangle; //vertical camera angle
 
